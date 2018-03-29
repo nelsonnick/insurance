@@ -9,63 +9,42 @@
     </Row>
     <Row>
       <Breadcrumb>
-        <Breadcrumb-item>&nbsp;&nbsp;&nbsp;新增</Breadcrumb-item>
+        <Breadcrumb-item>&nbsp;&nbsp;&nbsp;人员</Breadcrumb-item>
+        <Breadcrumb-item>新增</Breadcrumb-item>
       </Breadcrumb>
     </Row>
     <Row>
       <Col span="6">&nbsp;</Col>
       <Col span="12">
         <Form :label-width="100" :rules="validate" ref="addForm" :model="object">
-          <Form-item label="菜谱名称" prop="name" required>
-            <Input size="large" v-model="object.name" placeholder="请输入菜谱名称" style="width: 600px"></Input>
+          <Form-item size="large" label="申请类别" required>
+            <Cascader size="large" :data="type" v-model="object.tid"></Cascader>
           </Form-item>
-          <Form-item label="菜谱网址" prop="url" required>
-            <Input size="large" v-model="object.url" placeholder="请输入菜谱网址" style="width: 600px"></Input>
+          <Form-item label="身份证号码" prop="number" required>
+            <Input size="large" v-model="object.number" placeholder="请输入身份证号码" style="width: 600px"></Input>
           </Form-item>
-          <Form-item size="large" label="菜谱类型" required>
-            <Radio-group v-model="object.type" type="button">
-              <Radio label="素菜">素菜</Radio>
-              <Radio label="荤菜">荤菜</Radio>
-              <Radio label="汤菜">汤菜</Radio>
-              <Radio label="主食">主食</Radio>
-              <Radio label="甜点">甜点</Radio>
+          <Form-item label="姓名" prop="name" required>
+            <Input size="large" v-model="object.name" placeholder="请输入姓名" style="width: 600px"></Input>
+          </Form-item>
+          <Form-item label="联系电话" prop="phone" required>
+            <Input size="large" v-model="object.phone" placeholder="请输入联系电话" style="width: 600px"></Input>
+          </Form-item>
+          <Form-item label="联系地址" prop="address" required>
+            <Input size="large" v-model="object.address" placeholder="请输入联系地址" style="width: 600px"></Input>
+          </Form-item>
+          <Form-item size="large" label="婚姻状况" required>
+            <Radio-group v-model="object.marriage" type="button">
+              <Radio label="已婚">已婚</Radio>
+              <Radio label="离异">离异</Radio>
+              <Radio label="未婚">未婚</Radio>
+              <Radio label="丧偶">丧偶</Radio>
             </Radio-group>
           </Form-item>
-          <Form-item size="large" label="食用时间" required >
-            <i-switch v-model="time1" size="large">
-              <span slot="open">早餐</span>
-              <span slot="close">早餐</span>
-            </i-switch>
-            <i-switch v-model="time2" size="large">
-              <span slot="open">午餐</span>
-              <span slot="close">午餐</span>
-            </i-switch>
-            <i-switch v-model="time3" size="large">
-              <span slot="open">晚餐</span>
-              <span slot="close">晚餐</span>
-            </i-switch>
-            <i-switch v-model="time4" size="large">
-              <span slot="open">加餐</span>
-              <span slot="close">加餐</span>
-            </i-switch>
-          </Form-item>
-          <Form-item size="large" label="食用季节" required >
-            <i-switch v-model="season1" size="large">
-              <span slot="open">春季</span>
-              <span slot="close">春季</span>
-            </i-switch>
-            <i-switch v-model="season2" size="large">
-              <span slot="open">夏季</span>
-              <span slot="close">夏季</span>
-            </i-switch>
-            <i-switch v-model="season3" size="large">
-              <span slot="open">秋季</span>
-              <span slot="close">秋季</span>
-            </i-switch>
-            <i-switch v-model="season4" size="large">
-              <span slot="open">冬季</span>
-              <span slot="close">冬季</span>
-            </i-switch>
+          <Form-item size="large" label="延期政策" required>
+            <Radio-group v-model="object.delay" type="button">
+              <Radio label="不符合">不符合</Radio>
+              <Radio label="符合">符合</Radio>
+            </Radio-group>
           </Form-item>
           <Form-item>
             <Button size="large" type="success" @click="goSave">保存</Button>
@@ -84,30 +63,13 @@
     name: 'add',
     data () {
       return {
+        number: '',
         name: '',
-        time1: true,
-        time2: true,
-        time3: true,
-        time4: true,
-        time: '',
-        word1: '',
-        word2: '',
-        word3: '',
-        word4: '',
-        season1: true,
-        season2: true,
-        season3: true,
-        season4: true,
-        season: '',
-        words1: '',
-        words2: '',
-        words3: '',
-        words4: '',
-        object: {
-          name: '',
-          url: '###',
-          type: '素菜'
-        }
+        phone: '',
+        address: '',
+        type: [{
+          value: ''
+        }]
       }
     },
     methods: {

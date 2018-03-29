@@ -1,4 +1,4 @@
-export const base = 'r'
+export const base = 't'
 export const query = `${base}/Query`
 export const total = `${base}/Total`
 export const download = `${base}/Download`
