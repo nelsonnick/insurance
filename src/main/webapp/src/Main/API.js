@@ -1,6 +1,8 @@
 export const base = 't'
-export const query = `${base}/Query`
-export const total = `${base}/Total`
+export const person = 'person'
+export const personQuery = `${person}/Query`
+export const personTotal = `${person}/Total`
+export const personSave = `${person}/Save`
 export const download = `${base}/Download`
 export const save = `${base}/Save`
 export const edit = `${base}/Edit`

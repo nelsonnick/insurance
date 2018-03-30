@@ -3,9 +3,10 @@ import iView from 'iview'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import Vuex from 'vuex'
-import Add from './add.vue'
 import Edit from './edit.vue'
 import List from './list.vue'
+import PersonList from './personList.vue'
+import PersonAdd from './personAdd.vue'
 import 'iview/dist/styles/iview.css'   // 使用 CSS
 Vue.use(VueRouter)
 Vue.use(VueResource)
@@ -14,7 +15,8 @@ Vue.use(iView)
 
 const routes = [
   { path: '/list', component: List },
-  { path: '/add', component: Add },
+  { path: '/personList', component: PersonList },
+  { path: '/personAdd', component: PersonAdd },
   { path: '/edit/:id', component: Edit },
   { path: '/', redirect: '/list' }
 ]
