@@ -15,35 +15,38 @@
       <Row>
         <Col span="6">&nbsp;</Col>
         <Col span="12">
-        <Form :label-width="100" :model="person"  ref="addForm">
-          <Form-item size="large" label="申请类别" required>
+        <Form :label-width="100" :model="person"  ref="Form" :rules="ruleValidate">
+          <Form-item size="large" label="申请类别" prop="tid" required>
             <Cascader size="large" :data="type" v-model="person.tid" style="width: 600px"></Cascader>
           </Form-item>
-          <Form-item label="证件号码" prop="number" required>
-            <Input size="large" v-model="person.number" placeholder="请输入身份证号码" style="width: 600px"></Input>
+          <Form-item label="证件号码"  prop="number" required>
+            <Input size="large" v-model="person.number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
           </Form-item>
           <Form-item label="人员姓名" prop="name" required>
             <Input size="large" v-model="person.name" placeholder="请输入姓名" style="width: 600px"></Input>
           </Form-item>
           <Form-item label="联系电话" prop="phone" required>
-            <Input size="large" v-model="person.phone" placeholder="请输入联系电话" style="width: 600px"></Input>
+            <Input size="large" v-model="person.phone" placeholder="请输入联系电话" style="width: 600px" maxlength="18"></Input>
           </Form-item>
           <Form-item label="联系地址" prop="address" required>
             <Input size="large" v-model="person.address" placeholder="请输入联系地址" style="width: 600px"></Input>
           </Form-item>
-          <Form-item size="large" label="婚姻状况" required>
-            <Radio-group v-model="person.marriage" type="button">
+          <Form-item size="large" label="婚姻状况" prop="marriage" required>
+            <Radio-group v-model="person.marriage" size="large"  type="button">
               <Radio label="2">已婚</Radio>
               <Radio label="3">离异</Radio>
               <Radio label="1">未婚</Radio>
               <Radio label="4">丧偶</Radio>
             </Radio-group>
           </Form-item>
-          <Form-item size="large" label="延期政策" required>
-            <Radio-group v-model="person.delay" type="button">
+          <Form-item size="large" label="延期政策" prop="delay" required>
+            <Radio-group v-model="person.delay" size="large"  type="button">
               <Radio label="0">不符合</Radio>
               <Radio label="1">符合</Radio>
             </Radio-group>
+          </Form-item>
+          <Form-item label="备注信息" >
+            <Input v-model="person.remark" type="textarea" :rows="4" placeholder="如有必要，请输入备注信息" style="width: 600px"></Input>
           </Form-item>
           <Form-item>
             <Button size="large" type="success" @click="goSave">保存</Button>
@@ -63,15 +66,6 @@
     name: 'personList',
     data () {
       return {
-        person: [{
-          number: '',
-          name: '',
-          phone: '',
-          address: '',
-          tid: ['1', '1'],
-          marriage: '2',
-          delay: '0'
-        }],
         type: [
           {
             value: '1',
@@ -145,55 +139,135 @@
               label: '城镇登记失业的成年后孤儿'
             }]
           }
-        ]
+        ],
+        person: [{
+          number: '',
+          name: '',
+          phone: '',
+          address: '',
+          tid: [],
+          marriage: '',
+          delay: '',
+          remark: ''
+        }],
+        ruleValidate: {
+          tid: [
+            { validator: this.typeCheck }
+          ],
+          number: [
+            { required: true, message: '证件号码不能为空', trigger: 'blur' },
+            { validator: this.personNumberCheck }
+          ],
+          name: [
+            { required: true, message: '人员姓名不能为空', trigger: 'blur' }
+          ],
+          phone: [
+            { required: true, message: '联系电话不能为空', trigger: 'blur' }
+          ],
+          address: [
+            { required: true, message: '联系地址不能为空', trigger: 'blur' }
+          ],
+          marriage: [
+            { validator: this.marriageCheck }
+          ],
+          delay: [
+            { validator: this.delayCheck }
+          ]
+        }
       }
     },
     methods: {
       goReset () {
-        this.$refs.addForm.resetFields()
-        this.person.name = ''
-        this.person.number = ''
-        this.person.phone = ''
-        this.person.address = ''
-        this.person.tid = ['1', '1']
+        this.$refs.Form.resetFields()
       },
       goSave () {
-        this.$Loading.start()
-        this.$Message.info('正在进行保存操作，请稍后...')
-        this.$http.get(
-          API.personSave,
-          { params: {
-            name: this.person.name,
-            number: this.person.number,
-            phone: this.person.phone,
-            address: this.person.address,
-            tid: this.person.tid[1],
-            delay: this.person.delay
-          } },
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-        ).then((response) => {
-          if (response.body === 'OK') {
-            this.$Loading.finish()
-            this.$Notice.success({
-              title: '操作完成!',
-              desc: '人员：' + this.person.name + '已保存！'
+        this.$refs.Form.validate((valid) => {
+          if (valid) {
+            this.$Loading.start()
+            this.$http.get(
+              API.personSave,
+              { params: {
+                name: this.person.name,
+                number: this.person.number,
+                phone: this.person.phone,
+                address: this.person.address,
+                tid: this.person.tid[1],
+                delay: this.person.delay,
+                marriage: this.person.marriage,
+                remark: this.person.remark
+              } },
+              { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+            ).then((response) => {
+              if (response.body === 'OK') {
+                this.$Loading.finish()
+                this.$Message.success('保存成功!')
+                this.$Notice.success({
+                  title: '操作完成!',
+                  desc: '人员：' + this.person.name + '已保存！'
+                })
+                setTimeout(() => { this.$router.push({ path: '/personList' }) }, 1000)
+              } else {
+                this.$Loading.error()
+                this.$Notice.error({
+                  title: response.body
+                })
+              }
+            }, (response) => {
+              this.$Loading.error()
+              this.$Notice.error({
+                title: '服务器内部错误!'
+              })
             })
-            setTimeout(() => { this.$router.push({ path: '/personList' }) }, 1000)
           } else {
-            this.$Loading.error()
-            this.$Notice.error({
-              title: response.body
-            })
+            this.$Loading.finish()
+            this.$Message.error('请核实输入信息!')
           }
-        }, (response) => {
-          this.$Loading.error()
-          this.$Notice.error({
-            title: '服务器内部错误!'
-          })
         })
       },
       goBack () {
         this.$router.push({ path: '/personList' })
+      },
+      personNumberCheck (rule, value, callback) {
+        if (!value) {
+          callback()
+        } else {
+          this.$http.get(
+            API.numberCheck,
+            { params: {
+              number: this.person.number
+            } },
+            { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+          ).then((response) => {
+            if (response.body === 'OK') {
+              callback()
+            } else {
+              callback(new Error(response.body.toString()))
+            }
+          }, (response) => {
+            callback(new Error('无法执行后台验证，请重试'))
+          })
+        }
+      },
+      typeCheck (rule, value, callback) {
+        if (value.length.toString() === '2') {
+          callback()
+        } else {
+          callback(new Error('申请类别未选择！'))
+        }
+      },
+      marriageCheck (rule, value, callback) {
+        if (value.length.toString() === '1') {
+          callback()
+        } else {
+          callback(new Error('婚姻状况未选择！'))
+        }
+      },
+      delayCheck (rule, value, callback) {
+        if (value.length.toString() === '1') {
+          callback()
+        } else {
+          callback(new Error('延期政策未选择！'))
+        }
       }
     }
   }

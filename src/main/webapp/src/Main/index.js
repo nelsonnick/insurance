@@ -18,7 +18,7 @@ const routes = [
   { path: '/personList', component: PersonList },
   { path: '/personAdd', component: PersonAdd },
   { path: '/edit/:id', component: Edit },
-  { path: '/', redirect: '/list' }
+  { path: '/', redirect: '/personList' }
 ]
 
 const router = new VueRouter({
