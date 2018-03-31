@@ -16,23 +16,23 @@
         <Col span="6">&nbsp;</Col>
         <Col span="12">
         <Form :label-width="100" :model="person"  ref="Form" :rules="ruleValidate">
-          <Form-item size="large" label="申请类别" prop="tid" required>
-            <Cascader size="large" :data="type" v-model="person.tid" style="width: 600px"></Cascader>
+          <Form-item size="large" label="申请类别" required>
+            <Cascader size="large" :data="type" v-model="tid" style="width: 600px"></Cascader>
           </Form-item>
-          <Form-item label="证件号码"  prop="number" required>
-            <Input size="large" v-model="person.number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
+          <Form-item label="证件号码"  prop="numberValidate" required>
+            <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
           </Form-item>
-          <Form-item label="人员姓名" prop="name" required>
-            <Input size="large" v-model="person.name" placeholder="请输入姓名" style="width: 600px"></Input>
+          <Form-item label="人员姓名" prop="nameValidate" required>
+            <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 600px"></Input>
           </Form-item>
-          <Form-item label="联系电话" prop="phone" required>
-            <Input size="large" v-model="person.phone" placeholder="请输入联系电话" style="width: 600px" maxlength="18"></Input>
+          <Form-item label="联系电话" prop="phoneValidate" required>
+            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="18"></Input>
           </Form-item>
-          <Form-item label="联系地址" prop="address" required>
-            <Input size="large" v-model="person.address" placeholder="请输入联系地址" style="width: 600px"></Input>
+          <Form-item label="联系地址" prop="addressValidate" required>
+            <Input size="large" v-model="address" placeholder="请输入联系地址" style="width: 600px"></Input>
           </Form-item>
           <Form-item size="large" label="婚姻状况" prop="marriage" required>
-            <Radio-group v-model="person.marriage" size="large"  type="button">
+            <Radio-group v-model="marriage" size="large"  type="button">
               <Radio label="2">已婚</Radio>
               <Radio label="3">离异</Radio>
               <Radio label="1">未婚</Radio>
@@ -40,13 +40,13 @@
             </Radio-group>
           </Form-item>
           <Form-item size="large" label="延期政策" prop="delay" required>
-            <Radio-group v-model="person.delay" size="large"  type="button">
+            <Radio-group v-model="delay" size="large"  type="button">
               <Radio label="0">不符合</Radio>
               <Radio label="1">符合</Radio>
             </Radio-group>
           </Form-item>
           <Form-item label="备注信息" >
-            <Input v-model="person.remark" type="textarea" :rows="4" placeholder="如有必要，请输入备注信息" style="width: 600px"></Input>
+            <Input v-model="remark" type="textarea" :rows="4" placeholder="如有必要，请输入备注信息" style="width: 600px"></Input>
           </Form-item>
           <Form-item>
             <Button size="large" type="success" @click="goSave">保存</Button>
@@ -140,45 +140,41 @@
             }]
           }
         ],
-        person: [{
-          number: '',
-          name: '',
-          phone: '',
-          address: '',
-          tid: [],
-          marriage: '',
-          delay: '',
-          remark: ''
-        }],
+        number: '',
+        name: '',
+        phone: '',
+        address: '',
+        tid: ['1', '1'],
+        marriage: '2',
+        delay: '0',
+        remark: '',
         ruleValidate: {
-          tid: [
-            { validator: this.typeCheck }
-          ],
-          number: [
+          numberValidate: [
             { required: true, message: '证件号码不能为空', trigger: 'blur' },
             { validator: this.personNumberCheck }
           ],
-          name: [
+          nameValidate: [
             { required: true, message: '人员姓名不能为空', trigger: 'blur' }
           ],
-          phone: [
+          phoneValidate: [
             { required: true, message: '联系电话不能为空', trigger: 'blur' }
           ],
-          address: [
+          addressValidate: [
             { required: true, message: '联系地址不能为空', trigger: 'blur' }
-          ],
-          marriage: [
-            { validator: this.marriageCheck }
-          ],
-          delay: [
-            { validator: this.delayCheck }
           ]
         }
       }
     },
     methods: {
       goReset () {
-        this.$refs.Form.resetFields()
+        this.tid = ['1', '1']
+        this.number = ''
+        this.name = ''
+        this.phone = ''
+        this.address = ''
+        this.marriage = '2'
+        this.delay = '0'
+        this.remark = ''
       },
       goSave () {
         this.$refs.Form.validate((valid) => {
@@ -187,14 +183,14 @@
             this.$http.get(
               API.personSave,
               { params: {
-                name: this.person.name,
-                number: this.person.number,
-                phone: this.person.phone,
-                address: this.person.address,
-                tid: this.person.tid[1],
-                delay: this.person.delay,
-                marriage: this.person.marriage,
-                remark: this.person.remark
+                name: this.name,
+                number: this.number,
+                phone: this.phone,
+                address: this.address,
+                tid: this.tid[1],
+                delay: this.delay,
+                marriage: this.marriage,
+                remark: this.remark
               } },
               { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
             ).then((response) => {
@@ -234,7 +230,7 @@
           this.$http.get(
             API.numberCheck,
             { params: {
-              number: this.person.number
+              number: value
             } },
             { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
           ).then((response) => {
@@ -246,27 +242,6 @@
           }, (response) => {
             callback(new Error('无法执行后台验证，请重试'))
           })
-        }
-      },
-      typeCheck (rule, value, callback) {
-        if (value.length.toString() === '2') {
-          callback()
-        } else {
-          callback(new Error('申请类别未选择！'))
-        }
-      },
-      marriageCheck (rule, value, callback) {
-        if (value.length.toString() === '1') {
-          callback()
-        } else {
-          callback(new Error('婚姻状况未选择！'))
-        }
-      },
-      delayCheck (rule, value, callback) {
-        if (value.length.toString() === '1') {
-          callback()
-        } else {
-          callback(new Error('延期政策未选择！'))
         }
       }
     }
