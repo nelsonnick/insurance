@@ -123,7 +123,7 @@
           },
           {
             title: '操作',
-            key: 'state',
+            key: 'operate',
             align: 'center',
             width: 400,
             render: (h, params) => {
