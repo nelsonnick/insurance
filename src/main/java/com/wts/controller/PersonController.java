@@ -76,7 +76,6 @@ public class PersonController extends Controller {
         p.set("state",1).update();
         renderText("OK");
     }
-
     @Before(LoginInterceptor.class)
     public void Add() {
         List<Person> persons = Person.dao.find("select * from person where number=?", getPara("number"));

@@ -10,7 +10,7 @@
                 <BreadcrumbItem>列表</BreadcrumbItem>
               </Breadcrumb>
             </div>
-            <div class="left"><Button type="info" @click="goAdd" >新增</Button><Button type="text" @click="goAdd" >修改密码</Button></div>
+            <div class="left"><Button type="primary" @click="goFamily">切换到家庭人员</Button><Button type="info" @click="goAdd"  v-if="lid">新增</Button><Button type="text" @click="goAdd" >修改密码</Button></div>
             <div class="right"><Search @goQuery="getQuery" ></Search></div>
           </Col>
         </Row>
@@ -66,13 +66,13 @@
   import * as API from './API.js'
 
   export default {
-    name: 'personList',
+    name: 'list',
     components: { Search, Page, Options },
     data () {
       return {
         name: '',
-        query: API.personQuery,
-        total: API.personTotal,
+        query: API.Query,
+        total: API.Total,
         keyword: '',
         pageList: [],
         pageTotal: '',
@@ -82,6 +82,7 @@
         size: 'small',
         height: 450,
         self: this,
+        lid: '',
         columns: [
           {
             title: '序号',
@@ -92,13 +93,13 @@
             }
           },
           {
-            title: '姓名',
-            key: 'name',
+            title: '身份证号码',
+            key: 'number',
             sortable: true
           },
           {
-            title: '身份证号码',
-            key: 'number',
+            title: '姓名',
+            key: 'name',
             sortable: true
           },
           {
@@ -128,7 +129,22 @@
             width: 400,
             render: (h, params) => {
               const operate = []
-              if (params.row.state.toString() === '1') {
+              if (params.row.state.toString() === window.LocationId) {
+                operate.push(
+                  h('Button', {
+                    props: {
+                      type: 'info',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.goSave(params.index)
+                      }
+                    }
+                  }, '添加家庭成员')
+                )
+              }
+              if (params.row.state.toString() === window.LocationId) {
                 operate.push(
                   h('Button', {
                     props: {
@@ -143,26 +159,28 @@
                   }, '修改')
                 )
               }
-              if (params.row.state.toString() === '2') {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'info',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goEdit(params.index)
-                      }
-                    }
-                  }, '删除')
-                )
-              }
               return h('div', operate)
             }
           }
         ]
       }
+    },
+    created: function () {
+      this.$http.get(
+        API.GetLocation,
+        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+      ).then((response) => {
+        window.LocationId = response.toString().trim()
+        if (response.toString().trim() === '1') {
+          this.lid = false
+        } else {
+          this.lid = true
+        }
+      }, (response) => {
+        this.$Notice.error({
+          title: '服务器内部错误，无法获取当前用户所属中心!'
+        })
+      })
     },
     methods: {
       getQuery (keyword) {
@@ -203,10 +221,16 @@
         })
       },
       goAdd () {
-        this.$router.push({ path: '/personAdd' })
+        this.$router.push({ path: '/add' })
       },
       goEdit (index) {
-        console.log(index)
+        this.$router.push({ path: '/edit/' + this.pageList[index].id })
+      },
+      goSave (index) {
+        this.$router.push({ path: '/save/' + this.pageList[index].id })
+      },
+      goFamily () {
+        window.location.href = '/family'
       }
     }
   }

@@ -63,7 +63,7 @@
 <script>
   import * as API from './API.js'
   export default {
-    name: 'personList',
+    name: 'add',
     data () {
       return {
         type: [
@@ -181,7 +181,7 @@
           if (valid) {
             this.$Loading.start()
             this.$http.get(
-              API.personSave,
+              API.Add,
               { params: {
                 name: this.name,
                 number: this.number,
@@ -201,7 +201,7 @@
                   title: '操作完成!',
                   desc: '人员：' + this.person.name + '已保存！'
                 })
-                setTimeout(() => { this.$router.push({ path: '/personList' }) }, 1000)
+                setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
               } else {
                 this.$Loading.error()
                 this.$Notice.error({
@@ -221,7 +221,7 @@
         })
       },
       goBack () {
-        this.$router.push({ path: '/personList' })
+        this.$router.push({ path: '/list' })
       },
       personNumberCheck (rule, value, callback) {
         if (!value) {
