@@ -6,7 +6,7 @@
           <div>
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
-              <BreadcrumbItem>享受人员</BreadcrumbItem>
+              <BreadcrumbItem>家庭成员</BreadcrumbItem>
               <BreadcrumbItem>新增</BreadcrumbItem>
             </Breadcrumb>
           </div>
@@ -15,10 +15,7 @@
       <Row>
         <Col span="6">&nbsp;</Col>
         <Col span="12">
-        <Form :label-width="100" :model="person"  ref="Form" :rules="ruleValidate">
-          <Form-item size="large" label="申请类别" required>
-            <Cascader size="large" :data="type" v-model="tid" style="width: 600px"></Cascader>
-          </Form-item>
+        <Form :label-width="100" :model="family"  ref="Form" :rules="ruleValidate">
           <Form-item label="证件号码"  prop="numberValidate" required>
             <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
           </Form-item>
@@ -28,7 +25,7 @@
           <Form-item label="联系电话" prop="phoneValidate" required>
             <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="18"></Input>
           </Form-item>
-          <Form-item label="联系地址" prop="addressValidate" required>
+          <Form-item label="联系地址">
             <Input size="large" v-model="address" placeholder="请输入联系地址" style="width: 600px"></Input>
           </Form-item>
           <Form-item size="large" label="婚姻状况" prop="marriage" required>
@@ -39,10 +36,16 @@
               <Radio label="4">丧偶</Radio>
             </Radio-group>
           </Form-item>
-          <Form-item size="large" label="延期政策" prop="delay" required>
-            <Radio-group v-model="delay" size="large"  type="button">
-              <Radio label="0">不符合</Radio>
-              <Radio label="1">符合</Radio>
+          <Form-item size="large" label="成员身份" prop="identity" required>
+            <Radio-group v-model="identity" size="large"  type="button">
+              <Radio label="1">夫</Radio>
+              <Radio label="2">妻</Radio>
+              <Radio label="3">子</Radio>
+              <Radio label="4">女</Radio>
+              <Radio label="5">父</Radio>
+              <Radio label="6">母</Radio>
+              <Radio label="7">兄弟</Radio>
+              <Radio label="8">姐妹</Radio>
             </Radio-group>
           </Form-item>
           <Form-item label="备注信息" >
@@ -63,90 +66,15 @@
 <script>
   import * as API from './API.js'
   export default {
-    name: 'personList',
+    name: 'familyAdd',
     data () {
       return {
-        type: [
-          {
-            value: '1',
-            label: '灵活就业',
-            children: [{
-              value: '1',
-              label: '城镇零就业家庭成员的“4050”失业人员'
-            }, {
-              value: '2',
-              label: '抚养未成年子女单亲家庭成员的 “4050” 失业人员'
-            }, {
-              value: '3',
-              label: '享受城市居民最低生活保障的“4050”失业人员'
-            }, {
-              value: '4',
-              label: '持有《中华人民共和国残疾人证》的 “4050” 失业人员'
-            }, {
-              value: '5',
-              label: '特困家庭未就业的高校毕业生'
-            }, {
-              value: '6',
-              label: '城镇登记失业的成年后孤儿'
-            }]
-          },
-          {
-            value: '2',
-            label: '公益岗位',
-            children: [{
-              value: '7',
-              label: '城镇零就业家庭成员的“4050”失业人员'
-            }, {
-              value: '8',
-              label: '抚养未成年子女单亲家庭成员的 “4050” 失业人员'
-            }, {
-              value: '9',
-              label: '享受城市居民最低生活保障的“4050”失业人员'
-            }, {
-              value: '10',
-              label: '持有《中华人民共和国残疾人证》的 “4050” 失业人员'
-            }, {
-              value: '11',
-              label: '特困家庭未就业的高校毕业生'
-            }, {
-              value: '12',
-              label: '城镇登记失业的成年后孤儿'
-            }]
-          },
-          {
-            value: '3',
-            label: '企业吸纳',
-            children: [{
-              value: '13',
-              label: '女性年满40周岁、男性年满50周岁以上且连续失业半年以上的失业人员'
-            }, {
-              value: '14',
-              label: '城镇零就业家庭成员的“4050”失业人员'
-            }, {
-              value: '15',
-              label: '抚养未成年子女单亲家庭成员的失业人员'
-            }, {
-              value: '16',
-              label: '享受城市居民最低生活保障的失业人员'
-            }, {
-              value: '17',
-              label: '特困家庭未就业的高校毕业生'
-            }, {
-              value: '18',
-              label: '持有《中华人民共和国残疾人证》的失业人员'
-            }, {
-              value: '19',
-              label: '城镇登记失业的成年后孤儿'
-            }]
-          }
-        ],
         number: '',
         name: '',
         phone: '',
         address: '',
-        tid: ['1', '1'],
         marriage: '2',
-        delay: '0',
+        identity: '1',
         remark: '',
         ruleValidate: {
           numberValidate: [
@@ -158,22 +86,18 @@
           ],
           phoneValidate: [
             { required: true, message: '联系电话不能为空', trigger: 'blur' }
-          ],
-          addressValidate: [
-            { required: true, message: '联系地址不能为空', trigger: 'blur' }
           ]
         }
       }
     },
     methods: {
       goReset () {
-        this.tid = ['1', '1']
         this.number = ''
         this.name = ''
         this.phone = ''
         this.address = ''
         this.marriage = '2'
-        this.delay = '0'
+        this.identity = '1'
         this.remark = ''
       },
       goSave () {
@@ -181,14 +105,12 @@
           if (valid) {
             this.$Loading.start()
             this.$http.get(
-              API.personSave,
+              API.familySave,
               { params: {
                 name: this.name,
                 number: this.number,
                 phone: this.phone,
-                address: this.address,
-                tid: this.tid[1],
-                delay: this.delay,
+                identity: this.identity,
                 marriage: this.marriage,
                 remark: this.remark
               } },
@@ -199,9 +121,9 @@
                 this.$Message.success('保存成功!')
                 this.$Notice.success({
                   title: '操作完成!',
-                  desc: '人员：' + this.person.name + '已保存！'
+                  desc: '家属：' + this.name + '已保存！'
                 })
-                setTimeout(() => { this.$router.push({ path: '/personList' }) }, 1000)
+                setTimeout(() => { this.$router.push({ path: '/familyList' }) }, 1000)
               } else {
                 this.$Loading.error()
                 this.$Notice.error({
@@ -221,14 +143,14 @@
         })
       },
       goBack () {
-        this.$router.push({ path: '/personList' })
+        this.$router.push({ path: '/familyList' })
       },
       personNumberCheck (rule, value, callback) {
         if (!value) {
           callback()
         } else {
           this.$http.get(
-            API.numberCheck,
+            API.numberCheck_family,
             { params: {
               number: value
             } },

@@ -1,38 +1,12 @@
 <template>
   <div>
-    <Layout class="layout">
-      <Header>
-        <Menu mode="horizontal" theme="dark" active-name="person" @on-select="MenuClick">
-          <div class="layout-nav">
-            <MenuItem name="0">
-              <Icon type="user"></Icon>
-              当前用户：{{ userName }}
-            </MenuItem>
-            <MenuItem name="person" >
-              <Icon type="android-person"></Icon>
-              困难人员
-            </MenuItem>
-            <MenuItem name="family">
-              <Icon type="android-people"></Icon>
-              家庭成员
-            </MenuItem>
-            <MenuItem name="pass">
-              <Icon type="android-settings"></Icon>
-              修改密码
-            </MenuItem>
-            <MenuItem name="logout">
-              <Icon type="android-close"></Icon>
-              退出系统
-            </MenuItem>
-          </div>
-        </Menu>
-      </Header>
+    <Layout>
       <Row>
         <Col>
           <div>
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
-              <BreadcrumbItem>困难人员</BreadcrumbItem>
+              <BreadcrumbItem>享受人员</BreadcrumbItem>
               <BreadcrumbItem>新增</BreadcrumbItem>
             </Breadcrumb>
           </div>
@@ -41,9 +15,9 @@
       <Row>
         <Col span="6">&nbsp;</Col>
         <Col span="12">
-        <Form :label-width="100" :model="person"  ref="Form">
+        <Form :label-width="100" :model="person"  ref="Form" :rules="ruleValidate">
           <Form-item size="large" label="申请类别" required>
-            <Cascader size="large" :data="type" v-model="tid" style="width: 600px" clearable="false"></Cascader>
+            <Cascader size="large" :data="type" v-model="tid" style="width: 600px"></Cascader>
           </Form-item>
           <Form-item label="证件号码"  prop="numberValidate" required>
             <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
@@ -89,10 +63,9 @@
 <script>
   import * as API from './API.js'
   export default {
-    name: 'add',
+    name: 'personList',
     data () {
       return {
-        userName: window.userName,
         type: [
           {
             value: '1',
@@ -174,7 +147,22 @@
         tid: ['1', '1'],
         marriage: '2',
         delay: '0',
-        remark: ''
+        remark: '',
+        ruleValidate: {
+          numberValidate: [
+            { required: true, message: '证件号码不能为空', trigger: 'blur' },
+            { validator: this.personNumberCheck }
+          ],
+          nameValidate: [
+            { required: true, message: '人员姓名不能为空', trigger: 'blur' }
+          ],
+          phoneValidate: [
+            { required: true, message: '联系电话不能为空', trigger: 'blur' }
+          ],
+          addressValidate: [
+            { required: true, message: '联系地址不能为空', trigger: 'blur' }
+          ]
+        }
       }
     },
     methods: {
@@ -189,87 +177,73 @@
         this.remark = ''
       },
       goSave () {
-        this.$Loading.start()
-        this.$http.get(
-          API.Add,
-          { params: {
-            name: this.name,
-            number: this.number,
-            phone: this.phone,
-            address: this.address,
-            tid: this.tid[1],
-            delay: this.delay,
-            marriage: this.marriage,
-            remark: this.remark
-          } },
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-        ).then((response) => {
-          if (response.body === 'OK') {
-            this.$Loading.finish()
-            this.$Message.success('保存成功!')
-            this.$Notice.success({
-              title: '操作完成!',
-              desc: '人员：' + this.name + '已保存！'
+        this.$refs.Form.validate((valid) => {
+          if (valid) {
+            this.$Loading.start()
+            this.$http.get(
+              API.personSave,
+              { params: {
+                name: this.name,
+                number: this.number,
+                phone: this.phone,
+                address: this.address,
+                tid: this.tid[1],
+                delay: this.delay,
+                marriage: this.marriage,
+                remark: this.remark
+              } },
+              { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+            ).then((response) => {
+              if (response.body === 'OK') {
+                this.$Loading.finish()
+                this.$Message.success('保存成功!')
+                this.$Notice.success({
+                  title: '操作完成!',
+                  desc: '人员：' + this.person.name + '已保存！'
+                })
+                setTimeout(() => { this.$router.push({ path: '/personList' }) }, 1000)
+              } else {
+                this.$Loading.error()
+                this.$Notice.error({
+                  title: response.body
+                })
+              }
+            }, (response) => {
+              this.$Loading.error()
+              this.$Notice.error({
+                title: '服务器内部错误!'
+              })
             })
-            setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
           } else {
-            this.$Loading.error()
-            this.$Notice.error({
-              title: response.body
-            })
+            this.$Loading.finish()
+            this.$Message.error('请核实输入信息!')
           }
-        }, (response) => {
-          this.$Loading.error()
-          this.$Notice.error({
-            title: '服务器内部错误，无法保存人员信息!'
-          })
         })
       },
       goBack () {
-        this.$router.push({ path: '/list' })
+        this.$router.push({ path: '/personList' })
       },
-      MenuClick (name) {
-        if (name.toString() === 'person') {
-          window.location.href = '/person'
-        } else if (name.toString() === 'family') {
-          window.location.href = '/family'
-        } else if (name.toString() === 'pass') {
-          window.location.href = '/user/pass'
-        } else if (name.toString() === 'logout') {
-          window.location.href = '/logout'
+      personNumberCheck (rule, value, callback) {
+        if (!value) {
+          callback()
         } else {
-
+          this.$http.get(
+            API.numberCheck,
+            { params: {
+              number: value
+            } },
+            { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+          ).then((response) => {
+            if (response.body === 'OK') {
+              callback()
+            } else {
+              callback(new Error(response.body.toString()))
+            }
+          }, (response) => {
+            callback(new Error('无法执行后台验证，请重试'))
+          })
         }
       }
     }
   }
 </script>
-<style scoped>
-  .layout-content {
-    margin: 0px 15px 0px 15px;
-    overflow: hidden;
-    background: #fff;
-    border-radius: 4px;
-  }
-  .left {
-    margin: 15px;
-    border-radius: 4px;
-  }
-  .right {
-    margin: 15px;
-    border-radius: 4px;
-    float: right;
-  }
-  .layout {
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .layout-nav {
-    width: 1000px;
-    margin: 0 auto;
-    margin-right: 20px;
-  }
-</style>
