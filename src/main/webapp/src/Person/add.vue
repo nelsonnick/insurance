@@ -206,7 +206,7 @@
         ).then((response) => {
           if (response.body === 'OK') {
             this.$Loading.finish()
-            this.$Message.success('保存成功!')
+            this.$Message.success('新增成功!')
             this.$Notice.success({
               title: '操作完成!',
               desc: '人员：' + this.name + '已保存！'

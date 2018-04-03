@@ -113,46 +113,39 @@
         this.fetchData(this.$route.params.id)
       },
       goSave () {
-        this.$refs.Form.validate((valid) => {
-          if (valid) {
-            this.$Loading.start()
-            this.$http.get(
-              API.Edit,
-              { params: {
-                id: this.$route.params.id,
-                name: this.name,
-                number: this.number,
-                phone: this.phone,
-                identity: this.identity,
-                marriage: this.marriage,
-                remark: this.remark
-              } },
-              { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-            ).then((response) => {
-              if (response.body === 'OK') {
-                this.$Loading.finish()
-                this.$Message.success('保存成功!')
-                this.$Notice.success({
-                  title: '操作完成!',
-                  desc: '家属：' + this.name + '已保存！'
-                })
-                setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
-              } else {
-                this.$Loading.error()
-                this.$Notice.error({
-                  title: response.body
-                })
-              }
-            }, (response) => {
-              this.$Loading.error()
-              this.$Notice.error({
-                title: '服务器内部错误!'
-              })
-            })
-          } else {
+        this.$Loading.start()
+        this.$http.get(
+          API.Edit,
+          { params: {
+            id: this.$route.params.id,
+            name: this.name,
+            number: this.number,
+            phone: this.phone,
+            identity: this.identity,
+            marriage: this.marriage,
+            remark: this.remark
+          } },
+          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+        ).then((response) => {
+          if (response.body === 'OK') {
             this.$Loading.finish()
-            this.$Message.error('请核实输入信息!')
+            this.$Message.success('修改成功!')
+            this.$Notice.success({
+              title: '操作完成!',
+              desc: '家属：' + this.name + '已修改！'
+            })
+            setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
+          } else {
+            this.$Loading.error()
+            this.$Notice.error({
+              title: response.body
+            })
           }
+        }, (response) => {
+          this.$Loading.error()
+          this.$Notice.error({
+            title: '服务器内部错误，无法修改家属信息!'
+          })
         })
       },
       goBack () {
@@ -175,27 +168,6 @@
             title: '服务器内部错误!'
           })
         })
-      },
-      numberCheck (rule, value, callback) {
-        if (!value) {
-          callback()
-        } else {
-          this.$http.get(
-            API.numberCheck,
-            { params: {
-              number: value
-            } },
-            { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-          ).then((response) => {
-            if (response.body === 'OK') {
-              callback()
-            } else {
-              callback(new Error(response.body.toString()))
-            }
-          }, (response) => {
-            callback(new Error('无法执行后台验证，请重试'))
-          })
-        }
       },
       MenuClick (name) {
         if (name.toString() === 'person') {

@@ -20,6 +20,10 @@
               <Icon type="android-settings"></Icon>
               修改密码
             </MenuItem>
+            <MenuItem name="user">
+              <Icon type="android-settings"></Icon>
+              用户管理
+            </MenuItem>
             <MenuItem name="logout">
               <Icon type="android-close"></Icon>
               退出系统

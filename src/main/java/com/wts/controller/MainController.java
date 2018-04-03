@@ -1,10 +1,7 @@
 package com.wts.controller;
 
-import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.wts.entity.model.*;
-import com.wts.interceptor.LoginInterceptor;
-import com.wts.util.IDNumber;
 
 public class MainController extends Controller {
 
@@ -13,7 +10,7 @@ public class MainController extends Controller {
     }
 
     public void login() {
-        User u =User.dao.findFirst("select * from user where login=? and pass=? and state = 1", getPara("login"),getPara("pass"));
+        User u =User.dao.findFirst("SELECT * FROM user WHERE login=? AND pass=? AND state = 1", getPara("login"),getPara("pass"));
         if (u!=null){
             setSessionAttr("user",u);
             redirect("/person");
@@ -25,8 +22,5 @@ public class MainController extends Controller {
         setSessionAttr("user",null);
         redirect("/");
     }
-    @Before(LoginInterceptor.class)
-    public void NumberCheck() {
-        renderText(IDNumber.checkIDNumber(getPara("number")));
-    }
+
 }

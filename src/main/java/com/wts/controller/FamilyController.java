@@ -23,15 +23,37 @@ public class FamilyController extends Controller {
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
-                "SELECT person.name,person.number,person.phone,person.address,location.name AS location," +
-                        " CASE person.tid WHEN '1' THEN 'a' WHEN '2' THEN 'b' ELSE 'c' END AS type," +
-                        " CASE person.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state",
-                "FROM person LEFT JOIN location ON person.lid = location.id WHERE person.name LIKE '%" + getPara("keyword") + "%'").getList());
+                "SELECT person.name AS pname,person.number AS pnumber,person.phone AS pphone,person.id AS pid,person.lid AS lid,person.state AS psid, " +
+                        "family.name,family.number,family.phone,family.state AS sid, " +
+                        "CASE family.identity " +
+                        "WHEN '1' THEN '丈夫' " +
+                        "WHEN '2' THEN '妻子' " +
+                        "WHEN '3' THEN '儿子' " +
+                        "WHEN '4' THEN '女儿' " +
+                        "WHEN '5' THEN '父亲' " +
+                        "WHEN '6' THEN '母亲' " +
+                        "WHEN '7' THEN '兄弟' " +
+                        "WHEN '8' THEN '姐妹' " +
+                        "ELSE '无法识别' END AS identity, " +
+                        "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
+                        "CASE family.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state",
+                "FROM family LEFT JOIN person ON family.pid = person.id " +
+                        "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
+                        "OR person.name LIKE '%" + getPara("keyword") + "%' " +
+                        "OR person.phone LIKE '%" + getPara("keyword") + "%' " +
+                        "OR family.number LIKE '%" + getPara("keyword") + "%' " +
+                        "OR family.name LIKE '%" + getPara("keyword") + "%' " +
+                        "OR family.phone LIKE '%" + getPara("keyword") + "%' ").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
-        Long count = Db.queryLong("SELECT COUNT(*) FROM family " +
-                "WHERE name LIKE '%" + getPara("keyword") + "%'");
+        Long count = Db.queryLong("SELECT COUNT(*) FROM family LEFT JOIN person ON family.pid = person.id " +
+                "WHERE person.name LIKE '%" + getPara("keyword") + "%' " +
+                "OR person.number LIKE '%" + getPara("keyword") + "%' " +
+                "OR person.phone LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.number LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.name LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.phone LIKE '%" + getPara("keyword") + "%' ");
         renderText(count.toString());
     }
     @Before(LoginInterceptor.class)
@@ -80,7 +102,7 @@ public class FamilyController extends Controller {
                     .set("state", 1)
                     .set("pid", getPara("id"))
                     .save();
-            logger.warn("function:" + this.getClass().getSimpleName() + "/Save;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
+            logger.warn("function:" + this.getClass().getSimpleName() + "/Add;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
             renderText("OK");
         }
     }
@@ -89,7 +111,7 @@ public class FamilyController extends Controller {
     public void Edit() {
         Family family = Family.dao.findById(getPara("id"));
         if (family == null) {
-            renderText("要修改的人员不存在，请刷新页面后再试！");
+            renderText("要修改的家庭成员不存在，请刷新页面后再试！");
         } else if (Util.CheckNull(family.getStr("name")).equals(getPara("name").trim())
                 && Util.CheckNull(family.getStr("number")).equals(getPara("number").trim())
                 && Util.CheckNull(family.getStr("phone")).equals(getPara("phone").trim())
@@ -99,8 +121,8 @@ public class FamilyController extends Controller {
                 ) {
             renderText("未找到修改内容，请核实后再修改！");
         } else if (!Util.CheckNull(family.getStr("number")).equals(getPara("number"))
-                && Family.dao.find("select * from family where number=?", getPara("number")).size() > 0) {
-            renderText("该证件号码数据库中已存在，请核实！");
+                && Family.dao.find("select * from family where state=1 and number=? ", getPara("number")).size() > 0) {
+            renderText("该证件号码数据库中存在正在享受的记录，请核实！");
         } else if (!IDNumber.availableIDNumber(getPara("number"))){
             renderText("证件号码" + IDNumber.checkIDNumber(getPara("number")));
         }else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {

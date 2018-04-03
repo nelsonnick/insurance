@@ -2,30 +2,7 @@
   <div>
     <Layout class="layout">
       <Header>
-        <Menu mode="horizontal" theme="dark" active-name="person" @on-select="MenuClick">
-          <div class="layout-nav">
-            <MenuItem name="0">
-              <Icon type="user"></Icon>
-              当前用户：{{ userName }}
-            </MenuItem>
-            <MenuItem name="person" >
-              <Icon type="android-person"></Icon>
-              困难人员
-            </MenuItem>
-            <MenuItem name="family">
-              <Icon type="android-people"></Icon>
-              家庭成员
-            </MenuItem>
-            <MenuItem name="pass">
-              <Icon type="android-settings"></Icon>
-              修改密码
-            </MenuItem>
-            <MenuItem name="logout">
-              <Icon type="android-close"></Icon>
-              退出系统
-            </MenuItem>
-          </div>
-        </Menu>
+        <MenuBar :sys="sys" :active="active" :name="userName"></MenuBar>
       </Header>
       <Row>
         <Col>
@@ -37,7 +14,7 @@
             </Breadcrumb>
           </div>
           <div class="right">
-            <Button type="info" @click="goAdd" v-if="lid">新增</Button>
+            <Button type="info" @click="goAdd" v-if="addPerson">新增</Button>
             <Search @goQuery="getQuery"></Search>
           </div>
         </Col>
@@ -91,14 +68,17 @@
   import Search from '../Common/search.vue'
   import Page from '../Common/page.vue'
   import Options from '../Common/options.vue'
+  import MenuBar from '../Common/menubar.vue'
   import * as API from './API.js'
 
   export default {
     name: 'list',
-    components: {Search, Page, Options},
+    components: {Search, Page, Options, MenuBar},
     data () {
       return {
         userName: window.userName,
+        sys: false,
+        active: 'person',
         name: '',
         query: API.Query,
         total: API.Total,
@@ -111,7 +91,7 @@
         size: 'small',
         height: 450,
         self: this,
-        lid: true,
+        addPerson: true,
         columns: [
           {
             title: '序号',
@@ -139,6 +119,11 @@
           {
             title: '类别',
             key: 'type',
+            sortable: true
+          },
+          {
+            title: '婚姻',
+            key: 'marriage',
             sortable: true
           },
           {
@@ -225,19 +210,6 @@
       }
     },
     created: function () {
-      this.$http.get(
-        API.GetLocation,
-        {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-      ).then((response) => {
-        window.LocationId = response.body
-        if (response.body === '1') {
-          this.lid = false
-        }
-      }, (response) => {
-        this.$Notice.error({
-          title: '服务器内部错误，无法获取当前用户所属中心!'
-        })
-      })
       this.getUser()
     },
     methods: {
@@ -340,26 +312,17 @@
           API.GetUser,
           {headers: {'X-Requested-With': 'XMLHttpRequest'}}
         ).then((response) => {
-          this.userName = response.body
-          window.userName = this.userName
+          if (response.body.lid.toString() === '1') {
+            this.addPerson = false
+            this.sys = true
+          }
+          window.LocationId = response.body.lid
+          window.userName = response.body.name
         }, (response) => {
           this.$Notice.error({
             title: '服务器内部错误，无法获取当前用户姓名!'
           })
         })
-      },
-      MenuClick (name) {
-        if (name.toString() === 'person') {
-          window.location.href = '/person'
-        } else if (name.toString() === 'family') {
-          window.location.href = '/family'
-        } else if (name.toString() === 'pass') {
-          window.location.href = '/user/pass'
-        } else if (name.toString() === 'logout') {
-          window.location.href = '/logout'
-        } else {
-          this.getUser()
-        }
       }
     }
   }
@@ -386,10 +349,5 @@
     position: relative;
     border-radius: 4px;
     overflow: hidden;
-  }
-  .layout-nav {
-    width: 1000px;
-    margin: 0 auto;
-    margin-right: 20px;
   }
 </style>

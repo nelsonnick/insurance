@@ -4,4 +4,5 @@ export const Total = `${base}/Total`
 export const Save = `${base}/Save`
 export const Edit = `${base}/Edit`
 export const Get = `${base}/Get`
-export const numberCheck = `/NumberCheck`
+export const Del = `${base}/Del`
+export const Active = `${base}/Active`

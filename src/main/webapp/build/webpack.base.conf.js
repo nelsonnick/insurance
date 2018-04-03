@@ -11,7 +11,8 @@ module.exports = {
   entry: {
     Person: './src/Person/Index.js',
     Family: './src/Family/Index.js',
-    Pass: './src/Pass/Index.js'
+    Pass: './src/Pass/Index.js',
+    User: './src/User/Index.js'
   },
   output: {
     path: config.build.assetsRoot,

@@ -189,48 +189,41 @@
         this.fetchData(this.$route.params.id)
       },
       goSave () {
-        this.$refs.Form.validate((valid) => {
-          if (valid) {
-            this.$Loading.start()
-            this.$http.get(
-              API.Edit,
-              { params: {
-                id: this.$route.params.id,
-                name: this.name,
-                number: this.number,
-                phone: this.phone,
-                address: this.address,
-                tid: this.tid[1],
-                delay: this.delay,
-                marriage: this.marriage,
-                remark: this.remark
-              } },
-              { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-            ).then((response) => {
-              if (response.body === 'OK') {
-                this.$Loading.finish()
-                this.$Message.success('修改成功!')
-                this.$Notice.success({
-                  title: '操作完成!',
-                  desc: '人员：' + this.name + '已修改！'
-                })
-                setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
-              } else {
-                this.$Loading.error()
-                this.$Notice.error({
-                  title: response.body
-                })
-              }
-            }, (response) => {
-              this.$Loading.error()
-              this.$Notice.error({
-                title: '服务器内部错误!'
-              })
-            })
-          } else {
+        this.$Loading.start()
+        this.$http.get(
+          API.Edit,
+          { params: {
+            id: this.$route.params.id,
+            name: this.name,
+            number: this.number,
+            phone: this.phone,
+            address: this.address,
+            tid: this.tid[1],
+            delay: this.delay,
+            marriage: this.marriage,
+            remark: this.remark
+          } },
+          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+        ).then((response) => {
+          if (response.body === 'OK') {
             this.$Loading.finish()
-            this.$Message.error('请核实输入信息!')
+            this.$Message.success('修改成功!')
+            this.$Notice.success({
+              title: '操作完成!',
+              desc: '人员：' + this.name + '已修改！'
+            })
+            setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
+          } else {
+            this.$Loading.error()
+            this.$Notice.error({
+              title: response.body
+            })
           }
+        }, (response) => {
+          this.$Loading.error()
+          this.$Notice.error({
+            title: '服务器内部错误，无法修改人员信息!'
+          })
         })
       },
       goBack () {

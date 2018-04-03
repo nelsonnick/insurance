@@ -24,8 +24,8 @@ public class PersonController extends Controller {
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
-                "SELECT person.id, person.name,person.number,person.phone,person.address,location.name AS location,location.id AS lid,person.state AS sid," +
-                        " CASE person.tid " +
+                "SELECT person.id, person.name,person.number,person.phone,person.address,location.name AS location,location.id AS lid,person.state AS sid, " +
+                        "CASE person.tid " +
                         "WHEN '1' THEN '灵活就业/零就业' " +
                         "WHEN '2' THEN '灵活就业/单亲' " +
                         "WHEN '3' THEN '灵活就业/低保' " +
@@ -45,18 +45,19 @@ public class PersonController extends Controller {
                         "WHEN '17' THEN '企业吸纳/残疾' " +
                         "WHEN '18' THEN '企业吸纳/特困高校' " +
                         "WHEN '19' THEN '企业吸纳/成年孤儿' " +
-                        "ELSE '无法识别' END AS type," +
-                        " CASE person.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state",
+                        "ELSE '无法识别' END AS type, " +
+                        "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
+                        "CASE person.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state",
                 "FROM person LEFT JOIN location ON person.lid = location.id " +
-                        "WHERE person.name LIKE '%" + getPara("keyword") + "%' " +
-                        "OR person.number LIKE '%" + getPara("keyword") + "%' " +
+                        "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
+                        "OR person.name LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.phone LIKE '%" + getPara("keyword") + "%' ").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
         Long count = Db.queryLong("SELECT COUNT(*) FROM person " +
-                "WHERE name LIKE '%" + getPara("keyword") + "%' " +
-                "OR number LIKE '%" + getPara("keyword") + "%' " +
+                "WHERE number LIKE '%" + getPara("keyword") + "%' " +
+                "OR name LIKE '%" + getPara("keyword") + "%' " +
                 "OR phone LIKE '%" + getPara("keyword") + "%' ");
         renderText(count.toString());
     }
@@ -67,7 +68,12 @@ public class PersonController extends Controller {
     @Before(LoginInterceptor.class)
     public void Del() {
         Person p = Person.dao.findById(getPara("id"));
-        p.set("state",0).update();
+        if(p.set("state",0).update()){
+           List<Family> families = Family.dao.find("select * from family where pid=?",p.getId());
+           for(Family family : families) {
+               family.set("state",0).update();
+           }
+        }
         renderText("OK");
     }
     @Before(LoginInterceptor.class)
@@ -113,7 +119,7 @@ public class PersonController extends Controller {
                     .set("state", 1)
                     .set("lid", ((User) getSessionAttr("user")).get("lid"))
                     .save();
-            logger.warn("function:" + this.getClass().getSimpleName() + "/Save;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
+            logger.warn("function:" + this.getClass().getSimpleName() + "/Add;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
             renderText("OK");
         }
     }

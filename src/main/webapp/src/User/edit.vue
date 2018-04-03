@@ -33,7 +33,7 @@
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
               <BreadcrumbItem>家庭成员</BreadcrumbItem>
-              <BreadcrumbItem>新增</BreadcrumbItem>
+              <BreadcrumbItem>修改</BreadcrumbItem>
             </Breadcrumb>
           </div>
         </Col>
@@ -42,40 +42,16 @@
         <Col span="6">&nbsp;</Col>
         <Col span="12">
         <Form :label-width="100" :model="family"  ref="Form">
-          <Form-item label="当前人员" >
-            <Input size="large" v-model="currentPerson" style="width: 600px" disabled></Input>
+          <Form-item size="large" label="所属中心" required>
+            <Select  size="large" v-model="lid" style="width: 600px" clearable="false">
+              <Option v-for="item in LocationList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select >
           </Form-item>
-          <Form-item label="证件号码"  prop="numberValidate" required>
-            <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
-          </Form-item>
-          <Form-item label="人员姓名" prop="nameValidate" required>
+          <Form-item label="人员姓名" required>
             <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 600px"></Input>
           </Form-item>
-          <Form-item label="联系电话" prop="phoneValidate" required>
-            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="11"></Input>
-          </Form-item>
-          <Form-item size="large" label="婚姻状况" prop="marriage" required>
-            <Radio-group v-model="marriage" size="large"  type="button">
-              <Radio label="2">已婚</Radio>
-              <Radio label="3">离异</Radio>
-              <Radio label="1">未婚</Radio>
-              <Radio label="4">丧偶</Radio>
-            </Radio-group>
-          </Form-item>
-          <Form-item size="large" label="成员身份" prop="identity" required>
-            <Radio-group v-model="identity" size="large"  type="button">
-              <Radio label="1">夫</Radio>
-              <Radio label="2">妻</Radio>
-              <Radio label="3">子</Radio>
-              <Radio label="4">女</Radio>
-              <Radio label="5">父</Radio>
-              <Radio label="6">母</Radio>
-              <Radio label="7">兄弟</Radio>
-              <Radio label="8">姐妹</Radio>
-            </Radio-group>
-          </Form-item>
-          <Form-item label="备注信息" >
-            <Input v-model="remark" type="textarea" :rows="4" placeholder="如有必要，请输入备注信息" style="width: 600px"></Input>
+          <Form-item label="登录名称" required>
+            <Input size="large" v-model="login" placeholder="请输入登录名" style="width: 600px"></Input>
           </Form-item>
           <Form-item>
             <Button size="large" type="success" @click="goSave">保存</Button>
@@ -90,19 +66,85 @@
   </div>
 </template>
 <script>
-  import * as API from '../Family/API.js'
+  import * as API from './API.js'
   export default {
-    name: 'save',
+    name: 'edit',
     data () {
       return {
         userName: window.userName,
-        currentPerson: '',
-        number: '',
         name: '',
-        phone: '',
-        marriage: '2',
-        identity: '1',
-        remark: ''
+        lid: '1',
+        login: '',
+        LocationList: [
+          {
+            value: '1',
+            label: '指导科'
+          },
+          {
+            value: '2',
+            label: '西市场'
+          },
+          {
+            value: '3',
+            label: '五里沟'
+          },
+          {
+            value: '4',
+            label: '道德街'
+          },
+          {
+            value: '5',
+            label: '营市街'
+          },
+          {
+            value: '6',
+            label: '青年公园'
+          },
+          {
+            value: '7',
+            label: '中大槐树'
+          },
+          {
+            value: '8',
+            label: '振兴街'
+          },
+          {
+            value: '9',
+            label: '南辛庄'
+          },
+          {
+            value: '10',
+            label: '段店北路'
+          },
+          {
+            value: '11',
+            label: '匡山'
+          },
+          {
+            value: '12',
+            label: '张庄路'
+          },
+          {
+            value: '13',
+            label: '美里湖'
+          },
+          {
+            value: '14',
+            label: '腊山'
+          },
+          {
+            value: '15',
+            label: '吴家堡'
+          },
+          {
+            value: '16',
+            label: '玉清湖'
+          },
+          {
+            value: '17',
+            label: '兴福'
+          }
+        ]
       }
     },
     created: function () {
@@ -115,34 +157,25 @@
     methods: {
       goReset () {
         this.fetchData(this.$route.params.id)
-        this.number = ''
-        this.name = ''
-        this.phone = ''
-        this.marriage = '2'
-        this.identity = '1'
-        this.remark = ''
       },
       goSave () {
         this.$Loading.start()
         this.$http.get(
-          API.Save,
+          API.Edit,
           { params: {
             id: this.$route.params.id,
             name: this.name,
-            number: this.number,
-            phone: this.phone,
-            identity: this.identity,
-            marriage: this.marriage,
-            remark: this.remark
+            login: this.login,
+            lid: this.lid
           } },
           { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
         ).then((response) => {
           if (response.body === 'OK') {
             this.$Loading.finish()
-            this.$Message.success('新增成功!')
+            this.$Message.success('修改成功!')
             this.$Notice.success({
               title: '操作完成!',
-              desc: '家属：' + this.name + '已保存！'
+              desc: '用户：' + this.name + '已修改！'
             })
             setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
           } else {
@@ -154,7 +187,7 @@
         }, (response) => {
           this.$Loading.error()
           this.$Notice.error({
-            title: '服务器内部错误，无法保存家属信息!'
+            title: '服务器内部错误，无法修改用户信息!'
           })
         })
       },
@@ -167,10 +200,11 @@
           { params: { id: id } },
           { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
         ).then((response) => {
-          this.currentPerson = response.body.number + response.body.name
+          this.name = response.body.name
+          this.lid = response.body.lid
         }, (response) => {
           this.$Notice.error({
-            title: '服务器内部错误!'
+            title: '服务器内部错误，无法获取用户信息!'
           })
         })
       },

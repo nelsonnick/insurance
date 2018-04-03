@@ -32,7 +32,7 @@
             <div class="left">
               <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
                 <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
-                <BreadcrumbItem>家庭成员</BreadcrumbItem>
+                <BreadcrumbItem>用户管理</BreadcrumbItem>
                 <BreadcrumbItem>列表</BreadcrumbItem>
               </Breadcrumb>
             </div>
@@ -120,33 +120,13 @@
             }
           },
           {
-            title: '困难人员',
-            key: 'pname',
-            sortable: true
-          },
-          {
-            title: '身份',
-            key: 'identity',
-            sortable: true
-          },
-          {
-            title: '证件号码',
-            key: 'number',
-            sortable: true
-          },
-          {
             title: '姓名',
             key: 'name',
             sortable: true
           },
           {
-            title: '联系电话',
-            key: 'phone',
-            sortable: true
-          },
-          {
-            title: '婚姻',
-            key: 'marriage',
+            title: '用户名',
+            key: 'login',
             sortable: true
           },
           {
@@ -166,7 +146,7 @@
             width: 400,
             render: (h, params) => {
               const operate = []
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || window.LocationId.toString() === '1') {
+              if (params.row.sid.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -180,8 +160,19 @@
                     }
                   }, '修改')
                 )
-              }
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || (window.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
+                operate.push(
+                  h('Button', {
+                    props: {
+                      type: 'info',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.goReset(params.index)
+                      }
+                    }
+                  }, '重置密码')
+                )
                 operate.push(
                   h('Button', {
                     props: {
@@ -196,7 +187,8 @@
                   }, '注销')
                 )
               }
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') || (window.LocationId.toString() === '1' && params.row.sid.toString() === '0' && params.row.psid.toString() === '1')) {
+
+              if (params.row.sid.toString() === '0') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -257,6 +249,30 @@
       },
       goEdit (index) {
         this.$router.push({ path: '/edit/' + this.pageList[index].id })
+      },
+      goReset (index) {
+        this.$http.get(
+          API.Reset,
+          { params: {
+              id: this.pageList[index].id
+            } },
+          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
+        ).then((response) => {
+          if (response.body === 'OK') {
+            this.$Loading.finish()
+            this.$Message.success('重置密码成功!')
+            this.getQuery(this.keyword)
+          } else {
+            this.$Loading.error()
+            this.$Notice.error({
+              title: response.body
+            })
+          }
+        }, (response) => {
+          this.$Notice.error({
+            title: '服务器内部错误，无法重置密码!'
+          })
+        })
       },
       goDel (index) {
         this.$http.get(
