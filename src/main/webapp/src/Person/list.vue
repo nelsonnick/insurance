@@ -1,35 +1,63 @@
 <template>
   <div>
-    <Layout>
-        <Row>
-          <Col>
-            <div>
-              <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
-                <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
-                <BreadcrumbItem>享受人员</BreadcrumbItem>
-                <BreadcrumbItem>列表</BreadcrumbItem>
-              </Breadcrumb>
-            </div>
-            <div class="left"><Button type="primary" @click="goFamily">切换到家庭人员</Button><Button type="info" @click="goAdd"  v-if="lid">新增</Button><Button type="text" @click="goAdd" >修改密码</Button></div>
-            <div class="right"><Search @goQuery="getQuery" ></Search></div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-          <div style="min-height: 200px;" class="layout-content">
-            <Table
-              highlight-row
-              :height="height"
-              :context="self"
-              :border="border"
-              :stripe="stripe"
-              :size="size"
-              :columns="columns"
-              :data="pageList">
-            </Table>
+    <Layout class="layout">
+      <Header>
+        <Menu mode="horizontal" theme="dark" active-name="person" @on-select="MenuClick">
+          <div class="layout-nav">
+            <MenuItem name="0">
+              <Icon type="user"></Icon>
+              当前用户：{{ userName }}
+            </MenuItem>
+            <MenuItem name="person" >
+              <Icon type="android-person"></Icon>
+              困难人员
+            </MenuItem>
+            <MenuItem name="family">
+              <Icon type="android-people"></Icon>
+              家庭成员
+            </MenuItem>
+            <MenuItem name="pass">
+              <Icon type="android-settings"></Icon>
+              修改密码
+            </MenuItem>
+            <MenuItem name="logout">
+              <Icon type="android-close"></Icon>
+              退出系统
+            </MenuItem>
           </div>
-          </Col>
-        </Row>
+        </Menu>
+      </Header>
+      <Row>
+        <Col>
+          <div class="left">
+            <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
+              <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
+              <BreadcrumbItem>困难人员</BreadcrumbItem>
+              <BreadcrumbItem>列表</BreadcrumbItem>
+            </Breadcrumb>
+          </div>
+          <div class="right">
+            <Button type="info" @click="goAdd" v-if="lid">新增</Button>
+            <Search @goQuery="getQuery"></Search>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+        <div style="min-height: 200px;" class="layout-content">
+          <Table
+            highlight-row
+            :height="height"
+            :context="self"
+            :border="border"
+            :stripe="stripe"
+            :size="size"
+            :columns="columns"
+            :data="pageList">
+          </Table>
+        </div>
+        </Col>
+      </Row>
       <Row>
         <Col>
         <div>
@@ -67,9 +95,10 @@
 
   export default {
     name: 'list',
-    components: { Search, Page, Options },
+    components: {Search, Page, Options},
     data () {
       return {
+        userName: window.userName,
         name: '',
         query: API.Query,
         total: API.Total,
@@ -82,7 +111,7 @@
         size: 'small',
         height: 450,
         self: this,
-        lid: '',
+        lid: true,
         columns: [
           {
             title: '序号',
@@ -129,11 +158,11 @@
             width: 400,
             render: (h, params) => {
               const operate = []
-              if (params.row.state.toString() === window.LocationId) {
+              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || window.LocationId.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
-                      type: 'info',
+                      type: 'primary',
                       size: 'small'
                     },
                     on: {
@@ -144,11 +173,11 @@
                   }, '添加家庭成员')
                 )
               }
-              if (params.row.state.toString() === window.LocationId) {
+              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || window.LocationId.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
-                      type: 'info',
+                      type: 'warning',
                       size: 'small'
                     },
                     on: {
@@ -157,6 +186,36 @@
                       }
                     }
                   }, '修改')
+                )
+              }
+              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || (window.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
+                operate.push(
+                  h('Button', {
+                    props: {
+                      type: 'error',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.goDel(params.index)
+                      }
+                    }
+                  }, '注销')
+                )
+              }
+              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '0') || (window.LocationId.toString() === '1' && params.row.sid.toString() === '0')) {
+                operate.push(
+                  h('Button', {
+                    props: {
+                      type: 'success',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.goActive(params.index)
+                      }
+                    }
+                  }, '激活')
                 )
               }
               return h('div', operate)
@@ -168,19 +227,18 @@
     created: function () {
       this.$http.get(
         API.GetLocation,
-        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+        {headers: {'X-Requested-With': 'XMLHttpRequest'}}
       ).then((response) => {
-        window.LocationId = response.toString().trim()
-        if (response.toString().trim() === '1') {
+        window.LocationId = response.body
+        if (response.body === '1') {
           this.lid = false
-        } else {
-          this.lid = true
         }
       }, (response) => {
         this.$Notice.error({
           title: '服务器内部错误，无法获取当前用户所属中心!'
         })
       })
+      this.getUser()
     },
     methods: {
       getQuery (keyword) {
@@ -221,34 +279,117 @@
         })
       },
       goAdd () {
-        this.$router.push({ path: '/add' })
+        this.$router.push({path: '/add'})
       },
       goEdit (index) {
-        this.$router.push({ path: '/edit/' + this.pageList[index].id })
+        this.$router.push({path: '/edit/' + this.pageList[index].id})
       },
       goSave (index) {
-        this.$router.push({ path: '/save/' + this.pageList[index].id })
+        this.$router.push({path: '/save/' + this.pageList[index].id})
       },
-      goFamily () {
-        window.location.href = '/family'
+      goDel (index) {
+        this.$http.get(
+          API.Del,
+          { params: {
+            id: this.pageList[index].id
+          } },
+          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
+        ).then((response) => {
+          if (response.body === 'OK') {
+            this.$Loading.finish()
+            this.$Message.success('注销成功!')
+            this.getQuery(this.keyword)
+          } else {
+            this.$Loading.error()
+            this.$Notice.error({
+              title: response.body
+            })
+          }
+        }, (response) => {
+          this.$Notice.error({
+            title: '服务器内部错误，无法注销!'
+          })
+        })
+      },
+      goActive (index) {
+        this.$http.get(
+          API.Active,
+          { params: {
+            id: this.pageList[index].id
+          } },
+          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
+        ).then((response) => {
+          if (response.body === 'OK') {
+            this.$Loading.finish()
+            this.$Message.success('激活成功!')
+            this.getQuery(this.keyword)
+          } else {
+            this.$Loading.error()
+            this.$Notice.error({
+              title: response.body
+            })
+          }
+        }, (response) => {
+          this.$Notice.error({
+            title: '服务器内部错误，无法注销!'
+          })
+        })
+      },
+      getUser () {
+        this.$http.get(
+          API.GetUser,
+          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
+        ).then((response) => {
+          this.userName = response.body
+          window.userName = this.userName
+        }, (response) => {
+          this.$Notice.error({
+            title: '服务器内部错误，无法获取当前用户姓名!'
+          })
+        })
+      },
+      MenuClick (name) {
+        if (name.toString() === 'person') {
+          window.location.href = '/person'
+        } else if (name.toString() === 'family') {
+          window.location.href = '/family'
+        } else if (name.toString() === 'pass') {
+          window.location.href = '/user/pass'
+        } else if (name.toString() === 'logout') {
+          window.location.href = '/logout'
+        } else {
+          this.getUser()
+        }
       }
     }
   }
 </script>
 <style scoped>
-  .layout-content{
-    margin:0px 15px 0px 15px;
+  .layout-content {
+    margin: 0px 15px 0px 15px;
     overflow: hidden;
     background: #fff;
     border-radius: 4px;
   }
-  .left{
+  .left {
     margin: 15px;
     border-radius: 4px;
   }
-  .right{
+  .right {
     margin: 15px;
     border-radius: 4px;
     float: right;
+  }
+  .layout {
+    border: 1px solid #d7dde4;
+    background: #f5f7f9;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .layout-nav {
+    width: 1000px;
+    margin: 0 auto;
+    margin-right: 20px;
   }
 </style>

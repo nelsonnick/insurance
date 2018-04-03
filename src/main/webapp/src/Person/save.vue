@@ -1,6 +1,32 @@
 <template>
   <div>
-    <Layout>
+    <Layout class="layout">
+      <Header>
+        <Menu mode="horizontal" theme="dark" active-name="family" @on-select="MenuClick">
+          <div class="layout-nav">
+            <MenuItem name="0">
+              <Icon type="user"></Icon>
+              当前用户：{{ userName }}
+            </MenuItem>
+            <MenuItem name="person" >
+              <Icon type="android-person"></Icon>
+              困难人员
+            </MenuItem>
+            <MenuItem name="family">
+              <Icon type="android-people"></Icon>
+              家庭成员
+            </MenuItem>
+            <MenuItem name="pass">
+              <Icon type="android-settings"></Icon>
+              修改密码
+            </MenuItem>
+            <MenuItem name="logout">
+              <Icon type="android-close"></Icon>
+              退出系统
+            </MenuItem>
+          </div>
+        </Menu>
+      </Header>
       <Row>
         <Col>
           <div>
@@ -15,7 +41,10 @@
       <Row>
         <Col span="6">&nbsp;</Col>
         <Col span="12">
-        <Form :label-width="100" :model="family"  ref="Form" :rules="ruleValidate">
+        <Form :label-width="100" :model="family"  ref="Form">
+          <Form-item label="当前人员" >
+            <Input size="large" v-model="currentPerson" style="width: 600px" disabled></Input>
+          </Form-item>
           <Form-item label="证件号码"  prop="numberValidate" required>
             <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
           </Form-item>
@@ -23,7 +52,7 @@
             <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 600px"></Input>
           </Form-item>
           <Form-item label="联系电话" prop="phoneValidate" required>
-            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="18"></Input>
+            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="11"></Input>
           </Form-item>
           <Form-item size="large" label="婚姻状况" prop="marriage" required>
             <Radio-group v-model="marriage" size="large"  type="button">
@@ -66,28 +95,26 @@
     name: 'save',
     data () {
       return {
+        userName: window.userName,
+        currentPerson: '',
         number: '',
         name: '',
         phone: '',
         marriage: '2',
         identity: '1',
-        remark: '',
-        ruleValidate: {
-          numberValidate: [
-            { required: true, message: '证件号码不能为空', trigger: 'blur' },
-            { validator: this.personNumberCheck }
-          ],
-          nameValidate: [
-            { required: true, message: '人员姓名不能为空', trigger: 'blur' }
-          ],
-          phoneValidate: [
-            { required: true, message: '联系电话不能为空', trigger: 'blur' }
-          ]
-        }
+        remark: ''
       }
+    },
+    created: function () {
+      this.fetchData(this.$route.params.id)
+    },
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      '$route': 'fetchData'
     },
     methods: {
       goReset () {
+        this.fetchData(this.$route.params.id)
         this.number = ''
         this.name = ''
         this.phone = ''
@@ -141,27 +168,61 @@
       goBack () {
         this.$router.push({ path: '/list' })
       },
-      personNumberCheck (rule, value, callback) {
-        if (!value) {
-          callback()
-        } else {
-          this.$http.get(
-            API.numberCheck_family,
-            { params: {
-              number: value
-            } },
-            { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-          ).then((response) => {
-            if (response.body === 'OK') {
-              callback()
-            } else {
-              callback(new Error(response.body.toString()))
-            }
-          }, (response) => {
-            callback(new Error('无法执行后台验证，请重试'))
+      fetchData (id) {
+        this.$http.get(
+          API.Get,
+          { params: { id: id } },
+          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+        ).then((response) => {
+          this.currentPerson = response.body.number + response.body.name
+        }, (response) => {
+          this.$Notice.error({
+            title: '服务器内部错误!'
           })
+        })
+      },
+      MenuClick (name) {
+        if (name.toString() === 'person') {
+          window.location.href = '/person'
+        } else if (name.toString() === 'family') {
+          window.location.href = '/family'
+        } else if (name.toString() === 'pass') {
+          window.location.href = '/user/pass'
+        } else if (name.toString() === 'logout') {
+          window.location.href = '/logout'
+        } else {
+          this.getUser()
         }
       }
     }
   }
 </script>
+<style scoped>
+  .layout-content {
+    margin: 0px 15px 0px 15px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
+  }
+  .left {
+    margin: 15px;
+    border-radius: 4px;
+  }
+  .right {
+    margin: 15px;
+    border-radius: 4px;
+    float: right;
+  }
+  .layout {
+    border: 1px solid #d7dde4;
+    background: #f5f7f9;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .layout-nav {
+    width: 1000px;
+    margin: 0 auto;
+    margin-right: 20px;
+  }
+</style>

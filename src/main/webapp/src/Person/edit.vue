@@ -52,7 +52,7 @@
             <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 600px"></Input>
           </Form-item>
           <Form-item label="联系电话" prop="phoneValidate" required>
-            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="18"></Input>
+            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="11"></Input>
           </Form-item>
           <Form-item label="联系地址" prop="addressValidate" required>
             <Input size="large" v-model="address" placeholder="请输入联系地址" style="width: 600px"></Input>

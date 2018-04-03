@@ -92,7 +92,7 @@ CREATE TABLE `family` (
 
 `phone` varchar(255) CHARACTER SET utf8 NULL COMMENT '联系电话',
 
-`Identity` int(11) NULL COMMENT '1夫2妻3子4女5父6母7兄弟8姐妹',
+`identity` int(11) NULL COMMENT '1夫2妻3子4女5父6母7兄弟8姐妹',
 
 `marriage` int(11) NULL COMMENT '1未婚2已婚3离异4丧偶',
 

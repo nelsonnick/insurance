@@ -41,7 +41,7 @@
       <Row>
         <Col span="6">&nbsp;</Col>
         <Col span="12">
-        <Form :label-width="100" :model="family"  ref="Form" :rules="ruleValidate">
+        <Form :label-width="100" :model="family"  ref="Form">
           <Form-item label="证件号码"  prop="numberValidate" required>
             <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
           </Form-item>
@@ -49,7 +49,7 @@
             <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 600px"></Input>
           </Form-item>
           <Form-item label="联系电话" prop="phoneValidate" required>
-            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="18"></Input>
+            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="11"></Input>
           </Form-item>
           <Form-item size="large" label="婚姻状况" prop="marriage" required>
             <Radio-group v-model="marriage" size="large"  type="button">
@@ -98,19 +98,7 @@
         phone: '',
         marriage: '2',
         identity: '1',
-        remark: '',
-        ruleValidate: {
-          numberValidate: [
-            { required: true, message: '证件号码不能为空', trigger: 'blur' },
-            { validator: this.numberCheck }
-          ],
-          nameValidate: [
-            { required: true, message: '人员姓名不能为空', trigger: 'blur' }
-          ],
-          phoneValidate: [
-            { required: true, message: '联系电话不能为空', trigger: 'blur' }
-          ]
-        }
+        remark: ''
       }
     },
     created: function () {
