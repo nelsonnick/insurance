@@ -44,12 +44,16 @@
     components: {MenuBar},
     data () {
       return {
-        userName: window.userName,
-        sys: window.sys,
+        userName: '',
+        LocationId: '',
+        sys: false,
         active: 'pass',
         pass1: '',
         pass2: ''
       }
+    },
+    created: function () {
+      this.getUser()
     },
     methods: {
       goSave () {
@@ -85,6 +89,25 @@
       },
       goBack () {
         window.location.href = '/person'
+      },
+      getUser () {
+        this.$http.get(
+          API.GetUser,
+          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
+        ).then((response) => {
+          if (response.body.lid.toString() === '1') {
+            this.sys = true
+            window.sys = true
+          }
+          window.LocationId = response.body.lid
+          window.userName = response.body.name
+          this.LocationId = response.body.lid
+          this.userName = response.body.name
+        }, (response) => {
+          this.$Notice.error({
+            title: '服务器内部错误，无法获取当前用户姓名!'
+          })
+        })
       }
     }
   }

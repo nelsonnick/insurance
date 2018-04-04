@@ -129,6 +129,9 @@
         ]
       }
     },
+    created: function () {
+      this.getUser()
+    },
     methods: {
       goReset () {
         this.name = ''

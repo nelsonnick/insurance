@@ -76,9 +76,9 @@
     components: { Search, Page, Options, MenuBar },
     data () {
       return {
-        userName: window.userName,
-        LocationId: window.LocationId,
-        sys: window.sys,
+        userName: '',
+        LocationId: '',
+        sys: false,
         active: 'family',
         query: API.Query,
         total: API.Total,
@@ -201,6 +201,9 @@
         ]
       }
     },
+    created: function () {
+      this.getUser()
+    },
     methods: {
       getQuery (keyword) {
         this.keyword = keyword
@@ -292,6 +295,26 @@
       },
       goDown () {
         window.location.href = '/family/export'
+      },
+      getUser () {
+        this.$http.get(
+          API.GetUser,
+          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
+        ).then((response) => {
+          if (response.body.lid.toString() === '1') {
+            this.addPerson = false
+            this.sys = true
+            window.sys = true
+          }
+          window.LocationId = response.body.lid
+          window.userName = response.body.name
+          this.LocationId = response.body.lid
+          this.userName = response.body.name
+        }, (response) => {
+          this.$Notice.error({
+            title: '服务器内部错误，无法获取当前用户姓名!'
+          })
+        })
       }
     }
   }

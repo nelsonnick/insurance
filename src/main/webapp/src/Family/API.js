@@ -6,4 +6,4 @@ export const Edit = `${base}/Edit`
 export const Get = `${base}/Get`
 export const Del = `${base}/Del`
 export const Active = `${base}/Active`
-export const Export = `${base}/Export`
+export const GetUser = `user/getUser`
