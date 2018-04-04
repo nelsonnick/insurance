@@ -264,7 +264,7 @@ public class PersonController extends Controller {
             cell.setCellValue(title[i]);
         }
         String st = "";
-        if (!((User) getSessionAttr("user")).get("lid").toString().equals("1")){
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
             st = "";
         }else{
             st = "WHERE location.id = " + ((User) getSessionAttr("user")).get("lid");
@@ -296,6 +296,7 @@ public class PersonController extends Controller {
                 "CASE person.sex WHEN '1' THEN '男' WHEN '2' THEN '女' ELSE '状态错误' END AS sex, " +
                 "CASE person.delay WHEN '0' THEN '不延期' WHEN '1' THEN '延期' ELSE '状态错误' END AS delay " +
                 "FROM person LEFT JOIN location ON person.lid = location.id " + st;
+        System.out.println(sql);
         List<Record> r = Db.find(sql);
         for (int i = 0; i < r.size(); i++) {
             XSSFRow nextRow = sheet.createRow(i+1);

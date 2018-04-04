@@ -213,7 +213,7 @@ public class FamilyController extends Controller {
             cell.setCellValue(title[i]);
         }
         String st = "";
-        if (!((User) getSessionAttr("user")).get("lid").toString().equals("1")){
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
             st = "";
         }else{
             st = "WHERE person.lid = " + ((User) getSessionAttr("user")).get("lid");
