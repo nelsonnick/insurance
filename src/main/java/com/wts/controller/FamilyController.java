@@ -1,14 +1,24 @@
 package com.wts.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.wts.entity.model.*;
 import com.wts.interceptor.LoginInterceptor;
 import com.wts.util.IDNumber;
 import com.wts.util.Util;
 import org.apache.log4j.Logger;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 
@@ -60,19 +70,43 @@ public class FamilyController extends Controller {
     public void Get() {
         renderJson(Family.dao.findById(getPara("id")));
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Del() {
-        Family f = Family.dao.findById(getPara("id"));
-        f.set("state",0).update();
+        Family family = Family.dao.findById(getPara("id"));
+        String before = JSON.toJSONString(family);
+        family.set("state",0);
+        if (family.update()){
+            Changefamily cf = new Changefamily();
+            cf.set("pid", family.getId())
+                    .set("uid",((User) getSessionAttr("user")).get("id"))
+                    .set("type",3)
+                    .set("time",new Date())
+                    .set("before",before)
+                    .set("after", JSON.toJSONString(family))
+                    .save();
+        }
+        logger.warn("function:" + this.getClass().getSimpleName() + "/Del;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
         renderText("OK");
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Active() {
-        Family f = Family.dao.findById(getPara("id"));
-        f.set("state",1).update();
+        Family family = Family.dao.findById(getPara("id"));
+        String before = JSON.toJSONString(family);
+        family.set("state",1);
+        if (family.update()){
+            Changefamily cf = new Changefamily();
+            cf.set("pid", family.getId())
+                    .set("uid",((User) getSessionAttr("user")).get("id"))
+                    .set("type",3)
+                    .set("time",new Date())
+                    .set("before",before)
+                    .set("after", JSON.toJSONString(family))
+                    .save();
+        }
+        logger.warn("function:" + this.getClass().getSimpleName() + "/Active;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
         renderText("OK");
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Add() {
         List<Family> families = Family.dao.find("select * from family where number=?", getPara("number"));
         if (!IDNumber.availableIDNumber(getPara("number"))){
@@ -100,14 +134,22 @@ public class FamilyController extends Controller {
                     .set("marriage", getParaToInt("marriage"))
                     .set("remark", getPara("remark"))
                     .set("state", 1)
-                    .set("pid", getPara("id"))
-                    .save();
+                    .set("pid", getPara("id"));
+            if (family.save()){
+                Changefamily cf = new Changefamily();
+                cf.set("pid", family.getId())
+                        .set("uid",((User) getSessionAttr("user")).get("id"))
+                        .set("type",1)
+                        .set("time",new Date())
+                        .set("before","")
+                        .set("after", JSON.toJSONString(family))
+                        .save();
+            }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Add;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
             renderText("OK");
         }
     }
-
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Edit() {
         Family family = Family.dao.findById(getPara("id"));
         if (family == null) {
@@ -136,6 +178,7 @@ public class FamilyController extends Controller {
         } else if (getPara("identity").length()<1) {
             renderText("人员身份未选择！");
         }  else {
+            String before = JSON.toJSONString(family);
             family.set("name", getPara("name"))
                     .set("number", getPara("number"))
                     .set("sex", IDNumber.getSex(getPara("number")))
@@ -143,13 +186,81 @@ public class FamilyController extends Controller {
                     .set("phone", getPara("phone"))
                     .set("marriage", getParaToInt("marriage"))
                     .set("identity", getParaToInt("identity"))
-                    .set("remark", getPara("remark"))
-                    .update();
+                    .set("remark", getPara("remark"));
+            if (family.update()){
+                Changefamily cf = new Changefamily();
+                cf.set("pid", family.getId())
+                        .set("uid",((User) getSessionAttr("user")).get("id"))
+                        .set("type",2)
+                        .set("time",new Date())
+                        .set("before",before)
+                        .set("after", JSON.toJSONString(family))
+                        .save();
+            }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Edit;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
             renderText("OK");
         }
     }
-
+    @Before({Tx.class,LoginInterceptor.class})
+    public  void export() throws IOException{
+        String[] title={"序号","申请人证件号码","申请人姓名","家属身份","家属证件号码","家属姓名","家属性别","家属出生年月","家属联系电话","婚姻状况","人员状态","备注"};
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet();
+        XSSFRow row =sheet.createRow(0);
+        XSSFCell cell = null;
+        for(int i=0;i<title.length;i++){
+            cell=row.createCell(i);
+            cell.setCellValue(title[i]);
+        }
+        String st = "";
+        if (!((User) getSessionAttr("user")).get("lid").toString().equals("1")){
+            st = "";
+        }else{
+            st = "WHERE person.lid = " + ((User) getSessionAttr("user")).get("lid");
+        }
+        String sql = "SELECT family.id, family.name,family.number,family.phone,family.birth,family.remark,person.name AS pname,person.number AS pnumber, " +
+                "CASE family.identity " +
+                "WHEN '1' THEN '夫' " +
+                "WHEN '2' THEN '妻' " +
+                "WHEN '3' THEN '子' " +
+                "WHEN '4' THEN '女' " +
+                "WHEN '5' THEN '父' " +
+                "WHEN '6' THEN '母' " +
+                "WHEN '7' THEN '兄弟' " +
+                "WHEN '8' THEN '姐妹' " +
+                "ELSE '无法识别' END AS identity, " +
+                "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
+                "CASE family.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state, " +
+                "CASE family.sex WHEN '1' THEN '男' WHEN '2' THEN '女' ELSE '状态错误' END AS sex " +
+                "FROM family " +
+                "LEFT JOIN person ON family.pid = person.id " +
+                "LEFT JOIN location ON person.lid = location.id " + st;
+        List<Record> r = Db.find(sql);
+        for (int i = 0; i < r.size(); i++) {
+            XSSFRow nextRow = sheet.createRow(i+1);
+            nextRow.createCell(0).setCellValue(Util.CheckNull(r.get(i).get("id").toString()));
+            nextRow.createCell(1).setCellValue(Util.CheckNull(r.get(i).get("pnumber").toString()));
+            nextRow.createCell(2).setCellValue(Util.CheckNull(r.get(i).get("pname").toString()));
+            nextRow.createCell(3).setCellValue(Util.CheckNull(r.get(i).get("identity").toString()));
+            nextRow.createCell(4).setCellValue(Util.CheckNull(r.get(i).get("number").toString()));
+            nextRow.createCell(5).setCellValue(Util.CheckNull(r.get(i).get("name").toString()));
+            nextRow.createCell(6).setCellValue(Util.CheckNull(r.get(i).get("sex").toString()));
+            nextRow.createCell(7).setCellValue(Util.CheckNull(r.get(i).get("birth").toString()));
+            nextRow.createCell(8).setCellValue(Util.CheckNull(r.get(i).get("phone").toString()));
+            nextRow.createCell(9).setCellValue(Util.CheckNull(r.get(i).get("marriage").toString()));
+            nextRow.createCell(10).setCellValue(Util.CheckNull(r.get(i).get("state").toString()));
+            nextRow.createCell(11).setCellValue(Util.CheckNull(r.get(i).get("remark").toString()));
+        }
+        HttpServletResponse response = getResponse();
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=FamilyExport.xlsx");
+        OutputStream out = response.getOutputStream();
+        workbook.write(out);
+        out.flush();
+        out.close();
+        workbook.close();
+        renderNull() ;
+    }
 }
 
 

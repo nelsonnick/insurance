@@ -3,7 +3,7 @@
     <div class="layout-nav">
       <MenuItem name="main">
         <Icon type="user"></Icon>
-        当前用户：{{ name }}
+        当前用户：{{ userName }}
       </MenuItem>
       <MenuItem name="person" >
         <Icon type="android-person"></Icon>
@@ -31,7 +31,7 @@
 <script>
   export default {
     name: 'menubar',
-    props: ['sys', 'active', 'name'],
+    props: ['sys', 'active', 'userName'],
     methods: {
       MenuClick (name) {
         if (name.toString() === 'person') {

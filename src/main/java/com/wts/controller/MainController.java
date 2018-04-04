@@ -1,5 +1,6 @@
 package com.wts.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.core.Controller;
 import com.wts.entity.model.*;
 
@@ -8,9 +9,8 @@ public class MainController extends Controller {
     public void index() {
         render("/login/index.html");
     }
-
     public void login() {
-        User u =User.dao.findFirst("SELECT * FROM user WHERE login=? AND pass=? AND state = 1", getPara("login"),getPara("pass"));
+        User u = User.dao.findFirst("SELECT * FROM user WHERE login=? AND pass=? AND state = 1", getPara("login"),getPara("pass"));
         if (u!=null){
             setSessionAttr("user",u);
             redirect("/person");
@@ -23,4 +23,11 @@ public class MainController extends Controller {
         redirect("/");
     }
 
+    public static void main(String[] args) {
+        User u = new User();
+        u.setId(1);
+        u.setLid(1);
+        String objJson = JSON.toJSONString(u);
+        System.out.println(objJson);
+    }
 }

@@ -7,3 +7,4 @@ export const Get = `${base}/Get`
 export const Del = `${base}/Del`
 export const Active = `${base}/Active`
 export const GetUser = `user/getUser`
+export const Export = `${base}/Export`

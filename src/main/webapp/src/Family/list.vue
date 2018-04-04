@@ -2,30 +2,7 @@
   <div>
     <Layout class="layout">
       <Header>
-        <Menu mode="horizontal" theme="dark" active-name="family" @on-select="MenuClick">
-          <div class="layout-nav">
-            <MenuItem name="0">
-              <Icon type="user"></Icon>
-              当前用户：{{ userName }}
-            </MenuItem>
-            <MenuItem name="person" >
-              <Icon type="android-person"></Icon>
-              困难人员
-            </MenuItem>
-            <MenuItem name="family">
-              <Icon type="android-people"></Icon>
-              家庭成员
-            </MenuItem>
-            <MenuItem name="pass">
-              <Icon type="android-settings"></Icon>
-              修改密码
-            </MenuItem>
-            <MenuItem name="logout">
-              <Icon type="android-close"></Icon>
-              退出系统
-            </MenuItem>
-          </div>
-        </Menu>
+        <MenuBar :sys="sys" :active="active" :userName="userName"></MenuBar>
       </Header>
         <Row>
           <Col>
@@ -37,6 +14,7 @@
               </Breadcrumb>
             </div>
             <div class="right">
+              <Button type="ghost" @click="goDown"><Icon type="ios-cloud-download"></Icon>下载</Button>
               <Search @goQuery="getQuery"></Search>
             </div>
           </Col>
@@ -91,14 +69,17 @@
   import Page from '../Common/page.vue'
   import Options from '../Common/options.vue'
   import * as API from './API.js'
+  import MenuBar from '../Common/menubar.vue'
 
   export default {
     name: 'list',
-    components: { Search, Page, Options },
+    components: { Search, Page, Options, MenuBar },
     data () {
       return {
         userName: window.userName,
-        name: '',
+        LocationId: window.LocationId,
+        sys: window.sys,
+        active: 'family',
         query: API.Query,
         total: API.Total,
         keyword: '',
@@ -114,6 +95,7 @@
           {
             title: '序号',
             key: 'id',
+            width: 80,
             sortable: true,
             render: (h, params) => {
               return h('div', params.index + 1)
@@ -127,6 +109,7 @@
           {
             title: '身份',
             key: 'identity',
+            width: 80,
             sortable: true
           },
           {
@@ -147,6 +130,7 @@
           {
             title: '婚姻',
             key: 'marriage',
+            width: 80,
             sortable: true
           },
           {
@@ -163,10 +147,10 @@
             title: '操作',
             key: 'state',
             align: 'center',
-            width: 400,
+            width: 300,
             render: (h, params) => {
               const operate = []
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || window.LocationId.toString() === '1') {
+              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -181,7 +165,7 @@
                   }, '修改')
                 )
               }
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || (window.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
+              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
                 operate.push(
                   h('Button', {
                     props: {
@@ -196,7 +180,7 @@
                   }, '注销')
                 )
               }
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') || (window.LocationId.toString() === '1' && params.row.sid.toString() === '0' && params.row.psid.toString() === '1')) {
+              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '0' && params.row.psid.toString() === '1')) {
                 operate.push(
                   h('Button', {
                     props: {
@@ -306,18 +290,8 @@
           })
         })
       },
-      MenuClick (name) {
-        if (name.toString() === 'person') {
-          window.location.href = '/person'
-        } else if (name.toString() === 'family') {
-          window.location.href = '/family'
-        } else if (name.toString() === 'pass') {
-          window.location.href = '/user/pass'
-        } else if (name.toString() === 'logout') {
-          window.location.href = '/logout'
-        } else {
-          this.getUser()
-        }
+      goDown () {
+        window.location.href = '/family/export'
       }
     }
   }
@@ -361,10 +335,5 @@
     position: relative;
     border-radius: 4px;
     overflow: hidden;
-  }
-  .layout-nav {
-    width: 1000px;
-    margin: 0 auto;
-    margin-right: 20px;
   }
 </style>

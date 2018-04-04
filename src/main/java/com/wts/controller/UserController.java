@@ -3,6 +3,7 @@ package com.wts.controller;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.wts.entity.model.*;
 import com.wts.interceptor.LoginInterceptor;
 import com.wts.util.IDNumber;
@@ -38,17 +39,16 @@ public class UserController extends Controller {
             renderJson(((User) getSessionAttr("user")));
         }
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Change() {
-        User user = User.dao.findById(((User) getSessionAttr("user")).get("id"));
-        if (user.get("pass").toString().trim().equals(getPara("pass1"))) {
-            user.set("pass", getPara("pass2")).update();
+        User user = ((User) getSessionAttr("user"));
+        if (user.get("pass").toString().trim().equals(getPara("pass1").trim())) {
+            user.set("pass", getPara("pass2").trim()).update();
             renderText("OK");
         } else {
             renderText("原始密码错误，请重新输入！");
         }
     }
-
     @Before(LoginInterceptor.class)
     public void Query() {
         renderJson(Db.paginate(
@@ -71,25 +71,25 @@ public class UserController extends Controller {
     public void Get() {
         renderJson(User.dao.findById(getPara("id")));
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Del() {
         User u = User.dao.findById(getPara("id"));
         u.set("state",0).update();
         renderText("OK");
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Active() {
         User u = User.dao.findById(getPara("id"));
         u.set("state",1).update();
         renderText("OK");
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Reset() {
         User u = User.dao.findById(getPara("id"));
         u.set("pass","00000000").update();
         renderText("OK");
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Add() {
         List<User> users = User.dao.find("select * from user where login=?", getPara("login"));
         if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
@@ -112,7 +112,7 @@ public class UserController extends Controller {
             renderText("OK");
         }
     }
-    @Before(LoginInterceptor.class)
+    @Before({Tx.class,LoginInterceptor.class})
     public void Edit() {
         User user = User.dao.findById(getPara("id"));
         if (user == null) {

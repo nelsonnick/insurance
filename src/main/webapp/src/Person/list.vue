@@ -2,7 +2,7 @@
   <div>
     <Layout class="layout">
       <Header>
-        <MenuBar :sys="sys" :active="active" :name="userName"></MenuBar>
+        <MenuBar :sys="sys" :active="active" :userName="userName"></MenuBar>
       </Header>
       <Row>
         <Col>
@@ -14,7 +14,8 @@
             </Breadcrumb>
           </div>
           <div class="right">
-            <Button type="info" @click="goAdd" v-if="addPerson">新增</Button>
+            <Button type="info" @click="goAdd" v-if="addPerson"><Icon type="plus"></Icon>新增</Button>
+            <Button type="ghost" @click="goDown"><Icon type="ios-cloud-download"></Icon>下载</Button>
             <Search @goQuery="getQuery"></Search>
           </div>
         </Col>
@@ -76,7 +77,8 @@
     components: {Search, Page, Options, MenuBar},
     data () {
       return {
-        userName: window.userName,
+        userName: '',
+        LocationId: '',
         sys: false,
         active: 'person',
         name: '',
@@ -96,6 +98,7 @@
           {
             title: '序号',
             key: 'id',
+            width: 80,
             sortable: true,
             render: (h, params) => {
               return h('div', params.index + 1)
@@ -124,6 +127,7 @@
           {
             title: '婚姻',
             key: 'marriage',
+            width: 80,
             sortable: true
           },
           {
@@ -140,10 +144,10 @@
             title: '操作',
             key: 'operate',
             align: 'center',
-            width: 400,
+            width: 300,
             render: (h, params) => {
               const operate = []
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || window.LocationId.toString() === '1') {
+              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -158,7 +162,7 @@
                   }, '添加家庭成员')
                 )
               }
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || window.LocationId.toString() === '1') {
+              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -173,7 +177,7 @@
                   }, '修改')
                 )
               }
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '1') || (window.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
+              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
                 operate.push(
                   h('Button', {
                     props: {
@@ -188,7 +192,7 @@
                   }, '注销')
                 )
               }
-              if ((params.row.lid.toString() === window.LocationId && params.row.sid.toString() === '0') || (window.LocationId.toString() === '1' && params.row.sid.toString() === '0')) {
+              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '0') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '0')) {
                 operate.push(
                   h('Button', {
                     props: {
@@ -307,6 +311,9 @@
           })
         })
       },
+      goDown () {
+        window.location.href = '/person/export'
+      },
       getUser () {
         this.$http.get(
           API.GetUser,
@@ -315,9 +322,12 @@
           if (response.body.lid.toString() === '1') {
             this.addPerson = false
             this.sys = true
+            window.sys = true
           }
           window.LocationId = response.body.lid
           window.userName = response.body.name
+          this.LocationId = response.body.lid
+          this.userName = response.body.name
         }, (response) => {
           this.$Notice.error({
             title: '服务器内部错误，无法获取当前用户姓名!'
