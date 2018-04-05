@@ -7,7 +7,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.wts.entity.model.*;
-import com.wts.interceptor.LoginInterceptor;
+import com.wts.interceptor.*;
 import com.wts.util.IDNumber;
 import com.wts.util.Util;
 import org.apache.log4j.Logger;
@@ -70,7 +70,7 @@ public class FamilyController extends Controller {
     public void Get() {
         renderJson(Family.dao.findById(getPara("id")));
     }
-    @Before({Tx.class,LoginInterceptor.class})
+    @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Del() {
         Family family = Family.dao.findById(getPara("id"));
         String before = JSON.toJSONString(family);
@@ -88,7 +88,7 @@ public class FamilyController extends Controller {
         logger.warn("function:" + this.getClass().getSimpleName() + "/Del;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
         renderText("OK");
     }
-    @Before({Tx.class,LoginInterceptor.class})
+    @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Active() {
         Family family = Family.dao.findById(getPara("id"));
         String before = JSON.toJSONString(family);
@@ -106,7 +106,7 @@ public class FamilyController extends Controller {
         logger.warn("function:" + this.getClass().getSimpleName() + "/Active;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
         renderText("OK");
     }
-    @Before({Tx.class,LoginInterceptor.class})
+    @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Add() {
         List<Family> families = Family.dao.find("select * from family where number=?", getPara("number"));
         if (!IDNumber.availableIDNumber(getPara("number"))){

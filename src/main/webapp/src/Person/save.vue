@@ -67,7 +67,8 @@
   </div>
 </template>
 <script>
-  import * as API from '../Family/API.js'
+  import * as API2 from '../Family/API.js'
+  import * as API from './API.js'
   import MenuBar from '../Common/menubar.vue'
   export default {
     name: 'save',
@@ -106,7 +107,7 @@
       goSave () {
         this.$Loading.start()
         this.$http.get(
-          API.Save,
+          API2.Save,
           { params: {
             id: this.$route.params.id,
             name: this.name,

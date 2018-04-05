@@ -23,11 +23,4 @@ public class MainController extends Controller {
         redirect("/");
     }
 
-    public static void main(String[] args) {
-        User u = new User();
-        u.setId(1);
-        u.setLid(1);
-        String objJson = JSON.toJSONString(u);
-        System.out.println(objJson);
-    }
 }
