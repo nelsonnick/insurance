@@ -31,7 +31,7 @@ public class Config extends JFinalConfig {
      * 配置路由
      */
     public void configRoute(Routes me) {
-        me.add("/in", MainController.class);
+        me.add("/", MainController.class);
         me.add("/person", PersonController.class);
         me.add("/family", FamilyController.class);
         me.add("/user", UserController.class);
