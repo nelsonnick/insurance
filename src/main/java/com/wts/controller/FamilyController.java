@@ -75,36 +75,46 @@ public class FamilyController extends Controller {
         Family family = Family.dao.findById(getPara("id"));
         String before = JSON.toJSONString(family);
         family.set("state",0);
-        if (family.update()){
-            Changefamily cf = new Changefamily();
-            cf.set("pid", family.getId())
-                    .set("uid",((User) getSessionAttr("user")).get("id"))
-                    .set("type",3)
-                    .set("time",new Date())
-                    .set("before",before)
-                    .set("after", JSON.toJSONString(family))
-                    .save();
+        if (getPara("reason").trim().equals("")){
+            renderText("请输入注销原因！");
+        }else {
+            if (family.update()) {
+                Changefamily cf = new Changefamily();
+                cf.set("pid", family.getId())
+                        .set("uid", ((User) getSessionAttr("user")).get("id"))
+                        .set("type", 3)
+                        .set("reason", getPara("reason"))
+                        .set("time", new Date())
+                        .set("before", before)
+                        .set("after", JSON.toJSONString(family))
+                        .save();
+            }
+            logger.warn("function:" + this.getClass().getSimpleName() + "/Del;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
+            renderText("OK");
         }
-        logger.warn("function:" + this.getClass().getSimpleName() + "/Del;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
-        renderText("OK");
     }
     @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Active() {
         Family family = Family.dao.findById(getPara("id"));
         String before = JSON.toJSONString(family);
         family.set("state",1);
-        if (family.update()){
-            Changefamily cf = new Changefamily();
-            cf.set("pid", family.getId())
-                    .set("uid",((User) getSessionAttr("user")).get("id"))
-                    .set("type",3)
-                    .set("time",new Date())
-                    .set("before",before)
-                    .set("after", JSON.toJSONString(family))
-                    .save();
+        if (getPara("reason").trim().equals("")){
+            renderText("请输入激活原因！");
+        }else {
+            if (family.update()) {
+                Changefamily cf = new Changefamily();
+                cf.set("pid", family.getId())
+                        .set("uid", ((User) getSessionAttr("user")).get("id"))
+                        .set("type", 4)
+                        .set("reason", getPara("reason"))
+                        .set("time", new Date())
+                        .set("before", before)
+                        .set("after", JSON.toJSONString(family))
+                        .save();
+            }
+            logger.warn("function:" + this.getClass().getSimpleName() + "/Active;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
+            renderText("OK");
         }
-        logger.warn("function:" + this.getClass().getSimpleName() + "/Active;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
-        renderText("OK");
     }
     @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Add() {

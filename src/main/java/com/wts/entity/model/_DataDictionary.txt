@@ -2,13 +2,14 @@ Table: changefamily
 --------+--------------+------+-----+---------+---------
  Field  | Type         | Null | Key | Default | Remarks 
 --------+--------------+------+-----+---------+---------
- id     | INT(10)      | NO   | PRI |         |  序号     
+ id     | INT(10)      | NO   | PRI |         | 序号
  fid    | INT(10)      | YES  |     |         | 家庭成员    
  uid    | INT(10)      | YES  |     |         | 用户      
- type   | INT(10)      | YES  |     |         | 1新增2信息变更3状态变更
+ type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
  time   | DATETIME(19) | YES  |     |         | 变更时间    
  before | VARCHAR(999) | YES  |     |         | 之前的信息   
  after  | VARCHAR(999) | YES  |     |         | 之后的信息   
+ reason | VARCHAR(999) | YES  |     |         | 变更原因
 --------+--------------+------+-----+---------+---------
 
 Table: changeperson
@@ -18,10 +19,11 @@ Table: changeperson
  id     | INT(10)      | NO   | PRI |         | 序号      
  pid    | INT(10)      | YES  |     |         | 人员      
  uid    | INT(10)      | YES  |     |         | 用户      
- type   | INT(10)      | YES  |     |         | 1新增2信息变更3状态变更
+ type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
  time   | DATETIME(19) | YES  |     |         | 变更时间    
  before | VARCHAR(999) | YES  |     |         | 之前的信息   
  after  | VARCHAR(999) | YES  |     |         | 之后的信息   
+ reason | VARCHAR(999) | YES  |     |         | 变更原因
 --------+--------------+------+-----+---------+---------
 
 Table: family
@@ -34,7 +36,7 @@ Table: family
  name     | VARCHAR(255) | YES  |     |         | 姓名      
  sex      | INT(10)      | YES  |     |         | 1男2女    
  phone    | VARCHAR(255) | YES  |     |         | 联系电话    
- Identity | INT(10)      | YES  |     |         | 1夫2妻3子4女5父6母7兄弟8姐妹
+ identity | INT(10)      | YES  |     |         | 1夫2妻3子4女5父6母7兄弟8姐妹
  marriage | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
  birth    | DATE(10)     | YES  |     |         | 出生日期    
  state    | INT(10)      | YES  |     |         | 0未享受1正在享受
@@ -72,7 +74,7 @@ Table: type
 ----------+--------------+------+-----+---------+---------
  Field    | Type         | Null | Key | Default | Remarks 
 ----------+--------------+------+-----+---------+---------
- id       | INT(10)      | NO   | PRI |         |         
+ id       | INT(10)      | NO   | PRI |         | 序号
  category | INT(10)      | YES  |     |         | 1灵活就业2公益岗位3企业吸纳
  name     | VARCHAR(255) | YES  |     |         | 人员类别    
 ----------+--------------+------+-----+---------+---------

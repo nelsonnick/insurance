@@ -57,12 +57,12 @@ public abstract class BaseFamily<M extends BaseFamily<M>> extends Model<M> imple
 		return getStr("phone");
 	}
 
-	public void setIdentity(java.lang.Integer Identity) {
-		set("Identity", Identity);
+	public void setIdentity(java.lang.Integer identity) {
+		set("identity", identity);
 	}
 	
 	public java.lang.Integer getIdentity() {
-		return getInt("Identity");
+		return getInt("identity");
 	}
 
 	public void setMarriage(java.lang.Integer marriage) {

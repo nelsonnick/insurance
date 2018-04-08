@@ -66,7 +66,7 @@ PRIMARY KEY (`id`)
 
 CREATE TABLE `type` (
 
-`id` int NOT NULL AUTO_INCREMENT,
+`id` int NOT NULL AUTO_INCREMENT COMMENT '序号',
 
 `category` int(11) NULL COMMENT '1灵活就业2公益岗位3企业吸纳',
 
@@ -116,13 +116,15 @@ CREATE TABLE `changePerson` (
 
 `uid` int(11) NULL COMMENT '用户',
 
-`type` int(11) NULL COMMENT '1新增2信息变更3状态变更',
+`type` int(11) NULL COMMENT '1新增2信息变更3注销4激活',
 
 `time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '变更时间',
 
 `before` varchar(999) CHARACTER SET utf8 NULL COMMENT '之前的信息',
 
 `after` varchar(999) CHARACTER SET utf8 NULL COMMENT '之后的信息',
+
+`reason` varchar(999) CHARACTER SET utf8 NULL COMMENT '变更原因',
 
 PRIMARY KEY (`id`)
 
@@ -138,13 +140,15 @@ CREATE TABLE `changeFamily` (
 
 `uid` int(11) NULL COMMENT '用户',
 
-`type` int(11) NULL COMMENT '1新增2信息变更3状态变更',
+`type` int(11) NULL COMMENT '1新增2信息变更3注销4激活',
 
 `time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '变更时间',
 
 `before` varchar(999) CHARACTER SET utf8 NULL COMMENT '之前的信息',
 
 `after` varchar(999) CHARACTER SET utf8 NULL COMMENT '之后的信息',
+
+`reason` varchar(999) CHARACTER SET utf8 NULL COMMENT '变更原因',
 
 PRIMARY KEY (`id`)
 

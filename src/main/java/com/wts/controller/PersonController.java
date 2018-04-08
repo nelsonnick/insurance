@@ -80,68 +80,80 @@ public class PersonController extends Controller {
         Person person = Person.dao.findById(getPara("id"));
         String before = JSON.toJSONString(person);
         person.set("state",0);
-        if(person.update()){
-            Changeperson cp = new Changeperson();
-            cp.set("pid", person.getId())
-                    .set("uid",((User) getSessionAttr("user")).get("id"))
-                    .set("type",3)
-                    .set("time",new Date())
-                    .set("before",before)
-                    .set("after", JSON.toJSONString(person))
-                    .save();
-            List<Family> families = Family.dao.find("select * from family where pid=?",person.getId());
-            for(Family family : families) {
-                String before_family = JSON.toJSONString(family);
-                family.set("state",0);
-                if(family.update()){
-                    Changefamily cf = new Changefamily();
-                    cf.set("fid", family.getId())
-                            .set("uid",((User) getSessionAttr("user")).get("id"))
-                            .set("type",3)
-                            .set("time",new Date())
-                            .set("before",before_family)
-                            .set("after", JSON.toJSONString(family))
-                            .save();
-                    logger.warn("function:FamilyController/Del;" + "id:" + family.getId() + ";time:" + new Date() + ";");
+        if (getPara("reason").trim().equals("")){
+            renderText("请输入注销原因！");
+        }else {
+            if (person.update()) {
+                Changeperson cp = new Changeperson();
+                cp.set("pid", person.getId())
+                        .set("uid", ((User) getSessionAttr("user")).get("id"))
+                        .set("type", 3)
+                        .set("reason", getPara("reason"))
+                        .set("time", new Date())
+                        .set("before", before)
+                        .set("after", JSON.toJSONString(person))
+                        .save();
+                List<Family> families = Family.dao.find("select * from family where pid=?", person.getId());
+                for (Family family : families) {
+                    String before_family = JSON.toJSONString(family);
+                    family.set("state", 0);
+                    if (family.update()) {
+                        Changefamily cf = new Changefamily();
+                        cf.set("fid", family.getId())
+                                .set("uid", ((User) getSessionAttr("user")).get("id"))
+                                .set("type", 3)
+                                .set("reason", "由于申请人被注销，其关联的家庭成员被全部注销")
+                                .set("time", new Date())
+                                .set("before", before_family)
+                                .set("after", JSON.toJSONString(family))
+                                .save();
+                        logger.warn("function:FamilyController/Del;" + "id:" + family.getId() + ";time:" + new Date() + ";");
+                    }
                 }
             }
+            logger.warn("function:" + this.getClass().getSimpleName() + "/Del;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
+            renderText("OK");
         }
-        logger.warn("function:" + this.getClass().getSimpleName() + "/Del;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
-        renderText("OK");
     }
     @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Active() {
         Person person = Person.dao.findById(getPara("id"));
         String before = JSON.toJSONString(person);
         person.set("state",1);
-        if (person.update()){
-            Changeperson cp = new Changeperson();
-            cp.set("pid", person.getId())
-                    .set("uid",((User) getSessionAttr("user")).get("id"))
-                    .set("type",3)
-                    .set("time",new Date())
-                    .set("before",before)
-                    .set("after", JSON.toJSONString(person))
-                    .save();
-            List<Family> families = Family.dao.find("select * from family where pid=?",person.getId());
-            for(Family family : families) {
-                String before_family = JSON.toJSONString(family);
-                family.set("state",1);
-                if(family.update()){
-                    Changefamily cf = new Changefamily();
-                    cf.set("fid", family.getId())
-                            .set("uid",((User) getSessionAttr("user")).get("id"))
-                            .set("type",3)
-                            .set("time",new Date())
-                            .set("before",before_family)
-                            .set("after", JSON.toJSONString(family))
-                            .save();
-                    logger.warn("function:FamilyController/Active;" + "id:" + family.getId() + ";time:" + new Date() + ";");
+        if (getPara("reason").trim().equals("")){
+            renderText("请输入激活原因！");
+        }else {
+            if (person.update()) {
+                Changeperson cp = new Changeperson();
+                cp.set("pid", person.getId())
+                        .set("uid", ((User) getSessionAttr("user")).get("id"))
+                        .set("type", 4)
+                        .set("reason", getPara("reason"))
+                        .set("time", new Date())
+                        .set("before", before)
+                        .set("after", JSON.toJSONString(person))
+                        .save();
+                List<Family> families = Family.dao.find("select * from family where pid=?", person.getId());
+                for (Family family : families) {
+                    String before_family = JSON.toJSONString(family);
+                    family.set("state", 1);
+                    if (family.update()) {
+                        Changefamily cf = new Changefamily();
+                        cf.set("fid", family.getId())
+                                .set("uid", ((User) getSessionAttr("user")).get("id"))
+                                .set("type", 4)
+                                .set("reason", "由于申请人被激活，其关联的家庭成员被全部激活")
+                                .set("time", new Date())
+                                .set("before", before_family)
+                                .set("after", JSON.toJSONString(family))
+                                .save();
+                        logger.warn("function:FamilyController/Active;" + "id:" + family.getId() + ";time:" + new Date() + ";");
+                    }
                 }
             }
+            logger.warn("function:" + this.getClass().getSimpleName() + "/Active;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
+            renderText("OK");
         }
-        logger.warn("function:" + this.getClass().getSimpleName() + "/Active;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
-        renderText("OK");
     }
     @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Add() {

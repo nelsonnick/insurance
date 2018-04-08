@@ -5,6 +5,8 @@ import VueResource from 'vue-resource'
 import Vuex from 'vuex'
 import List from './list.vue'
 import Edit from './edit.vue'
+import Del from './del.vue'
+import Active from './active.vue'
 import 'iview/dist/styles/iview.css'   // 使用 CSS
 Vue.use(VueRouter)
 Vue.use(VueResource)
@@ -14,6 +16,8 @@ Vue.use(iView)
 const routes = [
   { path: '/list', component: List },
   { path: '/edit/:id', component: Edit },
+  { path: '/del/:id', component: Del },
+  { path: '/active/:id', component: Active },
   { path: '/', redirect: '/list' }
 ]
 

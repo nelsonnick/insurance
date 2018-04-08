@@ -264,52 +264,10 @@
         this.$router.push({path: '/save/' + this.pageList[index].id})
       },
       goDel (index) {
-        this.$http.get(
-          API.Del,
-          { params: {
-            id: this.pageList[index].id
-          } },
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          if (response.body === 'OK') {
-            this.$Loading.finish()
-            this.$Message.success('注销成功!')
-            this.getQuery(this.keyword)
-          } else {
-            this.$Loading.error()
-            this.$Notice.error({
-              title: response.body
-            })
-          }
-        }, (response) => {
-          this.$Notice.error({
-            title: '服务器内部错误，无法注销!'
-          })
-        })
+        this.$router.push({path: '/del/' + this.pageList[index].id})
       },
       goActive (index) {
-        this.$http.get(
-          API.Active,
-          { params: {
-            id: this.pageList[index].id
-          } },
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          if (response.body === 'OK') {
-            this.$Loading.finish()
-            this.$Message.success('激活成功!')
-            this.getQuery(this.keyword)
-          } else {
-            this.$Loading.error()
-            this.$Notice.error({
-              title: response.body
-            })
-          }
-        }, (response) => {
-          this.$Notice.error({
-            title: '服务器内部错误，无法注销!'
-          })
-        })
+        this.$router.push({path: '/active/' + this.pageList[index].id})
       },
       goDown () {
         window.location.href = '/person/export'

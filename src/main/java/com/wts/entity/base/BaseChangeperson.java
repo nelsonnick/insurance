@@ -65,4 +65,12 @@ public abstract class BaseChangeperson<M extends BaseChangeperson<M>> extends Mo
 		return getStr("after");
 	}
 
+	public void setReason(java.lang.String reason) {
+		set("reason", reason);
+	}
+	
+	public java.lang.String getReason() {
+		return getStr("reason");
+	}
+
 }
