@@ -39,16 +39,6 @@ public class UserController extends Controller {
             renderJson(((User) getSessionAttr("user")));
         }
     }
-    @Before({Tx.class,LoginInterceptor.class})
-    public void Change() {
-        User user = ((User) getSessionAttr("user"));
-        if (user.get("pass").toString().trim().equals(getPara("pass1").trim())) {
-            user.set("pass", getPara("pass2").trim()).update();
-            renderText("OK");
-        } else {
-            renderText("原始密码错误，请重新输入！");
-        }
-    }
     @Before(LoginInterceptor.class)
     public void Query() {
         renderJson(Db.paginate(
