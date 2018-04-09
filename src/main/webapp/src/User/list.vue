@@ -14,6 +14,7 @@
               </Breadcrumb>
             </div>
             <div class="right">
+              <Button type="info" @click="goAdd"><Icon type="plus"></Icon>新增</Button>
               <Search @goQuery="getQuery"></Search>
             </div>
           </Col>
@@ -230,6 +231,9 @@
           keyword: keyword,
           pageCurrent: pageCurrent
         })
+      },
+      goAdd () {
+        this.$router.push({path: '/add'})
       },
       goEdit (index) {
         this.$router.push({ path: '/edit/' + this.pageList[index].id })

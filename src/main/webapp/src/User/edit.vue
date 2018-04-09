@@ -184,6 +184,7 @@
         ).then((response) => {
           this.name = response.body.name
           this.lid = response.body.lid
+          this.login = response.body.login
         }, (response) => {
           this.$Notice.error({
             title: '服务器内部错误，无法获取用户信息!'
