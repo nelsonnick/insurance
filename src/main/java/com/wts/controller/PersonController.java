@@ -189,6 +189,8 @@ public class PersonController extends Controller {
                     .set("tid", getParaToInt("tid"))
                     .set("marriage", getParaToInt("marriage"))
                     .set("delay", getParaToInt("delay"))
+                    .set("bank", getPara("bank"))
+                    .set("community", getPara("community"))
                     .set("remark", getPara("remark"))
                     .set("state", 1)
                     .set("lid", ((User) getSessionAttr("user")).get("lid"));
@@ -216,6 +218,8 @@ public class PersonController extends Controller {
                 && Util.CheckNull(person.getStr("phone")).equals(getPara("phone").trim())
                 && Util.CheckNull(person.getStr("address")).equals(getPara("address").trim())
                 && Util.CheckNull(person.getStr("marriage")).equals(getPara("marriage").trim())
+                && Util.CheckNull(person.getStr("bank")).equals(getPara("bank").trim())
+                && Util.CheckNull(person.getStr("community")).equals(getPara("community").trim())
                 && Util.CheckNull(person.getStr("remark")).equals(getPara("remark").trim())
                 && Util.CheckNull(person.getStr("delay")).equals(getPara("delay").trim())
                 && Util.CheckNull(person.getStr("tid")).equals(getPara("tid").trim())
@@ -251,6 +255,8 @@ public class PersonController extends Controller {
                     .set("tid", getParaToInt("tid"))
                     .set("marriage", getParaToInt("marriage"))
                     .set("delay", getParaToInt("delay"))
+                    .set("bank", getPara("bank"))
+                    .set("community", getPara("community"))
                     .set("remark", getPara("remark"))
                     .update();
             if (person.update()){

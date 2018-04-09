@@ -48,6 +48,12 @@
               <Radio label="1">符合</Radio>
             </Radio-group>
           </Form-item>
+          <Form-item size="large" label="银行卡号" prop="delay" required>
+            <Input size="large" v-model="bank" placeholder="请输入银行卡号" style="width: 600px"></Input>
+          </Form-item>
+          <Form-item size="large" label="所属社区" prop="delay" required>
+            <Input size="large" v-model="community" placeholder="请输入所属社区" style="width: 600px"></Input>
+          </Form-item>
           <Form-item label="备注信息" >
             <Input v-model="remark" type="textarea" :rows="4" placeholder="如有必要，请输入备注信息" style="width: 600px"></Input>
           </Form-item>
@@ -156,6 +162,8 @@
         tid: ['1', '1'],
         marriage: '2',
         delay: '0',
+        bank: '',
+        community: '',
         remark: ''
       }
     },
@@ -183,6 +191,8 @@
             tid: this.tid[1],
             delay: this.delay,
             marriage: this.marriage,
+            bank: this.bank,
+            community: this.community,
             remark: this.remark
           } },
           { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
@@ -265,6 +275,8 @@
           this.tid = this.getType(response.body.tid)
           this.delay = response.body.delay + ''
           this.marriage = response.body.marriage + ''
+          this.bank = response.body.bank + ''
+          this.community = response.body.community + ''
           this.remark = response.body.remark + ''
         }, (response) => {
           this.$Notice.error({

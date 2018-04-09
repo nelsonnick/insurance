@@ -50,6 +50,10 @@ CREATE TABLE `person` (
 
 `address` varchar(255) CHARACTER SET utf8 NULL COMMENT '联系地址',
 
+`bank` varchar(255) CHARACTER SET utf8 NULL COMMENT '银行卡号',
+
+`community` varchar(255) CHARACTER SET utf8 NULL COMMENT '所属村居',
+
 `marriage` int(11) NULL COMMENT '1未婚2已婚3离异4丧偶',
 
 `state` int(11) NULL COMMENT '0未享受1正在享受',

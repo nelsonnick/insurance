@@ -81,6 +81,22 @@ public abstract class BasePerson<M extends BasePerson<M>> extends Model<M> imple
 		return getStr("address");
 	}
 
+	public void setBank(java.lang.String bank) {
+		set("bank", bank);
+	}
+	
+	public java.lang.String getBank() {
+		return getStr("bank");
+	}
+
+	public void setCommunity(java.lang.String community) {
+		set("community", community);
+	}
+	
+	public java.lang.String getCommunity() {
+		return getStr("community");
+	}
+
 	public void setMarriage(java.lang.Integer marriage) {
 		set("marriage", marriage);
 	}
