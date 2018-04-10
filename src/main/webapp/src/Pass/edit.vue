@@ -36,7 +36,6 @@
   </div>
 </template>
 <script>
-  import * as API from './API.js'
   import MenuBar from '../Common/menubar.vue'
 
   export default {
@@ -59,7 +58,7 @@
       goSave () {
         this.$Loading.start()
         this.$http.get(
-          API.Change,
+          'Change',
           { params: {
             pass1: this.pass1,
             pass2: this.pass2
@@ -92,7 +91,7 @@
       },
       getUser () {
         this.$http.get(
-          API.GetUser,
+          'getUser',
           {headers: {'X-Requested-With': 'XMLHttpRequest'}}
         ).then((response) => {
           if (response.body.lid.toString() === '1') {

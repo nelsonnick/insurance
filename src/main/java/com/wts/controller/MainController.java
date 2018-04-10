@@ -24,22 +24,4 @@ public class MainController extends Controller {
         setSessionAttr("user",null);
         redirect("/");
     }
-    @Before(LoginInterceptor.class)
-    public void getUser() {
-        if (getSessionAttr("user").equals("") || getSessionAttr("user") == null) {
-            renderText("无法识别");
-        } else {
-            renderJson(((User) getSessionAttr("user")));
-        }
-    }
-    @Before({Tx.class,LoginInterceptor.class})
-    public void Change() {
-        User user = ((User) getSessionAttr("user"));
-        if (user.get("pass").toString().trim().equals(getPara("pass1").trim())) {
-            user.set("pass", getPara("pass2").trim()).update();
-            renderText("OK");
-        } else {
-            renderText("原始密码错误，请重新输入！");
-        }
-    }
 }
