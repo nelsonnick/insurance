@@ -526,12 +526,12 @@ public class IDNumber {
 //	}
   public static boolean checkIdentity(String IDNumber, String identity) {
     if (getSex(IDNumber)==1) {
-      if (identity.equals('1') || identity.equals('3') || identity.equals('5') || identity.equals('7')){
+      if (identity.equals("1") || identity.equals("3") || identity.equals("5") || identity.equals("7")){
         return true;
       }
       return false;
     }else{
-      if (identity.equals('2') || identity.equals('4') || identity.equals('6') || identity.equals('8')){
+      if (identity.equals("2") || identity.equals("4") || identity.equals("6") || identity.equals("8")){
         return true;
       }
       return false;
@@ -682,6 +682,7 @@ public class IDNumber {
   }
 
   public static void main(String[] args) {
-    System.out.println(checkfileAge("20160101"));
+    System.out.println(checkIdentity("370104198606282219","1"));
+
   }
 }

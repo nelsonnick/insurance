@@ -139,7 +139,7 @@ public class FamilyController extends Controller {
             Family family = new Family();
             family.set("name", getPara("name"))
                     .set("number", getPara("number"))
-                    .set("sex", IDNumber.getSex(getPara("number")))
+                    .set("sex", String.valueOf(IDNumber.getSex(getPara("number"))))
                     .set("birth", IDNumber.getBirthDate(getPara("number")))
                     .set("phone", getPara("phone"))
                     .set("identity", getParaToInt("identity"))
@@ -147,7 +147,6 @@ public class FamilyController extends Controller {
                     .set("remark", getPara("remark"))
                     .set("state", 1)
                     .set("pid", getPara("id"));
-            String f = JSON.toJSONString(family);
             if (family.save()){
                 Changefamily cf = new Changefamily();
                 cf.set("fid", family.getId())
@@ -155,7 +154,7 @@ public class FamilyController extends Controller {
                         .set("type",1)
                         .set("time",new Date())
                         .set("before","")
-                        .set("after", f)
+                        .set("after", JSON.toJSONString(family))
                         .set("reason", "")
                         .save();
             }
