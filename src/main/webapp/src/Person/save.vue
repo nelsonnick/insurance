@@ -19,7 +19,7 @@
         <Col span="6">&nbsp;</Col>
         <Col span="12">
         <Form :label-width="100" :model="family"  ref="Form">
-          <Form-item label="当前人员" >
+          <Form-item label="当前人员" required>
             <Input size="large" v-model="currentNumber" style="width: 600px" disabled></Input>
           </Form-item>
           <Form-item label="" >

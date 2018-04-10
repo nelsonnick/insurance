@@ -9,7 +9,6 @@ import com.jfinal.plugin.activerecord.tx.Tx;
 import com.wts.entity.model.*;
 import com.wts.interceptor.*;
 import com.wts.util.IDNumber;
-import com.wts.util.Jnjgfw;
 import com.wts.util.Util;
 import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -315,7 +314,6 @@ public class PersonController extends Controller {
                 "CASE person.sex WHEN '1' THEN '男' WHEN '2' THEN '女' ELSE '状态错误' END AS sex, " +
                 "CASE person.delay WHEN '0' THEN '不延期' WHEN '1' THEN '延期' ELSE '状态错误' END AS delay " +
                 "FROM person LEFT JOIN location ON person.lid = location.id " + st;
-        System.out.println(sql);
         List<Record> r = Db.find(sql);
         for (int i = 0; i < r.size(); i++) {
             XSSFRow nextRow = sheet.createRow(i+1);

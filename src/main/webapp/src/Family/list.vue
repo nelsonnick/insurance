@@ -103,6 +103,11 @@
           },
           {
             title: '困难人员',
+            key: 'pnumber',
+            sortable: true
+          },
+          {
+            title: '困难人员',
             key: 'pname',
             sortable: true
           },
@@ -141,13 +146,13 @@
           {
             title: '状态',
             key: 'state',
+            width: 80,
             sortable: true
           },
           {
             title: '操作',
             key: 'state',
             align: 'center',
-            width: 300,
             render: (h, params) => {
               const operate = []
               if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {

@@ -147,7 +147,7 @@
             width: 300,
             render: (h, params) => {
               const operate = []
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || this.LocationId.toString() !== '1') {
+              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {

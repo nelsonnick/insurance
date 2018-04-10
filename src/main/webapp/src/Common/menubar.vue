@@ -13,13 +13,13 @@
         <Icon type="android-people"></Icon>
         家庭成员
       </MenuItem>
-      <MenuItem name="pass">
-        <Icon type="android-settings"></Icon>
-        修改密码
-      </MenuItem>
       <MenuItem name="user" v-if="sys">
         <Icon type="ios-people-outline"></Icon>
         用户管理
+      </MenuItem>
+      <MenuItem name="pass">
+        <Icon type="android-settings"></Icon>
+        修改密码
       </MenuItem>
       <MenuItem name="logout">
         <Icon type="power"></Icon>

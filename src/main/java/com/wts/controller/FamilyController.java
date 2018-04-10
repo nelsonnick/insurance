@@ -46,7 +46,7 @@ public class FamilyController extends Controller {
                         "WHEN '8' THEN '姐妹' " +
                         "ELSE '无法识别' END AS identity, " +
                         "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
-                        "CASE family.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state",
+                        "CASE family.state WHEN '0' THEN '注销' WHEN '1' THEN '激活' ELSE '状态错误' END AS state",
                 "FROM person LEFT JOIN family ON family.pid = person.id LEFT JOIN location ON person.lid = location.id " +
                         "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
@@ -139,14 +139,14 @@ public class FamilyController extends Controller {
             Family family = new Family();
             family.set("name", getPara("name"))
                     .set("number", getPara("number"))
-                    .set("sex", String.valueOf(IDNumber.getSex(getPara("number"))))
+                    .set("sex", IDNumber.getSex(getPara("number")))
                     .set("birth", IDNumber.getBirthDate(getPara("number")))
                     .set("phone", getPara("phone"))
                     .set("identity", getParaToInt("identity"))
                     .set("marriage", getParaToInt("marriage"))
                     .set("remark", getPara("remark"))
                     .set("state", 1)
-                    .set("pid", getPara("id"));
+                    .set("pid", getParaToInt("id"));
             if (family.save()){
                 Changefamily cf = new Changefamily();
                 cf.set("fid", family.getId())
