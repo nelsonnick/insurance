@@ -174,7 +174,7 @@
                     },
                     on: {
                       click: () => {
-                        this.goEdit(params.index)
+                        this.goDel(params.index)
                       }
                     }
                   }, '注销')
@@ -189,7 +189,7 @@
                     },
                     on: {
                       click: () => {
-                        this.goEdit(params.index)
+                        this.goActive(params.index)
                       }
                     }
                   }, '激活')

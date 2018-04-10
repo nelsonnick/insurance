@@ -29,23 +29,23 @@
             <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="11" disabled></Input>
           </Form-item>
           <Form-item size="large" label="婚姻状况" prop="marriage" required>
-            <Radio-group v-model="marriage" size="large"  type="button" disabled>
-              <Radio label="2">已婚</Radio>
-              <Radio label="3">离异</Radio>
-              <Radio label="1">未婚</Radio>
-              <Radio label="4">丧偶</Radio>
+            <Radio-group v-model="marriage" size="large"  type="button" >
+              <Radio label="2" disabled>已婚</Radio>
+              <Radio label="3" disabled>离异</Radio>
+              <Radio label="1" disabled>未婚</Radio>
+              <Radio label="4" disabled>丧偶</Radio>
             </Radio-group>
           </Form-item>
           <Form-item size="large" label="成员身份" prop="identity" required>
-            <Radio-group v-model="identity" size="large"  type="button" disabled>
-              <Radio label="1">夫</Radio>
-              <Radio label="2">妻</Radio>
-              <Radio label="3">子</Radio>
-              <Radio label="4">女</Radio>
-              <Radio label="5">父</Radio>
-              <Radio label="6">母</Radio>
-              <Radio label="7">兄弟</Radio>
-              <Radio label="8">姐妹</Radio>
+            <Radio-group v-model="identity" size="large"  type="button" >
+              <Radio label="1" disabled>夫</Radio>
+              <Radio label="2" disabled>妻</Radio>
+              <Radio label="3" disabled>子</Radio>
+              <Radio label="4" disabled>女</Radio>
+              <Radio label="5" disabled>父</Radio>
+              <Radio label="6" disabled>母</Radio>
+              <Radio label="7" disabled>兄弟</Radio>
+              <Radio label="8" disabled>姐妹</Radio>
             </Radio-group>
           </Form-item>
           <Form-item label="备注信息" >
@@ -142,8 +142,8 @@
           this.number = response.body.number
           this.name = response.body.name
           this.phone = response.body.phone
-          this.identity = response.body.identity
-          this.marriage = response.body.marriage
+          this.identity = response.body.identity + ''
+          this.marriage = response.body.marriage + ''
           this.remark = response.body.remark
         }, (response) => {
           this.$Notice.error({

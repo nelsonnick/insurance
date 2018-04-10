@@ -20,7 +20,10 @@
         <Col span="12">
         <Form :label-width="100" :model="family"  ref="Form">
           <Form-item label="当前人员" >
-            <Input size="large" v-model="currentPerson" style="width: 600px" disabled></Input>
+            <Input size="large" v-model="currentNumber" style="width: 600px" disabled></Input>
+          </Form-item>
+          <Form-item label="" >
+            <Input size="large" v-model="currentName" style="width: 600px" disabled></Input>
           </Form-item>
           <Form-item label="证件号码"  prop="numberValidate" required>
             <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18"></Input>
@@ -67,7 +70,7 @@
   </div>
 </template>
 <script>
-  import * as API2 from '../Family/API.js'
+  import * as Family from '../Family/API.js'
   import * as API from './API.js'
   import MenuBar from '../Common/menubar.vue'
   export default {
@@ -78,7 +81,8 @@
         userName: window.userName,
         sys: window.sys,
         active: 'family',
-        currentPerson: '',
+        currentNumber: '',
+        currentName: '',
         number: '',
         name: '',
         phone: '',
@@ -107,7 +111,7 @@
       goSave () {
         this.$Loading.start()
         this.$http.get(
-          API2.Save,
+          Family.Add,
           { params: {
             id: this.$route.params.id,
             name: this.name,
@@ -149,7 +153,8 @@
           { params: { id: id } },
           { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
         ).then((response) => {
-          this.currentPerson = response.body.number + response.body.name
+          this.currentNumber = response.body.number
+          this.currentName = response.body.name
         }, (response) => {
           this.$Notice.error({
             title: '服务器内部错误!'

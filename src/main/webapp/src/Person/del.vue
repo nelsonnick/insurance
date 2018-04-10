@@ -35,17 +35,17 @@
             <Input size="large" v-model="address" placeholder="请输入联系地址" style="width: 600px" disabled></Input>
           </Form-item>
           <Form-item size="large" label="婚姻状况" prop="marriage" required>
-            <Radio-group v-model="marriage" size="large"  type="button" disabled>
-              <Radio label="2">已婚</Radio>
-              <Radio label="3">离异</Radio>
-              <Radio label="1">未婚</Radio>
-              <Radio label="4">丧偶</Radio>
+            <Radio-group v-model="marriage" size="large"  type="button" >
+              <Radio label="2" disabled>已婚</Radio>
+              <Radio label="3" disabled>离异</Radio>
+              <Radio label="1" disabled>未婚</Radio>
+              <Radio label="4" disabled>丧偶</Radio>
             </Radio-group>
           </Form-item>
           <Form-item size="large" label="延期政策" prop="delay" required>
             <Radio-group v-model="delay" size="large"  type="button" disabled>
-              <Radio label="0">不符合</Radio>
-              <Radio label="1">符合</Radio>
+              <Radio label="0" disabled>不符合</Radio>
+              <Radio label="1" disabled>符合</Radio>
             </Radio-group>
           </Form-item>
           <Form-item size="large" label="银行卡号" prop="delay" required>

@@ -167,9 +167,6 @@
         remark: ''
       }
     },
-    created: function () {
-      this.getUser()
-    },
     methods: {
       goReset () {
         this.tid = ['1', '1']

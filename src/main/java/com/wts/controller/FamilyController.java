@@ -33,8 +33,8 @@ public class FamilyController extends Controller {
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
-                "SELECT person.name AS pname,person.number AS pnumber,person.phone AS pphone,person.id AS pid,person.lid AS lid,person.state AS psid, " +
-                        "family.name,family.number,family.phone,family.state AS sid, " +
+                "SELECT person.name AS pname,person.number AS pnumber,person.phone AS pphone,person.id AS pid,person.lid AS lid,person.state AS psid,location.name AS location, " +
+                        "family.id,family.name,family.number,family.phone,family.state AS sid, " +
                         "CASE family.identity " +
                         "WHEN '1' THEN '丈夫' " +
                         "WHEN '2' THEN '妻子' " +
@@ -47,7 +47,7 @@ public class FamilyController extends Controller {
                         "ELSE '无法识别' END AS identity, " +
                         "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
                         "CASE family.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state",
-                "FROM family LEFT JOIN person ON family.pid = person.id " +
+                "FROM person LEFT JOIN family ON family.pid = person.id LEFT JOIN location ON person.lid = location.id " +
                         "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.phone LIKE '%" + getPara("keyword") + "%' " +
@@ -80,7 +80,7 @@ public class FamilyController extends Controller {
         }else {
             if (family.update()) {
                 Changefamily cf = new Changefamily();
-                cf.set("pid", family.getId())
+                cf.set("fid", family.getId())
                         .set("uid", ((User) getSessionAttr("user")).get("id"))
                         .set("type", 3)
                         .set("reason", getPara("reason"))
@@ -103,7 +103,7 @@ public class FamilyController extends Controller {
         }else {
             if (family.update()) {
                 Changefamily cf = new Changefamily();
-                cf.set("pid", family.getId())
+                cf.set("fid", family.getId())
                         .set("uid", ((User) getSessionAttr("user")).get("id"))
                         .set("type", 4)
                         .set("reason", getPara("reason"))
@@ -147,12 +147,13 @@ public class FamilyController extends Controller {
                     .set("pid", getPara("id"));
             if (family.save()){
                 Changefamily cf = new Changefamily();
-                cf.set("pid", family.getId())
+                cf.set("fid", family.getId())
                         .set("uid",((User) getSessionAttr("user")).get("id"))
                         .set("type",1)
                         .set("time",new Date())
                         .set("before","")
                         .set("after", JSON.toJSONString(family))
+                        .set("reason", "")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Add;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
@@ -199,12 +200,13 @@ public class FamilyController extends Controller {
                     .set("remark", getPara("remark"));
             if (family.update()){
                 Changefamily cf = new Changefamily();
-                cf.set("pid", family.getId())
+                cf.set("fid", family.getId())
                         .set("uid",((User) getSessionAttr("user")).get("id"))
                         .set("type",2)
                         .set("time",new Date())
                         .set("before",before)
                         .set("after", JSON.toJSONString(family))
+                        .set("reason", "")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Edit;" + "number:" + getPara("number") + ";time:" + new Date() + ";");

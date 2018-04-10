@@ -142,8 +142,8 @@
           this.number = response.body.number
           this.name = response.body.name
           this.phone = response.body.phone
-          this.identity = response.body.identity
-          this.marriage = response.body.marriage
+          this.identity = response.body.identity + ''
+          this.marriage = response.body.marriage + ''
           this.remark = response.body.remark
         }, (response) => {
           this.$Notice.error({

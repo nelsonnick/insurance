@@ -160,9 +160,7 @@ public class PersonController extends Controller {
         List<Person> persons = Person.dao.find("select * from person where number=?", getPara("number"));
         if (!IDNumber.availableIDNumber(getPara("number"))){
             renderText("证件号码" + IDNumber.checkIDNumber(getPara("number")));
-        } else if (Jnjgfw.checkById(getPara("number"))) {
-            renderText("请重新核查该人员的工商信息!");
-        }  else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+        } else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
             renderText("人员姓名必须为汉字!");
         } else if (getPara("name").length() < 2) {
             renderText("人员姓名必须在2个汉字以上!");
