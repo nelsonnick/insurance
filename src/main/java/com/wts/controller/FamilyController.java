@@ -133,7 +133,9 @@ public class FamilyController extends Controller {
             renderText("婚姻状况未选择！");
         } else if (getPara("identity").length()<1) {
             renderText("人员身份未选择！");
-        }  else {
+        } else if(!IDNumber.checkIdentity(getPara("number"),getPara("identity"))) {
+            renderText("人员性别与身份不相符！");
+        } else {
             Family family = new Family();
             family.set("name", getPara("name"))
                     .set("number", getPara("number"))
@@ -145,6 +147,7 @@ public class FamilyController extends Controller {
                     .set("remark", getPara("remark"))
                     .set("state", 1)
                     .set("pid", getPara("id"));
+            String f = JSON.toJSONString(family);
             if (family.save()){
                 Changefamily cf = new Changefamily();
                 cf.set("fid", family.getId())
@@ -152,7 +155,7 @@ public class FamilyController extends Controller {
                         .set("type",1)
                         .set("time",new Date())
                         .set("before","")
-                        .set("after", JSON.toJSONString(family))
+                        .set("after", f)
                         .set("reason", "")
                         .save();
             }
@@ -188,7 +191,9 @@ public class FamilyController extends Controller {
             renderText("婚姻状况未选择！");
         } else if (getPara("identity").length()<1) {
             renderText("人员身份未选择！");
-        }  else {
+        } else if(!IDNumber.checkIdentity(getPara("number"),getPara("identity"))) {
+            renderText("人员性别与身份不相符！");
+        } else {
             String before = JSON.toJSONString(family);
             family.set("name", getPara("name"))
                     .set("number", getPara("number"))

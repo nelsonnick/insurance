@@ -1,10 +1,7 @@
 package com.wts.controller;
 
-import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
-import com.jfinal.plugin.activerecord.tx.Tx;
 import com.wts.entity.model.*;
-import com.wts.interceptor.LoginInterceptor;
 
 public class MainController extends Controller {
 

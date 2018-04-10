@@ -524,7 +524,19 @@ public class IDNumber {
 //		}
 //		return false;
 //	}
-
+  public static boolean checkIdentity(String IDNumber, String identity) {
+    if (getSex(IDNumber)==1) {
+      if (identity.equals('1') || identity.equals('3') || identity.equals('5') || identity.equals('7')){
+        return true;
+      }
+      return false;
+    }else{
+      if (identity.equals('2') || identity.equals('4') || identity.equals('6') || identity.equals('8')){
+        return true;
+      }
+      return false;
+    }
+  }
   public static int getSex(String IDNumber) {
     if (IDNumber.substring(16, 17).equals("1")
             || IDNumber.substring(16, 17).equals("3")
@@ -636,7 +648,6 @@ public class IDNumber {
     }
     return null;
   }
-
   private static boolean checkFileDate(String number) {
     String Birth = number.substring(0, 4) + "-"
             + number.substring(4, 6) + "-" + number.substring(6, 8);
@@ -669,6 +680,7 @@ public class IDNumber {
     }
     return false;
   }
+
   public static void main(String[] args) {
     System.out.println(checkfileAge("20160101"));
   }

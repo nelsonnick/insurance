@@ -19,10 +19,12 @@ public class UserController extends Controller {
     public void index() {
         render("/static/html/user.html");
     }
+
     @Before(LoginInterceptor.class)
     public void pass() {
         render("/static/html/pass.html");
     }
+
     @Before(LoginInterceptor.class)
     public void getLocationId() {
         if (getSessionAttr("user").equals("") || getSessionAttr("user") == null) {
@@ -31,6 +33,7 @@ public class UserController extends Controller {
             renderText(((User) getSessionAttr("user")).get("lid").toString().trim());
         }
     }
+
     @Before(LoginInterceptor.class)
     public void getUser() {
         if (getSessionAttr("user").equals("") || getSessionAttr("user") == null) {
@@ -39,6 +42,26 @@ public class UserController extends Controller {
             renderJson(((User) getSessionAttr("user")));
         }
     }
+
+    @Before({Tx.class, LoginInterceptor.class})
+    public void Change() {
+        User user = ((User) getSessionAttr("user"));
+        if (user.get("pass").toString().trim().equals(getPara("pass1").trim())) {
+            if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+                if (getPara("pass2").trim().length() > 6) {
+                    user.set("pass", getPara("pass2").trim()).update();
+                    renderText("OK");
+                } else {
+                    renderText("密码长度应在六位以上!");
+                }
+            } else {
+                renderText("密码不能含有汉字!");
+            }
+        } else {
+            renderText("原始密码错误，请重新输入！");
+        }
+    }
+
     @Before(LoginInterceptor.class)
     public void Query() {
         renderJson(Db.paginate(
@@ -50,6 +73,7 @@ public class UserController extends Controller {
                         "WHERE user.login LIKE '%" + getPara("keyword") + "%' " +
                         "OR user.name LIKE '%" + getPara("keyword") + "%' ").getList());
     }
+
     @Before(LoginInterceptor.class)
     public void Total() {
         Long count = Db.queryLong("SELECT COUNT(*) FROM user " +
@@ -57,29 +81,34 @@ public class UserController extends Controller {
                 "OR name LIKE '%" + getPara("keyword") + "%' ");
         renderText(count.toString());
     }
+
     @Before(LoginInterceptor.class)
     public void Get() {
         renderJson(User.dao.findById(getPara("id")));
     }
-    @Before({Tx.class,LoginInterceptor.class})
+
+    @Before({Tx.class, LoginInterceptor.class})
     public void Del() {
         User u = User.dao.findById(getPara("id"));
-        u.set("state",0).update();
+        u.set("state", 0).update();
         renderText("OK");
     }
-    @Before({Tx.class,LoginInterceptor.class})
+
+    @Before({Tx.class, LoginInterceptor.class})
     public void Active() {
         User u = User.dao.findById(getPara("id"));
-        u.set("state",1).update();
+        u.set("state", 1).update();
         renderText("OK");
     }
-    @Before({Tx.class,LoginInterceptor.class})
+
+    @Before({Tx.class, LoginInterceptor.class})
     public void Reset() {
         User u = User.dao.findById(getPara("id"));
-        u.set("pass","00000000").update();
+        u.set("pass", "00000000").update();
         renderText("OK");
     }
-    @Before({Tx.class,LoginInterceptor.class})
+
+    @Before({Tx.class, LoginInterceptor.class})
     public void Add() {
         List<User> users = User.dao.find("select * from user where login=?", getPara("login"));
         if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
@@ -88,7 +117,7 @@ public class UserController extends Controller {
             renderText("人员姓名必须在2个汉字以上!");
         } else if (users.size() != 0) {
             renderText("该用户名数据库中已存在，请核实!");
-        } else if (getPara("lid").length()<1) {
+        } else if (getPara("lid").length() < 1) {
             renderText("所属中心未选择！");
         } else {
             User user = new User();
@@ -102,7 +131,8 @@ public class UserController extends Controller {
             renderText("OK");
         }
     }
-    @Before({Tx.class,LoginInterceptor.class})
+
+    @Before({Tx.class, LoginInterceptor.class})
     public void Edit() {
         User user = User.dao.findById(getPara("id"));
         if (user == null) {
@@ -115,11 +145,11 @@ public class UserController extends Controller {
         } else if (!Util.CheckNull(user.getStr("login")).equals(getPara("login"))
                 && User.dao.find("select * from user where login=?", getPara("login")).size() > 0) {
             renderText("该用户名数据库中已存在，请核实！");
-        }else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+        } else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
             renderText("人员姓名必须为汉字!");
         } else if (getPara("name").length() < 2) {
             renderText("人员姓名必须在2个汉字以上!");
-        } else if (getPara("lid").length()<1) {
+        } else if (getPara("lid").length() < 1) {
             renderText("所属中心未填写！");
         } else {
             user.set("name", getPara("name"))

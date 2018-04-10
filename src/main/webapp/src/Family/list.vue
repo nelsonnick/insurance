@@ -150,7 +150,7 @@
             width: 300,
             render: (h, params) => {
               const operate = []
-              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {
+              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -165,7 +165,7 @@
                   }, '修改')
                 )
               }
-              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
+              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
                 operate.push(
                   h('Button', {
                     props: {
@@ -180,7 +180,7 @@
                   }, '注销')
                 )
               }
-              if ((params.row.lid.toString() === this.LocationId && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '0' && params.row.psid.toString() === '1')) {
+              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '0' && params.row.psid.toString() === '1')) {
                 operate.push(
                   h('Button', {
                     props: {
