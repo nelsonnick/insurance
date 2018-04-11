@@ -29,7 +29,7 @@ public class PassController extends Controller {
         User user = ((User) getSessionAttr("user"));
         if (user.get("pass").toString().trim().equals(getPara("pass1").trim())) {
             if (!getPara("pass2").matches("[\u4e00-\u9fa5]+")) {
-                if (getPara("pass2").trim().length() > 6) {
+                if (getPara("pass2").trim().length() > 5) {
                     user.set("pass", getPara("pass2").trim()).update();
                     renderText("OK");
                 } else {
