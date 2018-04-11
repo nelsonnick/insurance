@@ -58,7 +58,7 @@
       goSave () {
         this.$Loading.start()
         this.$http.get(
-          'Change',
+          'pass/Change',
           { params: {
             pass1: this.pass1,
             pass2: this.pass2
@@ -91,7 +91,7 @@
       },
       getUser () {
         this.$http.get(
-          'getUser',
+          'user/getUser',
           {headers: {'X-Requested-With': 'XMLHttpRequest'}}
         ).then((response) => {
           if (response.body.lid.toString() === '1') {

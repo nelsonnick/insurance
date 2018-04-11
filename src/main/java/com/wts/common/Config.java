@@ -35,6 +35,7 @@ public class Config extends JFinalConfig {
         me.add("/person", PersonController.class);
         me.add("/family", FamilyController.class);
         me.add("/user", UserController.class);
+        me.add("/pass", PassController.class);
     }
 
     /**
