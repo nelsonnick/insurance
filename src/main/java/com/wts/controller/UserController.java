@@ -43,7 +43,7 @@ public class UserController extends Controller {
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
-                "SELECT user.id, user.name, user.login,location.name AS location,user.state AS sid, user.lid," +
+                "SELECT user.id, user.name, user.login,location.name AS location,user.state AS sid, user.lid,user.weixin," +
                         "CASE user.state WHEN '0' THEN '停用' WHEN '1' THEN '启用' ELSE '状态错误' END AS state",
                 "FROM user LEFT JOIN location ON user.lid = location.id " +
                         "WHERE user.login LIKE '%" + getPara("keyword") + "%' " +
@@ -87,17 +87,25 @@ public class UserController extends Controller {
     @Before({Tx.class, LoginInterceptor.class})
     public void Add() {
         List<User> users = User.dao.find("select * from user where login=?", getPara("login"));
+        List<User> userz = User.dao.find("select * from user where weixin=?", getPara("weixin"));
         if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
             renderText("人员姓名必须为汉字!");
         } else if (getPara("name").length() < 2) {
             renderText("人员姓名必须在2个汉字以上!");
+        } else if (getPara("weixin").matches("[\u4e00-\u9fa5]+")) {
+            renderText("企业微信不能含有汉字!");
+        } else if (getPara("weixin").length() < 2) {
+            renderText("企业微信必须在2个字符以上!");
         } else if (users.size() != 0) {
             renderText("该用户名数据库中已存在，请核实!");
+        } else if (userz.size() != 0) {
+            renderText("该企业微信数据库中已存在，请核实!");
         } else if (getPara("lid").length() < 1) {
             renderText("所属中心未选择！");
         } else {
             User user = new User();
             user.set("name", getPara("name"))
+                    .set("weixin", getPara("weixin"))
                     .set("login", getPara("login"))
                     .set("lid", getPara("lid"))
                     .set("pass", getPara("00000000"))
@@ -114,6 +122,7 @@ public class UserController extends Controller {
         if (user == null) {
             renderText("要修改的用户不存在，请刷新页面后再试！");
         } else if (Util.CheckNull(user.getStr("name")).equals(getPara("name").trim())
+                && Util.CheckNull(user.getStr("weixin")).equals(getPara("weixin").trim())
                 && Util.CheckNull(user.getStr("login")).equals(getPara("login").trim())
                 && Util.CheckNull(user.getStr("lid")).equals(getPara("lid").trim())
                 ) {
@@ -121,14 +130,22 @@ public class UserController extends Controller {
         } else if (!Util.CheckNull(user.getStr("login")).equals(getPara("login"))
                 && User.dao.find("select * from user where login=?", getPara("login")).size() > 0) {
             renderText("该用户名数据库中已存在，请核实！");
+        } else if (!Util.CheckNull(user.getStr("weixin")).equals(getPara("weixin"))
+                && User.dao.find("select * from user where weixin=?", getPara("weixin")).size() > 0) {
+            renderText("该企业微信数据库中已存在，请核实！");
         } else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
             renderText("人员姓名必须为汉字!");
         } else if (getPara("name").length() < 2) {
             renderText("人员姓名必须在2个汉字以上!");
+        } else if (getPara("weixin").matches("[\u4e00-\u9fa5]+")) {
+            renderText("企业微信不能含有汉字!");
+        } else if (getPara("weixin").length() < 2) {
+            renderText("企业微信必须在2个字符以上!");
         } else if (getPara("lid").length() < 1) {
             renderText("所属中心未填写！");
         } else {
             user.set("name", getPara("name"))
+                    .set("weixin", getPara("weixin"))
                     .set("login", getPara("login"))
                     .set("lid", IDNumber.getSex(getPara("lid")))
                     .update();

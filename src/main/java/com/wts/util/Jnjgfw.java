@@ -6,12 +6,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Jnjgfw {
 
-    public static Enterprise getEnterprise(String regNo, String id) throws IOException {
+    public static Enterprise getEnterprise(String regNo) throws IOException {
 
         String qymc = "", xydm = "", yyzz = "", lx = "", jyz = "", zcrq = "", hzrq = "", djjg = "", djzt = "", zs = "", jyfw = "", jycs = "", zczb = "", yyqx1 = "", yyqx2 = "";
         OkHttpClient client = new OkHttpClient();
@@ -46,7 +47,7 @@ public class Jnjgfw {
 
     }
 
-    public static List<Enterprise> searchById(String id) throws Exception {
+    public static List<Enterprise> searchById(String id) throws IOException {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(0, TimeUnit.SECONDS)
                 .readTimeout(0, TimeUnit.SECONDS)
@@ -63,16 +64,13 @@ public class Jnjgfw {
                 .build();
         Response response = client.newCall(request).execute();
         Document doc = Jsoup.parse(response.body().string());
-        List<Element> mastheads = doc.select("div.result");
-        List<Enterprise> enterprises = null;
-        if (mastheads.size() != 0) {
-            for (int i = 0; i < mastheads.size(); i++) {
-                String e = mastheads.get(i).select("div.result_title>a").first().attr("href");
-                String f = e.substring(22, e.length() - 2).split(",")[2];
-                String regNo = f.substring(1, f.length() - 1);
-                enterprises.add(getEnterprise(regNo, id));
-            }
-
+        List<Element> elements = doc.select("div.result");
+        List<Enterprise> enterprises = new ArrayList<Enterprise>();
+        for (Element element: elements) {
+            String e = element.select("div.result_title>a").first().attr("href");
+            String f = e.substring(22, e.length() - 2).split(",")[2];
+            String regNo = f.substring(1, f.length() - 1);
+            enterprises.add(getEnterprise(regNo));
         }
         return enterprises;
     }
@@ -95,6 +93,41 @@ public class Jnjgfw {
         }
     }
 
+    public static String checkByIds(String id) {
+        try {
+            List<Enterprise> enterprises = searchById(id);
+            if (enterprises.size() == 0) {
+                return "无工商记录";
+            } else {
+                for (Enterprise e : enterprises) {
+                    if (e.getDjzt().equals("在营（开业）企业")) {
+                        return "有正在营业的工商记录";
+                    }
+                }
+                return "无在营的工商记录";
+            }
+        } catch (Exception e) {
+            return "查询错误，请人工查询";
+        }
+    }
+
+    public static Integer checkByIdz(String id) {
+        try {
+            List<Enterprise> enterprises = searchById(id);
+            if (enterprises.size() == 0) {
+                return 0; //无工商记录
+            } else {
+                for (Enterprise e : enterprises) {
+                    if (e.getDjzt().equals("在营（开业）企业")) {
+                        return 1; //有正在营业的工商记录
+                    }
+                }
+                return 2; //无在营的工商记录
+            }
+        } catch (Exception e) {
+            return 3; //查询错误，请人工查询
+        }
+    }
     /**
      * 判断是否为空字符串
      *

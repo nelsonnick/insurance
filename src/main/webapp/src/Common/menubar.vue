@@ -33,40 +33,40 @@
     name: 'menubar',
     props: ['sys', 'active', 'userName'],
     methods: {
-      MenuClick (name) {
-        if (name.toString() === 'person') {
-          window.location.href = '/in/person'
-        } else if (name.toString() === 'family') {
-          window.location.href = '/in/family'
-        } else if (name.toString() === 'pass') {
-          window.location.href = '/in/pass'
-        } else if (name.toString() === 'user') {
-          window.location.href = '/in/user'
-        } else if (name.toString() === 'logout') {
-          window.location.href = '/in/logout'
-        } else if (name.toString() === 'main') {
-
-        } else {
-          window.location.href = '/in'
-        }
-      }
       // MenuClick (name) {
       //   if (name.toString() === 'person') {
-      //     window.location.href = '/person'
+      //     window.location.href = '/in/person'
       //   } else if (name.toString() === 'family') {
-      //     window.location.href = '/family'
+      //     window.location.href = '/in/family'
       //   } else if (name.toString() === 'pass') {
-      //     window.location.href = '/user/pass'
+      //     window.location.href = '/in/pass'
       //   } else if (name.toString() === 'user') {
-      //     window.location.href = '/user'
+      //     window.location.href = '/in/user'
       //   } else if (name.toString() === 'logout') {
-      //     window.location.href = '/logout'
+      //     window.location.href = '/in/logout'
       //   } else if (name.toString() === 'main') {
       //
       //   } else {
-      //     window.location.href = '/'
+      //     window.location.href = '/in'
       //   }
       // }
+      MenuClick (name) {
+        if (name.toString() === 'person') {
+          window.location.href = '/person'
+        } else if (name.toString() === 'family') {
+          window.location.href = '/family'
+        } else if (name.toString() === 'pass') {
+          window.location.href = '/pass'
+        } else if (name.toString() === 'user') {
+          window.location.href = '/user'
+        } else if (name.toString() === 'logout') {
+          window.location.href = '/logout'
+        } else if (name.toString() === 'main') {
+
+        } else {
+          window.location.href = '/'
+        }
+      }
     }
   }
 </script>

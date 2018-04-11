@@ -107,6 +107,11 @@
             sortable: true
           },
           {
+            title: '企业微信',
+            key: 'weixin',
+            sortable: true
+          },
+          {
             title: '用户名',
             key: 'login',
             sortable: true

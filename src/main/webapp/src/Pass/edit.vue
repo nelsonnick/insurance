@@ -36,6 +36,7 @@
   </div>
 </template>
 <script>
+  import * as API from './API.js'
   import MenuBar from '../Common/menubar.vue'
 
   export default {
@@ -58,7 +59,7 @@
       goSave () {
         this.$Loading.start()
         this.$http.get(
-          'pass/Change',
+          API.Change,
           { params: {
             pass1: this.pass1,
             pass2: this.pass2
@@ -72,7 +73,7 @@
               title: '操作完成!',
               desc: '请重新登录'
             })
-            window.location.href = '/in'
+            window.location.href = '/'
           } else {
             this.$Loading.error()
             this.$Notice.error({
@@ -91,7 +92,7 @@
       },
       getUser () {
         this.$http.get(
-          'user/getUser',
+          API.GetUser,
           {headers: {'X-Requested-With': 'XMLHttpRequest'}}
         ).then((response) => {
           if (response.body.lid.toString() === '1') {

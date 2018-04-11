@@ -33,6 +33,14 @@ public abstract class BaseUser<M extends BaseUser<M>> extends Model<M> implement
 		return getStr("name");
 	}
 
+	public void setWeixin(java.lang.String weixin) {
+		set("weixin", weixin);
+	}
+	
+	public java.lang.String getWeixin() {
+		return getStr("weixin");
+	}
+
 	public void setLogin(java.lang.String login) {
 		set("login", login);
 	}

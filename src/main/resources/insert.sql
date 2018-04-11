@@ -36,24 +36,25 @@ INSERT INTO `insurance`.`type` (`id`, `category`, `name`) VALUES ('17', '3', '�
 INSERT INTO `insurance`.`type` (`id`, `category`, `name`) VALUES ('18', '3', '特困家庭未就业的高校毕业生');
 INSERT INTO `insurance`.`type` (`id`, `category`, `name`) VALUES ('19', '3', '城镇登记失业的成年后孤儿');
 
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('1', '1', '王晓蕾', 'wangxiaolei', '1', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('2', '1', '王天硕', 'wangtianshuo', '1', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('3', '1', '张红', 'zhanghong', '1', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('4', '1', '徐心赟', 'xuxinyun', '1', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('5', '2', '类浩阳', 'leihaoyang', '2', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('6', '3', '薛海燕', 'xuehaiyan', '3', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('7', '4', '薛源', 'xueyuan', '4', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('8', '5', '苗倩', 'miaoqian', '5', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('9', '6', '庞鹏', 'pangpeng', '6', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('10', '7', '王吉延', 'wangjiyan', '7', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('11', '8', '夏倩倩', 'xiaqianqian', '8', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('12', '9', '扈文骞', 'huwenqian', '9', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('13', '10', '祝天娇', 'zhutianjiao', '10', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('14', '11', '郭瀚阳', 'guohanyang', '11', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('15', '12', '许珞', 'xuluo', '12', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('16', '13', '郑娜', 'zhengna', '13', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('17', '14', '杨琪', 'yangqi', '14', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('18', '15', '任贵莹', 'renguiying', '15', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('19', '16', '徐雪珂', 'xuxueke', '17', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `login`, `pass`, `state`) VALUES ('20', '17', '闫海英', 'yanhaiying', '16', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('1', '1', '王晓蕾', 'WangXiaoLei', 'wangxiaolei', '1', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('2', '1', '王天硕', 'WangTianShuo', '1', '1', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('3', '1', '张红', 'ZhangHong', 'zhanghong', '1', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('4', '1', '徐心赟', 'XuXinYun', 'xuxinyun', '1', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('5', '2', '类浩阳', 'LeiHaoYang', 'leihaoyang', '2', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('6', '3', '薛海燕', 'XueHaiYan', 'xuehaiyan', '3', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('7', '4', '薛源', 'XueYuan', 'xueyuan', '4', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('8', '5', '苗倩', 'MiaoQian', 'miaoqian', '5', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('9', '6', '庞鹏', 'PangPeng', 'pangpeng', '6', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('10', '7', '王吉延', 'WangJiYan', 'wangjiyan', '7', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('11', '8', '夏倩倩', 'XiaQianQian', 'xiaqianqian', '8', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('12', '9', '扈文骞', 'HuWenQian', 'huwenqian', '9', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('13', '10', '祝天娇', 'ZhuTianJiao', 'zhutianjiao', '10', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('14', '11', '郭瀚阳', 'GuoHanYang', 'guohanyang', '11', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('15', '12', '许珞', 'XuLuo', 'xuluo', '12', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('16', '13', '郑娜', 'ZhengNa', 'zhengna', '13', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('17', '14', '杨琪', 'YangQi', 'yangqi', '14', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('18', '15', '任贵莹', 'RenGuiYing', 'renguiying', '15', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('19', '16', '徐雪珂', 'XuXueKe', 'xuxueke', '17', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('20', '17', '闫海英', 'YanHaiYing', 'yanhaiying', '16', '1');
+
 

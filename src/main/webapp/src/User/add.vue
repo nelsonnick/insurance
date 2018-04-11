@@ -27,6 +27,9 @@
           <Form-item label="用户姓名" required>
             <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 600px"></Input>
           </Form-item>
+          <Form-item label="企业微信" required>
+            <Input size="large" v-model="weixin" placeholder="请输入企业微信" style="width: 600px"></Input>
+          </Form-item>
           <Form-item label="登录名称" required>
             <Input size="large" v-model="login" placeholder="请输入登录名" style="width: 600px"></Input>
           </Form-item>
@@ -56,6 +59,7 @@
         active: 'user',
         name: '',
         lid: '1',
+        weixin: '',
         login: '',
         LocationList: [
           {
@@ -144,6 +148,7 @@
           { params: {
             lid: this.lid,
             name: this.name,
+            weixin: this.weixin,
             login: this.login
           } },
           { headers: { 'X-Requested-With': 'XMLHttpRequest' } }

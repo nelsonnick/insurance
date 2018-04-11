@@ -1,0 +1,61 @@
+开发模式：
+build/webpack.base.conf.js
+  66行：name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+config/index.js
+  10行：assetsPublicPath: '/',
+login/index.html
+    <link rel="stylesheet" href="/login/css/bootstrap.css" type="text/css"/>
+    <link rel="stylesheet" href="/login/css/simple-line-icons.css" type="text/css"/>
+    <link rel="stylesheet" href="/login/css/app.css" type="text/css"/>
+    <body background="/login/image/bodybg.jpg">
+    <form action="/login" method="post">
+src/Pass/edit.vue
+  75行：window.location.href = '/'
+src/Common/menubar.vue
+    MenuClick (name) {
+      if (name.toString() === 'person') {
+        window.location.href = '/person'
+      } else if (name.toString() === 'family') {
+        window.location.href = '/family'
+      } else if (name.toString() === 'pass') {
+        window.location.href = '/pass'
+      } else if (name.toString() === 'user') {
+        window.location.href = '/user'
+      } else if (name.toString() === 'logout') {
+        window.location.href = '/logout'
+      } else if (name.toString() === 'main') {
+      } else {
+        window.location.href = '/'
+      }
+
+上线模式：
+build/webpack.base.conf.js
+  66行：name: 'static/fonts/[name].[hash:7].[ext]'
+config/index.js
+  10行：assetsPublicPath: '',
+login/index.html
+    <link rel="stylesheet" href="login/css/bootstrap.css" type="text/css"/>
+    <link rel="stylesheet" href="login/css/simple-line-icons.css" type="text/css"/>
+    <link rel="stylesheet" href="login/css/app.css" type="text/css"/>
+    <body background="login/image/bodybg.jpg">
+    <form action="/in/login" method="post">
+src/Pass/edit.vue
+  75行：window.location.href = '/'
+src/Common/menubar.vue
+    MenuClick (name) {
+      if (name.toString() === 'person') {
+        window.location.href = '/in/person'
+      } else if (name.toString() === 'family') {
+        window.location.href = '/in/family'
+      } else if (name.toString() === 'pass') {
+        window.location.href = '/in/pass'
+      } else if (name.toString() === 'user') {
+        window.location.href = '/in/user'
+      } else if (name.toString() === 'logout') {
+        window.location.href = '/in/logout'
+      } else if (name.toString() === 'main') {
+
+      } else {
+        window.location.href = '/in'
+      }
+    }

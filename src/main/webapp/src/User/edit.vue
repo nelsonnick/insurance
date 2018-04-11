@@ -27,6 +27,9 @@
           <Form-item label="人员姓名" required>
             <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 600px"></Input>
           </Form-item>
+          <Form-item label="企业微信" required>
+            <Input size="large" v-model="weixin" placeholder="请输入企业微信" style="width: 600px"></Input>
+          </Form-item>
           <Form-item label="登录名称" required>
             <Input size="large" v-model="login" placeholder="请输入登录名" style="width: 600px"></Input>
           </Form-item>
@@ -56,6 +59,7 @@
         active: 'user',
         name: '',
         lid: '1',
+        weixin: '',
         login: '',
         LocationList: [
           {
@@ -147,6 +151,7 @@
           { params: {
             id: this.$route.params.id,
             name: this.name,
+            weixin: this.weixin,
             login: this.login,
             lid: this.lid
           } },
@@ -184,6 +189,7 @@
         ).then((response) => {
           this.name = response.body.name
           this.lid = response.body.lid
+          this.weixin = response.body.weixin
           this.login = response.body.login
         }, (response) => {
           this.$Notice.error({

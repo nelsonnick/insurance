@@ -18,6 +18,8 @@ CREATE TABLE `user` (
 
 `name` varchar(255) CHARACTER SET utf8 NULL COMMENT '人员姓名',
 
+`weixin` varchar(255) CHARACTER SET utf8 NULL COMMENT '企业微信',
+
 `login` varchar(255) CHARACTER SET utf8 NULL COMMENT '登录名称',
 
 `pass` varchar(255) CHARACTER SET utf8 NULL COMMENT '登录密码',
@@ -102,7 +104,7 @@ CREATE TABLE `family` (
 
 `birth` date NULL COMMENT '出生日期',
 
-`state` int(11) NULL COMMENT '0未享受1正在享受',
+`state` int(11) NULL COMMENT '0注销1激活',
 
 `remark` varchar(999) CHARACTER SET utf8 NULL COMMENT '备注',
 
@@ -158,6 +160,19 @@ PRIMARY KEY (`id`)
 
 );
 
+CREATE TABLE `sendMessage` (
+
+`id` int(11) NOT NULL AUTO_INCREMENT COMMENT ' 序号',
+
+`uid` int(11) NULL COMMENT '用户',
+
+`time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '发送时间',
+
+`content` varchar(999) CHARACTER SET utf8 NULL COMMENT '消息内容',
+
+PRIMARY KEY (`id`)
+
+);
 
 
 
@@ -178,5 +193,5 @@ ALTER TABLE `changeFamily` ADD CONSTRAINT `changeFamily_family` FOREIGN KEY (`fi
 
 ALTER TABLE `changeFamily` ADD CONSTRAINT `changeFamily_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
 
-
+ALTER TABLE `sendMessage` ADD CONSTRAINT `sendMessage_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
 
