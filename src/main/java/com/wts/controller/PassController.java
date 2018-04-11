@@ -28,7 +28,7 @@ public class PassController extends Controller {
     public void Change() {
         User user = ((User) getSessionAttr("user"));
         if (user.get("pass").toString().trim().equals(getPara("pass1").trim())) {
-            if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+            if (!getPara("pass").matches("[\u4e00-\u9fa5]+")) {
                 if (getPara("pass2").trim().length() > 6) {
                     user.set("pass", getPara("pass2").trim()).update();
                     renderText("OK");
