@@ -46,7 +46,7 @@ public class Commercial implements Runnable {
             } else {
                 Integer commercialNum = Jnjgfw.checkByIdz(family.getNumber());
                 Person person = Person.dao.findById(family.getPid());
-                List<User> users = User.dao.find("SELECT * FROM user WHERE state = 1", person.getLid());
+                List<User> users = User.dao.find("SELECT * FROM user WHERE state = 1 AND lid=?", person.getLid());
                 for (User user : users) {
                     switch (commercialNum) {
                         case 1:
@@ -71,17 +71,7 @@ public class Commercial implements Runnable {
     }
 
 
-    public static void main(String[] args) throws Exception {
-        WxCpMessage message = WxCpMessage
-                .TEXT()
-                .agentId(49) // 企业号应用ID
-                .toUser("WangTianShuo")
-                .content("测试一下")
-                .build();
-        try {
-            WxService.getMe().messageSend(message);
-        } catch (Exception e) {
-            System.out.println("出错啦！");
-        }
+    public static void main(String[] args) {
+
     }
 }

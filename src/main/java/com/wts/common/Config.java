@@ -58,8 +58,8 @@ public class Config extends JFinalConfig {
         Cron4jPlugin cp = new Cron4jPlugin();
         cp.addTask("0 6 * * *", new SecurityDown());
         cp.addTask("0 9 * * *", new SecuritySend());
-        cp.addTask("0 10 * * *", new Commercial());
-        cp.addTask("0 23 * * *", new SecurityDelete());
+        cp.addTask("30 9 * * *", new Commercial());
+        cp.addTask("0 22 * * *", new SecurityDelete());
         me.add(cp);
     }
 

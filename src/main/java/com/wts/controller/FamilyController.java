@@ -47,7 +47,8 @@ public class FamilyController extends Controller {
                         "ELSE '无法识别' END AS identity, " +
                         "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
                         "CASE family.state WHEN '0' THEN '注销' WHEN '1' THEN '激活' ELSE '状态错误' END AS state",
-                "FROM person LEFT JOIN family ON family.pid = person.id LEFT JOIN location ON person.lid = location.id " +
+                "FROM family LEFT JOIN person ON family.pid = person.id " +
+                        "LEFT JOIN location ON person.lid = location.id " +
                         "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.phone LIKE '%" + getPara("keyword") + "%' " +

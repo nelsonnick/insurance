@@ -38,7 +38,7 @@ public class WxSend {
         WxCpMessage message = WxCpMessage
                 .TEXT()
                 .agentId(49) // 企业号应用ID
-                .toUser(user.getName())
+                .toUser(user.getWeixin())
                 .content(content)
                 .build();
         Message m = new Message();

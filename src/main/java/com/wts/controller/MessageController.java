@@ -43,9 +43,9 @@ public class MessageController extends Controller {
                         "CASE message.state " +
                         "WHEN '0' THEN '发送失败' " +
                         "WHEN '1' THEN '发送成功' " +
-                        "ELSE '无法识别' END",
-                "FROM user " +
-                        "LEFT JOIN message ON user.id = message.uid " +
+                        "ELSE '无法识别' END AS state",
+                "FROM message " +
+                        "LEFT JOIN user ON user.id = message.uid " +
                         "LEFT JOIN location ON location.id = user.lid " +
                         "WHERE (message.content LIKE '%" + getPara("keyword") + "%' " +
                         "OR user.name LIKE '%" + getPara("keyword") + "%') " + st + " ORDER BY message.id DESC").getList());
@@ -86,8 +86,8 @@ public class MessageController extends Controller {
                 "WHEN '0' THEN '发送失败' " +
                 "WHEN '1' THEN '发送成功' " +
                 "ELSE '无法识别' END " +
-                "FROM user " +
-                "LEFT JOIN message ON user.id = message.uid " +
+                "FROM message " +
+                "LEFT JOIN user ON user.id = message.uid " +
                 "LEFT JOIN location ON location.id = user.lid " +
                 "WHERE (message.content LIKE '%" + getPara("keyword") + "%' " +
                 "OR user.name LIKE '%" + getPara("keyword") + "%') " + st;

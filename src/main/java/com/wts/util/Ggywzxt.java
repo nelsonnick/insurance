@@ -82,6 +82,8 @@ public class Ggywzxt {
                 security.set("xm", name);
                 security.set("state", 1);
             } else {
+                security.set("lid", lid);
+                security.set("type", type);
                 security.set("sfzhm", getSub(result, "<result sfzhm=\"(.+?)\" />"));
                 security.set("xm", getSub(result, "<result xm=\"(.+?)\" />"));
                 security.set("dwbh", getSub(result, "<result dwbh=\"(.+?)\" />"));
