@@ -58,7 +58,7 @@
         sys: window.sys,
         active: 'user',
         name: '',
-        lid: '1',
+        lid: '',
         weixin: '',
         login: '',
         LocationList: [
@@ -188,7 +188,7 @@
           { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
         ).then((response) => {
           this.name = response.body.name
-          this.lid = response.body.lid
+          this.lid = response.body.lid.toString()
           this.weixin = response.body.weixin
           this.login = response.body.login
         }, (response) => {

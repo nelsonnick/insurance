@@ -10,7 +10,8 @@ login/index.html
     <body background="/login/image/bodybg.jpg">
     <form action="/login" method="post">
 src/Pass/edit.vue
-  75行：window.location.href = '/'
+  76行：window.location.href = '/'
+  91行：window.location.href = '/person'
 src/Common/menubar.vue
     MenuClick (name) {
       if (name.toString() === 'person') {
@@ -40,7 +41,8 @@ login/index.html
     <body background="login/image/bodybg.jpg">
     <form action="/in/login" method="post">
 src/Pass/edit.vue
-  75行：window.location.href = '/'
+    76行：window.location.href = '/in'
+    91行：window.location.href = '/in/person'
 src/Common/menubar.vue
     MenuClick (name) {
       if (name.toString() === 'person') {

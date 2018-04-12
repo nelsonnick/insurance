@@ -73,7 +73,7 @@
               title: '操作完成!',
               desc: '请重新登录'
             })
-            window.location.href = '/'
+            window.location.href = '/in'
           } else {
             this.$Loading.error()
             this.$Notice.error({
@@ -88,7 +88,7 @@
         })
       },
       goBack () {
-        window.location.href = '/person'
+        window.location.href = '/in/person'
       },
       getUser () {
         this.$http.get(
