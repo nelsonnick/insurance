@@ -53,7 +53,7 @@ public class FamilyController extends Controller {
                         "OR person.phone LIKE '%" + getPara("keyword") + "%' " +
                         "OR family.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR family.name LIKE '%" + getPara("keyword") + "%' " +
-                        "OR family.phone LIKE '%" + getPara("keyword") + "%' ").getList());
+                        "OR family.phone LIKE '%" + getPara("keyword") + "%' ORDER BY family.id DESC").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
@@ -232,7 +232,7 @@ public class FamilyController extends Controller {
         if (((User) getSessionAttr("user")).getInt("lid") == 1){
             st = "";
         }else{
-            st = "WHERE person.lid = " + ((User) getSessionAttr("user")).get("lid");
+            st = "AND person.lid = " + ((User) getSessionAttr("user")).get("lid");
         }
         String sql = "SELECT family.id, family.name,family.number,family.phone,family.birth,family.remark,person.name AS pname,person.number AS pnumber, " +
                 "CASE family.identity " +
@@ -250,7 +250,14 @@ public class FamilyController extends Controller {
                 "CASE family.sex WHEN '1' THEN '男' WHEN '2' THEN '女' ELSE '状态错误' END AS sex " +
                 "FROM family " +
                 "LEFT JOIN person ON family.pid = person.id " +
-                "LEFT JOIN location ON person.lid = location.id " + st;
+                "LEFT JOIN location ON person.lid = location.id " +
+                "WHERE (person.name LIKE '%" + getPara("keyword") + "%' " +
+                "OR person.number LIKE '%" + getPara("keyword") + "%' " +
+                "OR person.phone LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.number LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.name LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.phone LIKE '%" + getPara("keyword") + "%') "
+                + st;
         List<Record> r = Db.find(sql);
         for (int i = 0; i < r.size(); i++) {
             XSSFRow nextRow = sheet.createRow(i+1);

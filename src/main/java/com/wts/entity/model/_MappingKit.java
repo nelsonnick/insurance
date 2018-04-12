@@ -20,8 +20,9 @@ public class _MappingKit {
 		arp.addMapping("changeperson", "id", Changeperson.class);
 		arp.addMapping("family", "id", Family.class);
 		arp.addMapping("location", "id", Location.class);
+		arp.addMapping("message", "id", Message.class);
 		arp.addMapping("person", "id", Person.class);
-		arp.addMapping("sendmessage", "id", Sendmessage.class);
+		arp.addMapping("security", "id", Security.class);
 		arp.addMapping("type", "id", Type.class);
 		arp.addMapping("user", "id", User.class);
 	}

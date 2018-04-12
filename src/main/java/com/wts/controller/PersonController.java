@@ -60,7 +60,7 @@ public class PersonController extends Controller {
                 "FROM person LEFT JOIN location ON person.lid = location.id " +
                         "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
-                        "OR person.phone LIKE '%" + getPara("keyword") + "%' ").getList());
+                        "OR person.phone LIKE '%" + getPara("keyword") + "%' ORDER BY person.id DESC").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
@@ -272,7 +272,7 @@ public class PersonController extends Controller {
     }
     @Before({Tx.class,LoginInterceptor.class})
     public  void export() throws IOException {
-        String[] title={"序号","所属中心","人员类别","证件号码","人员姓名","性别","出生年月","联系电话","联系地址","婚姻状况","人员状态","延期情况","备注"};
+        String[] title={"序号","所属中心","人员类别","证件号码","人员姓名","性别","出生年月","联系电话","联系地址","银行卡号","所属社区","婚姻状况","人员状态","延期情况","备注"};
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet();
         XSSFRow row =sheet.createRow(0);
@@ -285,9 +285,9 @@ public class PersonController extends Controller {
         if (((User) getSessionAttr("user")).getInt("lid") == 1){
             st = "";
         }else{
-            st = "WHERE location.id = " + ((User) getSessionAttr("user")).get("lid");
+            st = "AND location.id = " + ((User) getSessionAttr("user")).get("lid");
         }
-        String sql = "SELECT person.id, person.name,person.number,person.phone,person.address,person.birth,person.remark,location.name AS location,location.id AS lid, " +
+        String sql = "SELECT person.id, person.name,person.number,person.phone,person.address,person.bank,person.community,person.birth,person.remark,location.name AS location,location.id AS lid, " +
                 "CASE person.tid " +
                 "WHEN '1' THEN '灵活就业/零就业' " +
                 "WHEN '2' THEN '灵活就业/单亲' " +
@@ -313,7 +313,11 @@ public class PersonController extends Controller {
                 "CASE person.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state, " +
                 "CASE person.sex WHEN '1' THEN '男' WHEN '2' THEN '女' ELSE '状态错误' END AS sex, " +
                 "CASE person.delay WHEN '0' THEN '不延期' WHEN '1' THEN '延期' ELSE '状态错误' END AS delay " +
-                "FROM person LEFT JOIN location ON person.lid = location.id " + st;
+                "FROM person LEFT JOIN location ON person.lid = location.id " +
+                "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
+                "OR person.name LIKE '%" + getPara("keyword") + "%' " +
+                "OR person.phone LIKE '%" + getPara("keyword") + "%' ) "
+                + st;
         List<Record> r = Db.find(sql);
         for (int i = 0; i < r.size(); i++) {
             XSSFRow nextRow = sheet.createRow(i+1);
@@ -326,10 +330,12 @@ public class PersonController extends Controller {
             nextRow.createCell(6).setCellValue(Util.CheckNull(r.get(i).get("birth").toString()));
             nextRow.createCell(7).setCellValue(Util.CheckNull(r.get(i).get("phone").toString()));
             nextRow.createCell(8).setCellValue(Util.CheckNull(r.get(i).get("address").toString()));
-            nextRow.createCell(9).setCellValue(Util.CheckNull(r.get(i).get("marriage").toString()));
-            nextRow.createCell(10).setCellValue(Util.CheckNull(r.get(i).get("state").toString()));
-            nextRow.createCell(11).setCellValue(Util.CheckNull(r.get(i).get("delay").toString()));
-            nextRow.createCell(12).setCellValue(Util.CheckNull(r.get(i).get("remark").toString()));
+            nextRow.createCell(9).setCellValue(Util.CheckNull(r.get(i).get("bank").toString()));
+            nextRow.createCell(10).setCellValue(Util.CheckNull(r.get(i).get("community").toString()));
+            nextRow.createCell(11).setCellValue(Util.CheckNull(r.get(i).get("marriage").toString()));
+            nextRow.createCell(12).setCellValue(Util.CheckNull(r.get(i).get("state").toString()));
+            nextRow.createCell(13).setCellValue(Util.CheckNull(r.get(i).get("delay").toString()));
+            nextRow.createCell(14).setCellValue(Util.CheckNull(r.get(i).get("remark").toString()));
         }
         HttpServletResponse response = getResponse();
         response.setContentType("application/octet-stream");

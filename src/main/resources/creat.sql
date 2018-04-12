@@ -140,7 +140,7 @@ PRIMARY KEY (`id`)
 
 CREATE TABLE `changeFamily` (
 
-`id` int(11) NOT NULL AUTO_INCREMENT COMMENT ' 序号',
+`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
 `fid` int(11) NULL COMMENT '家庭成员',
 
@@ -160,9 +160,9 @@ PRIMARY KEY (`id`)
 
 );
 
-CREATE TABLE `sendMessage` (
+CREATE TABLE `message` (
 
-`id` int(11) NOT NULL AUTO_INCREMENT COMMENT ' 序号',
+`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
 `uid` int(11) NULL COMMENT '用户',
 
@@ -170,11 +170,41 @@ CREATE TABLE `sendMessage` (
 
 `content` varchar(999) CHARACTER SET utf8 NULL COMMENT '消息内容',
 
+`state` int(11) NULL COMMENT '0失败1成功',
+
 PRIMARY KEY (`id`)
 
 );
 
+CREATE TABLE `security` (
 
+`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
+
+`lid` int(11) NULL COMMENT '中心序号',
+
+`type` int(11) NULL COMMENT '身份：0本人1家属',
+
+`sfzhm` varchar(255) CHARACTER SET utf8 NULL COMMENT '身份证号码',
+
+`xm` varchar(255) CHARACTER SET utf8 NULL COMMENT '姓名',
+
+`dwbh` varchar(255) CHARACTER SET utf8 NULL COMMENT '单位编号',
+
+`dwmc` varchar(255) CHARACTER SET utf8 NULL COMMENT '单位名称',
+
+`zjny` varchar(255) CHARACTER SET utf8 NULL COMMENT '增减年月',
+
+`jfrylb` varchar(255) CHARACTER SET utf8 NULL COMMENT '缴费人员类别：A8灵活就业人员A1城合制',
+
+`ylrylb` varchar(255) CHARACTER SET utf8 NULL COMMENT '医疗人员类别：0在职职工2退休职工4减员职工',
+
+`zglb` varchar(255) CHARACTER SET utf8 NULL COMMENT '职工类别：A在职人员C退休人员F中断人员',
+
+`state` int(11) NULL COMMENT '0不存在1无权查询2正常3查询出错',
+
+PRIMARY KEY (`id`)
+
+);
 
 
 ALTER TABLE `user` ADD CONSTRAINT `location_user` FOREIGN KEY (`lid`) REFERENCES `location` (`id`);
@@ -193,5 +223,6 @@ ALTER TABLE `changeFamily` ADD CONSTRAINT `changeFamily_family` FOREIGN KEY (`fi
 
 ALTER TABLE `changeFamily` ADD CONSTRAINT `changeFamily_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
 
-ALTER TABLE `sendMessage` ADD CONSTRAINT `sendMessage_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
+ALTER TABLE `message` ADD CONSTRAINT `message_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
 
+ALTER TABLE `security` ADD CONSTRAINT `security_location` FOREIGN KEY (`lid`) REFERENCES `location` (`id`);

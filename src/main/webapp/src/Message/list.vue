@@ -9,7 +9,7 @@
             <div class="left">
               <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
                 <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
-                <BreadcrumbItem>家庭成员</BreadcrumbItem>
+                <BreadcrumbItem>微信消息</BreadcrumbItem>
                 <BreadcrumbItem>列表</BreadcrumbItem>
               </Breadcrumb>
             </div>
@@ -79,7 +79,7 @@
         userName: '',
         LocationId: '',
         sys: false,
-        active: 'family',
+        active: 'message',
         query: API.Query,
         total: API.Total,
         keyword: '',
@@ -102,106 +102,24 @@
             }
           },
           {
-            title: '困难人员',
-            key: 'pnumber',
-            sortable: true
-          },
-          {
-            title: '困难人员',
-            key: 'pname',
-            sortable: true
-          },
-          {
-            title: '身份',
-            key: 'identity',
-            width: 80,
-            sortable: true
-          },
-          {
-            title: '证件号码',
-            key: 'number',
-            sortable: true
-          },
-          {
             title: '姓名',
             key: 'name',
             sortable: true
           },
           {
-            title: '联系电话',
-            key: 'phone',
+            title: '发送时间',
+            key: 'time',
             sortable: true
           },
           {
-            title: '婚姻',
-            key: 'marriage',
-            width: 80,
-            sortable: true
-          },
-          {
-            title: '所属中心',
-            key: 'location',
-            sortable: true
-          },
-          {
-            title: '状态',
+            title: '消息状态',
             key: 'state',
-            width: 80,
             sortable: true
           },
           {
-            title: '操作',
-            key: 'state',
-            align: 'center',
-            render: (h, params) => {
-              const operate = []
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'warning',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goEdit(params.index)
-                      }
-                    }
-                  }, '修改')
-                )
-              }
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'error',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goDel(params.index)
-                      }
-                    }
-                  }, '注销')
-                )
-              }
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '0' && params.row.psid.toString() === '1')) {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'success',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goActive(params.index)
-                      }
-                    }
-                  }, '激活')
-                )
-              }
-              return h('div', operate)
-            }
+            title: '消息内容',
+            key: 'content',
+            sortable: true
           }
         ]
       }
@@ -247,17 +165,8 @@
           pageCurrent: pageCurrent
         })
       },
-      goEdit (index) {
-        this.$router.push({ path: '/edit/' + this.pageList[index].id })
-      },
-      goDel (index) {
-        this.$router.push({path: '/del/' + this.pageList[index].id})
-      },
-      goActive (index) {
-        this.$router.push({path: '/active/' + this.pageList[index].id})
-      },
       goDown () {
-        window.location.href = '/family/export?keyword=' + this.keyword
+        window.location.href = '/message/export?keyword=' + this.keyword
       },
       getUser () {
         this.$http.get(
@@ -265,7 +174,6 @@
           {headers: {'X-Requested-With': 'XMLHttpRequest'}}
         ).then((response) => {
           if (response.body.lid.toString() === '1') {
-            this.addPerson = false
             this.sys = true
             window.sys = true
           }

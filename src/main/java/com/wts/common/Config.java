@@ -11,6 +11,7 @@ import com.jfinal.plugin.cron4j.Cron4jPlugin;
 import com.jfinal.template.Engine;
 import com.wts.controller.*;
 import com.wts.entity.model._MappingKit;
+import com.wts.task.*;
 
 /**
  * API引导式配置
@@ -37,6 +38,7 @@ public class Config extends JFinalConfig {
         me.add("/family", FamilyController.class);
         me.add("/user", UserController.class);
         me.add("/pass", PassController.class);
+        me.add("/message", MessageController.class);
     }
 
     /**
@@ -54,7 +56,10 @@ public class Config extends JFinalConfig {
         _MappingKit.mapping(arp);
         //配置任务调度插件
         Cron4jPlugin cp = new Cron4jPlugin();
-        cp.addTask("0 9 * * *", new Commercial());
+        cp.addTask("0 6 * * *", new SecurityDown());
+        cp.addTask("0 9 * * *", new SecuritySend());
+        cp.addTask("0 10 * * *", new Commercial());
+        cp.addTask("0 23 * * *", new SecurityDelete());
         me.add(cp);
     }
 

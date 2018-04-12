@@ -1,6 +1,7 @@
 package com.wts.controller;
 
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Db;
 import com.wts.entity.model.*;
 
 public class MainController extends Controller {

@@ -47,7 +47,7 @@ public class UserController extends Controller {
                         "CASE user.state WHEN '0' THEN '停用' WHEN '1' THEN '启用' ELSE '状态错误' END AS state",
                 "FROM user LEFT JOIN location ON user.lid = location.id " +
                         "WHERE user.login LIKE '%" + getPara("keyword") + "%' " +
-                        "OR user.name LIKE '%" + getPara("keyword") + "%' ").getList());
+                        "OR user.name LIKE '%" + getPara("keyword") + "%' ORDER BY user.id DESC").getList());
     }
 
     @Before(LoginInterceptor.class)

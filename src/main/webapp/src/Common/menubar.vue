@@ -17,6 +17,10 @@
         <Icon type="ios-people-outline"></Icon>
         用户管理
       </MenuItem>
+      <MenuItem name="message">
+        <Icon type="chatbubbles"></Icon>
+        消息管理
+      </MenuItem>
       <MenuItem name="pass">
         <Icon type="android-settings"></Icon>
         修改密码
@@ -42,6 +46,8 @@
       //     window.location.href = '/in/pass'
       //   } else if (name.toString() === 'user') {
       //     window.location.href = '/in/user'
+      //   } else if (name.toString() === 'message') {
+      //     window.location.href = '/in/message'
       //   } else if (name.toString() === 'logout') {
       //     window.location.href = '/in/logout'
       //   } else if (name.toString() === 'main') {
@@ -59,6 +65,8 @@
           window.location.href = '/pass'
         } else if (name.toString() === 'user') {
           window.location.href = '/user'
+        } else if (name.toString() === 'message') {
+          window.location.href = '/message'
         } else if (name.toString() === 'logout') {
           window.location.href = '/logout'
         } else if (name.toString() === 'main') {

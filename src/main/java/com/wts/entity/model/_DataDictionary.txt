@@ -2,7 +2,7 @@ Table: changefamily
 --------+--------------+------+-----+---------+---------
  Field  | Type         | Null | Key | Default | Remarks 
 --------+--------------+------+-----+---------+---------
- id     | INT(10)      | NO   | PRI |         |  序号     
+ id     | INT(10)      | NO   | PRI |         | 序号      
  fid    | INT(10)      | YES  |     |         | 家庭成员    
  uid    | INT(10)      | YES  |     |         | 用户      
  type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
@@ -51,6 +51,17 @@ Table: location
  name  | VARCHAR(255) | YES  |     |         | 名称      
 -------+--------------+------+-----+---------+---------
 
+Table: message
+---------+--------------+------+-----+---------+---------
+ Field   | Type         | Null | Key | Default | Remarks 
+---------+--------------+------+-----+---------+---------
+ id      | INT(10)      | NO   | PRI |         | 序号      
+ uid     | INT(10)      | YES  |     |         | 用户      
+ time    | DATETIME(19) | YES  |     |         | 发送时间    
+ content | VARCHAR(999) | YES  |     |         | 消息内容    
+ state   | INT(10)      | YES  |     |         | 0失败1成功  
+---------+--------------+------+-----+---------+---------
+
 Table: person
 -----------+--------------+------+-----+---------+---------
  Field     | Type         | Null | Key | Default | Remarks 
@@ -72,15 +83,23 @@ Table: person
  remark    | VARCHAR(999) | YES  |     |         | 备注      
 -----------+--------------+------+-----+---------+---------
 
-Table: sendmessage
----------+--------------+------+-----+---------+---------
- Field   | Type         | Null | Key | Default | Remarks 
----------+--------------+------+-----+---------+---------
- id      | INT(10)      | NO   | PRI |         |  序号     
- uid     | INT(10)      | YES  |     |         | 用户      
- time    | DATETIME(19) | YES  |     |         | 发送时间    
- content | VARCHAR(999) | YES  |     |         | 消息内容    
----------+--------------+------+-----+---------+---------
+Table: security
+--------+--------------+------+-----+---------+---------
+ Field  | Type         | Null | Key | Default | Remarks 
+--------+--------------+------+-----+---------+---------
+ id     | INT(10)      | NO   | PRI |         | 序号      
+ lid    | INT(10)      | YES  |     |         | 中心序号    
+ type   | INT(10)      | YES  |     |         | 身份：0本人1家属
+ sfzhm  | VARCHAR(255) | YES  |     |         | 身份证号码   
+ xm     | VARCHAR(255) | YES  |     |         | 姓名      
+ dwbh   | VARCHAR(255) | YES  |     |         | 单位编号    
+ dwmc   | VARCHAR(255) | YES  |     |         | 单位名称    
+ zjny   | VARCHAR(255) | YES  |     |         | 增减年月    
+ jfrylb | VARCHAR(255) | YES  |     |         | 缴费人员类别：A8灵活就业人员A1城合制
+ ylrylb | VARCHAR(255) | YES  |     |         | 医疗人员类别：0在职职工2退休职工4减员职工
+ zglb   | VARCHAR(255) | YES  |     |         | 职工类别：A在职人员C退休人员F中断人员
+ state  | INT(10)      | YES  |     |         | 0不存在1无权查询2正常3查询出错
+--------+--------------+------+-----+---------+---------
 
 Table: type
 ----------+--------------+------+-----+---------+---------
