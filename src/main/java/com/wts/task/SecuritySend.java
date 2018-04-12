@@ -60,5 +60,6 @@ public class SecuritySend implements Runnable {
                 }
             }
         }
+        logger.info("社保信息发送结束--->time:" + new Date());
     }
 }

@@ -120,12 +120,15 @@ public class FamilyController extends Controller {
     @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Add() {
         List<Family> families = Family.dao.find("select * from family where number=?", getPara("number"));
+        Person person = Person.dao.findById(getPara("id"));
         if (!IDNumber.availableIDNumber(getPara("number"))){
             renderText("证件号码" + IDNumber.checkIDNumber(getPara("number")));
-        }else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+        } else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
             renderText("人员姓名必须为汉字!");
         } else if (getPara("name").length() < 2) {
             renderText("人员姓名必须在2个汉字以上!");
+        } else if (person.getNumber().equals(getPara("number"))) {
+            renderText("家属证件号码与申请人相同，请核实!");
         } else if (families.size() != 0) {
             renderText("该证件号码数据库中已存在，请核实!");
         } else if (!getPara("phone").matches("\\d{11}")) {
@@ -181,7 +184,9 @@ public class FamilyController extends Controller {
             renderText("该证件号码数据库中存在正在享受的记录，请核实！");
         } else if (!IDNumber.availableIDNumber(getPara("number"))){
             renderText("证件号码" + IDNumber.checkIDNumber(getPara("number")));
-        }else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
+        } else if (Person.dao.findById(family.getPid()).getNumber().equals(getPara("number"))) {
+            renderText("家属证件号码与申请人相同，请核实!");
+        } else if (!getPara("name").matches("[\u4e00-\u9fa5]+")) {
             renderText("人员姓名必须为汉字!");
         } else if (getPara("name").length() < 2) {
             renderText("人员姓名必须在2个汉字以上!");

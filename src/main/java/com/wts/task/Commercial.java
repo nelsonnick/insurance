@@ -68,10 +68,7 @@ public class Commercial implements Runnable {
 
             }
         }
+        logger.info("工商核查结束--->time:" + new Date());
     }
 
-
-    public static void main(String[] args) {
-
-    }
 }
