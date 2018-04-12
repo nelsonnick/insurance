@@ -37,7 +37,7 @@ INSERT INTO `insurance`.`type` (`id`, `category`, `name`) VALUES ('18', '3', '�
 INSERT INTO `insurance`.`type` (`id`, `category`, `name`) VALUES ('19', '3', '城镇登记失业的成年后孤儿');
 
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('1', '1', '王晓蕾', 'WangXiaoLei', 'wangxiaolei', '1', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('2', '1', '王天硕', 'WangTianShuo', '1', '1', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('2', '1', '王天硕', 'WangTianShuo', 'wangtianshuo', '1', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('3', '1', '张红', 'ZhangHong', 'zhanghong', '1', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('4', '1', '徐心赟', 'XuXinYun', 'xuxinyun', '1', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('5', '2', '类浩阳', 'LeiHaoYang', 'leihaoyang', '2', '1');
