@@ -166,7 +166,7 @@
         })
       },
       goDown () {
-        window.location.href = '/message/export?keyword=' + this.keyword
+        window.location.href = '/in/message/export?keyword=' + this.keyword
       },
       getUser () {
         this.$http.get(

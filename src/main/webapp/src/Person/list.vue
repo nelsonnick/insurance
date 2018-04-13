@@ -270,7 +270,7 @@
         this.$router.push({path: '/active/' + this.pageList[index].id})
       },
       goDown () {
-        window.location.href = '/person/export?keyword=' + this.keyword
+        window.location.href = '/in/person/export?keyword=' + this.keyword
       },
       getUser () {
         this.$http.get(

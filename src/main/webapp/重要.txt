@@ -12,6 +12,12 @@ login/index.html
 src/Pass/edit.vue
   76行：window.location.href = '/'
   91行：window.location.href = '/person'
+src/Family/list.vue
+  260行：window.location.href = '/family/export?keyword=' + this.keyword
+src/Person/list.vue
+  273行：window.location.href = '/person/export?keyword=' + this.keyword
+src/Message/list.vue
+  169行：window.location.href = '/message/export?keyword=' + this.keyword
 src/Common/menubar.vue
     MenuClick (name) {
       if (name.toString() === 'person') {
@@ -43,6 +49,12 @@ login/index.html
 src/Pass/edit.vue
     76行：window.location.href = '/in'
     91行：window.location.href = '/in/person'
+src/Family/list.vue
+  260行：window.location.href = '/in/family/export?keyword=' + this.keyword
+src/Person/list.vue
+  273行：window.location.href = '/in/person/export?keyword=' + this.keyword
+src/Message/list.vue
+  169行：window.location.href = '/in/message/export?keyword=' + this.keyword
 src/Common/menubar.vue
     MenuClick (name) {
       if (name.toString() === 'person') {
@@ -61,3 +73,4 @@ src/Common/menubar.vue
         window.location.href = '/in'
       }
     }
+打包后，在static/css文件夹中建立文件夹static，将static/fonts文件夹放进去。

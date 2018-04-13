@@ -257,7 +257,7 @@
         this.$router.push({path: '/active/' + this.pageList[index].id})
       },
       goDown () {
-        window.location.href = '/family/export?keyword=' + this.keyword
+        window.location.href = '/in/family/export?keyword=' + this.keyword
       },
       getUser () {
         this.$http.get(
