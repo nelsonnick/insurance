@@ -33,6 +33,22 @@ public abstract class BasePerson<M extends BasePerson<M>> extends Model<M> imple
 		return getInt("lid");
 	}
 
+	public void setCid(java.lang.Integer cid) {
+		set("cid", cid);
+	}
+	
+	public java.lang.Integer getCid() {
+		return getInt("cid");
+	}
+
+	public void setJid(java.lang.Integer jid) {
+		set("jid", jid);
+	}
+	
+	public java.lang.Integer getJid() {
+		return getInt("jid");
+	}
+
 	public void setNumber(java.lang.String number) {
 		set("number", number);
 	}
@@ -89,12 +105,28 @@ public abstract class BasePerson<M extends BasePerson<M>> extends Model<M> imple
 		return getStr("bank");
 	}
 
-	public void setCommunity(java.lang.String community) {
-		set("community", community);
+	public void setCompany(java.lang.String company) {
+		set("company", company);
 	}
 	
-	public java.lang.String getCommunity() {
-		return getStr("community");
+	public java.lang.String getCompany() {
+		return getStr("company");
+	}
+
+	public void setTimeOut(java.util.Date timeOut) {
+		set("time_out", timeOut);
+	}
+	
+	public java.util.Date getTimeOut() {
+		return get("time_out");
+	}
+
+	public void setTimeRegist(java.util.Date timeRegist) {
+		set("time_regist", timeRegist);
+	}
+	
+	public java.util.Date getTimeRegist() {
+		return get("time_regist");
 	}
 
 	public void setMarriage(java.lang.Integer marriage) {

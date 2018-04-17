@@ -69,6 +69,7 @@
   import Page from '../Common/page.vue'
   import Options from '../Common/options.vue'
   import * as API from './API.js'
+  import * as BASE from '../Common/Base.js'
   import MenuBar from '../Common/menubar.vue'
 
   export default {
@@ -257,7 +258,7 @@
         this.$router.push({path: '/active/' + this.pageList[index].id})
       },
       goDown () {
-        window.location.href = '/in/family/export?keyword=' + this.keyword
+        window.location.href = BASE.base + 'family/export?keyword=' + this.keyword
       },
       getUser () {
         this.$http.get(

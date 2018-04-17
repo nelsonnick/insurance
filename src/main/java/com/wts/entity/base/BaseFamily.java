@@ -81,6 +81,22 @@ public abstract class BaseFamily<M extends BaseFamily<M>> extends Model<M> imple
 		return get("birth");
 	}
 
+	public void setCompany(java.lang.String company) {
+		set("company", company);
+	}
+	
+	public java.lang.String getCompany() {
+		return getStr("company");
+	}
+
+	public void setTimeRegist(java.util.Date timeRegist) {
+		set("time_regist", timeRegist);
+	}
+	
+	public java.util.Date getTimeRegist() {
+		return get("time_regist");
+	}
+
 	public void setState(java.lang.Integer state) {
 		set("state", state);
 	}

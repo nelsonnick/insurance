@@ -3,8 +3,8 @@ Table: changefamily
  Field  | Type         | Null | Key | Default | Remarks 
 --------+--------------+------+-----+---------+---------
  id     | INT(10)      | NO   | PRI |         | 序号      
- fid    | INT(10)      | YES  |     |         | 家庭成员    
- uid    | INT(10)      | YES  |     |         | 用户      
+ fid    | INT(10)      | YES  |     |         | 家庭成员序号  
+ uid    | INT(10)      | YES  |     |         | 用户序号    
  type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
  time   | DATETIME(19) | YES  |     |         | 变更时间    
  before | VARCHAR(999) | YES  |     |         | 之前的信息   
@@ -17,8 +17,8 @@ Table: changeperson
  Field  | Type         | Null | Key | Default | Remarks 
 --------+--------------+------+-----+---------+---------
  id     | INT(10)      | NO   | PRI |         | 序号      
- pid    | INT(10)      | YES  |     |         | 人员      
- uid    | INT(10)      | YES  |     |         | 用户      
+ pid    | INT(10)      | YES  |     |         | 人员序号    
+ uid    | INT(10)      | YES  |     |         | 用户序号    
  type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
  time   | DATETIME(19) | YES  |     |         | 变更时间    
  before | VARCHAR(999) | YES  |     |         | 之前的信息   
@@ -26,29 +26,48 @@ Table: changeperson
  reason | VARCHAR(999) | YES  |     |         | 变更原因    
 --------+--------------+------+-----+---------+---------
 
+Table: committees
+-------+--------------+------+-----+---------+---------
+ Field | Type         | Null | Key | Default | Remarks 
+-------+--------------+------+-----+---------+---------
+ id    | INT(10)      | NO   | PRI |         | 序号      
+ lid   | INT(10)      | YES  |     |         | 中心序号    
+ name  | VARCHAR(255) | YES  |     |         | 居委会名称   
+-------+--------------+------+-----+---------+---------
+
 Table: family
-----------+--------------+------+-----+---------+---------
- Field    | Type         | Null | Key | Default | Remarks 
-----------+--------------+------+-----+---------+---------
- id       | INT(10)      | NO   | PRI |         | 序号      
- pid      | INT(10)      | YES  |     |         | 人员      
- number   | VARCHAR(255) | YES  |     |         | 身份证号码   
- name     | VARCHAR(255) | YES  |     |         | 姓名      
- sex      | INT(10)      | YES  |     |         | 1男2女    
- phone    | VARCHAR(255) | YES  |     |         | 联系电话    
- identity | INT(10)      | YES  |     |         | 1夫2妻3子4女5父6母7兄弟8姐妹
- marriage | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
- birth    | DATE(10)     | YES  |     |         | 出生日期    
- state    | INT(10)      | YES  |     |         | 0注销1激活  
- remark   | VARCHAR(999) | YES  |     |         | 备注      
-----------+--------------+------+-----+---------+---------
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | INT(10)      | NO   | PRI |         | 序号      
+ pid         | INT(10)      | YES  |     |         | 人员序号    
+ number      | VARCHAR(255) | YES  |     |         | 证件号码    
+ name        | VARCHAR(255) | YES  |     |         | 姓名      
+ sex         | INT(10)      | YES  |     |         | 1男2女    
+ phone       | VARCHAR(255) | YES  |     |         | 联系电话    
+ identity    | INT(10)      | YES  |     |         | 1夫2妻3子4女5父6母7兄弟8姐妹
+ marriage    | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
+ birth       | DATE(10)     | YES  |     |         | 出生日期    
+ company     | VARCHAR(255) | YES  |     |         | 原（现）工作（学习）单位
+ time_regist | DATE(10)     | YES  |     |         | 城镇登记失业时间
+ state       | INT(10)      | YES  |     |         | 0注销1激活  
+ remark      | VARCHAR(999) | YES  |     |         | 备注      
+-------------+--------------+------+-----+---------+---------
+
+Table: job
+-------+--------------+------+-----+---------+---------
+ Field | Type         | Null | Key | Default | Remarks 
+-------+--------------+------+-----+---------+---------
+ id    | INT(10)      | NO   | PRI |         | 序号      
+ name  | VARCHAR(255) | YES  |     |         | 岗位名称    
+-------+--------------+------+-----+---------+---------
 
 Table: location
 -------+--------------+------+-----+---------+---------
  Field | Type         | Null | Key | Default | Remarks 
 -------+--------------+------+-----+---------+---------
  id    | INT(10)      | NO   | PRI |         | 序号      
- name  | VARCHAR(255) | YES  |     |         | 名称      
+ name  | VARCHAR(255) | YES  |     |         | 中心名称    
 -------+--------------+------+-----+---------+---------
 
 Table: message
@@ -56,32 +75,36 @@ Table: message
  Field   | Type         | Null | Key | Default | Remarks 
 ---------+--------------+------+-----+---------+---------
  id      | INT(10)      | NO   | PRI |         | 序号      
- uid     | INT(10)      | YES  |     |         | 用户      
+ uid     | INT(10)      | YES  |     |         | 用户序号    
  time    | DATETIME(19) | YES  |     |         | 发送时间    
  content | VARCHAR(999) | YES  |     |         | 消息内容    
  state   | INT(10)      | YES  |     |         | 0失败1成功  
 ---------+--------------+------+-----+---------+---------
 
 Table: person
------------+--------------+------+-----+---------+---------
- Field     | Type         | Null | Key | Default | Remarks 
------------+--------------+------+-----+---------+---------
- id        | INT(10)      | NO   | PRI |         | 序号      
- tid       | INT(10)      | YES  |     |         | 人员类别    
- lid       | INT(10)      | YES  |     |         | 中心序号    
- number    | VARCHAR(255) | YES  |     |         | 身份证号码   
- name      | VARCHAR(255) | YES  |     |         | 姓名      
- sex       | INT(10)      | YES  |     |         | 1男2女    
- birth     | DATE(10)     | YES  |     |         | 出生日期    
- phone     | VARCHAR(255) | YES  |     |         | 联系电话    
- address   | VARCHAR(255) | YES  |     |         | 联系地址    
- bank      | VARCHAR(255) | YES  |     |         | 银行卡号    
- community | VARCHAR(255) | YES  |     |         | 所属村居    
- marriage  | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
- state     | INT(10)      | YES  |     |         | 0未享受1正在享受
- delay     | INT(10)      | YES  |     |         | 0不延期1延期 
- remark    | VARCHAR(999) | YES  |     |         | 备注      
------------+--------------+------+-----+---------+---------
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | INT(10)      | NO   | PRI |         | 序号      
+ tid         | INT(10)      | YES  |     |         | 人员类别    
+ lid         | INT(10)      | YES  |     |         | 中心序号    
+ cid         | INT(10)      | YES  |     |         | 居委会序号   
+ jid         | INT(10)      | YES  |     |         | 岗位序号    
+ number      | VARCHAR(255) | YES  |     |         | 证件号码    
+ name        | VARCHAR(255) | YES  |     |         | 姓名      
+ sex         | INT(10)      | YES  |     |         | 1男2女    
+ birth       | DATE(10)     | YES  |     |         | 出生日期    
+ phone       | VARCHAR(255) | YES  |     |         | 联系电话    
+ address     | VARCHAR(255) | YES  |     |         | 联系地址    
+ bank        | VARCHAR(255) | YES  |     |         | 银行卡号    
+ company     | VARCHAR(255) | YES  |     |         | 失业前所在单位 
+ time_out    | DATE(10)     | YES  |     |         | 失业时间    
+ time_regist | DATE(10)     | YES  |     |         | 城镇登记失业时间
+ marriage    | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
+ state       | INT(10)      | YES  |     |         | 0未享受1正在享受
+ delay       | INT(10)      | YES  |     |         | 0不延期1延期 
+ remark      | VARCHAR(999) | YES  |     |         | 备注      
+-------------+--------------+------+-----+---------+---------
 
 Table: security
 --------+--------------+------+-----+---------+---------
@@ -90,7 +113,7 @@ Table: security
  id     | INT(10)      | NO   | PRI |         | 序号      
  lid    | INT(10)      | YES  |     |         | 中心序号    
  type   | INT(10)      | YES  |     |         | 身份：0本人1家属
- sfzhm  | VARCHAR(255) | YES  |     |         | 身份证号码   
+ sfzhm  | VARCHAR(255) | YES  |     |         | 证件号码    
  xm     | VARCHAR(255) | YES  |     |         | 姓名      
  dwbh   | VARCHAR(255) | YES  |     |         | 单位编号    
  dwmc   | VARCHAR(255) | YES  |     |         | 单位名称    
@@ -107,7 +130,7 @@ Table: type
 ----------+--------------+------+-----+---------+---------
  id       | INT(10)      | NO   | PRI |         | 序号      
  category | INT(10)      | YES  |     |         | 1灵活就业2公益岗位3企业吸纳
- name     | VARCHAR(255) | YES  |     |         | 人员类别    
+ name     | VARCHAR(255) | YES  |     |         | 人员类别名称  
 ----------+--------------+------+-----+---------+---------
 
 Table: user
@@ -115,7 +138,7 @@ Table: user
  Field  | Type         | Null | Key | Default | Remarks 
 --------+--------------+------+-----+---------+---------
  id     | INT(10)      | NO   | PRI |         | 序号      
- lid    | INT(10)      | YES  |     |         | 地点序号    
+ lid    | INT(10)      | YES  |     |         | 中心序号    
  name   | VARCHAR(255) | YES  |     |         | 人员姓名    
  weixin | VARCHAR(255) | YES  |     |         | 企业微信    
  login  | VARCHAR(255) | YES  |     |         | 登录名称    

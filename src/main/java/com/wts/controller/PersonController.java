@@ -156,6 +156,7 @@ public class PersonController extends Controller {
     }
     @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Add() {
+        System.out.println(getPara("timeOut"));
         List<Person> persons = Person.dao.find("select * from person where number=?", getPara("number"));
         if (!IDNumber.availableIDNumber(getPara("number"))){
             renderText("证件号码" + IDNumber.checkIDNumber(getPara("number")));

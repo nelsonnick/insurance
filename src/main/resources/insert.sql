@@ -36,6 +36,15 @@ INSERT INTO `insurance`.`type` (`id`, `category`, `name`) VALUES ('17', '3', '�
 INSERT INTO `insurance`.`type` (`id`, `category`, `name`) VALUES ('18', '3', '特困家庭未就业的高校毕业生');
 INSERT INTO `insurance`.`type` (`id`, `category`, `name`) VALUES ('19', '3', '城镇登记失业的成年后孤儿');
 
+INSERT INTO `insurance`.`job` (`id`, `name`) VALUES ('1', '无');
+INSERT INTO `insurance`.`job` (`id`, `name`) VALUES ('2', '钟点工');
+INSERT INTO `insurance`.`job` (`id`, `name`) VALUES ('3', '早市、夜市摆摊经营');
+INSERT INTO `insurance`.`job` (`id`, `name`) VALUES ('4', '街道、社区组织的帮扶');
+INSERT INTO `insurance`.`job` (`id`, `name`) VALUES ('5', '家庭服务');
+INSERT INTO `insurance`.`job` (`id`, `name`) VALUES ('6', '家庭手工业');
+INSERT INTO `insurance`.`job` (`id`, `name`) VALUES ('7', '社区公益性劳动');
+INSERT INTO `insurance`.`job` (`id`, `name`) VALUES ('8', '其他就业帮扶');
+
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('1', '1', '王晓蕾', 'WangXiaoLei', 'wangxiaolei', '1', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('2', '1', '王天硕', 'WangTianShuo', 'wangtianshuo', '1', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('3', '1', '张红', 'ZhangHong', 'zhanghong', '1', '1');

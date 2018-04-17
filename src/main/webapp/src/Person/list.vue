@@ -71,6 +71,7 @@
   import Options from '../Common/options.vue'
   import MenuBar from '../Common/menubar.vue'
   import * as API from './API.js'
+  import * as BASE from '../Common/Base.js'
 
   export default {
     name: 'list',
@@ -270,7 +271,7 @@
         this.$router.push({path: '/active/' + this.pageList[index].id})
       },
       goDown () {
-        window.location.href = '/in/person/export?keyword=' + this.keyword
+        window.location.href = BASE.base + 'person/export?keyword=' + this.keyword
       },
       getUser () {
         this.$http.get(

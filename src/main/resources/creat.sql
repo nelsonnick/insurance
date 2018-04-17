@@ -1,32 +1,42 @@
 CREATE TABLE `location` (
 
-`id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
-`name` varchar(255) NULL COMMENT '名称',
+  `name` varchar(255) NULL COMMENT '中心名称',
 
-PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`)
 
 );
 
+CREATE TABLE `committees` (
 
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
+
+  `lid` int NULL COMMENT '中心序号',
+
+  `name` varchar(255) NULL COMMENT '居委会名称',
+
+  PRIMARY KEY (`id`)
+
+);
 
 CREATE TABLE `user` (
 
-`id` int NOT NULL AUTO_INCREMENT COMMENT '序号',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '序号',
 
-`lid` int NULL COMMENT '地点序号',
+  `lid` int NULL COMMENT '中心序号',
 
-`name` varchar(255) CHARACTER SET utf8 NULL COMMENT '人员姓名',
+  `name` varchar(255) CHARACTER SET utf8 NULL COMMENT '人员姓名',
 
-`weixin` varchar(255) CHARACTER SET utf8 NULL COMMENT '企业微信',
+  `weixin` varchar(255) CHARACTER SET utf8 NULL COMMENT '企业微信',
 
-`login` varchar(255) CHARACTER SET utf8 NULL COMMENT '登录名称',
+  `login` varchar(255) CHARACTER SET utf8 NULL COMMENT '登录名称',
 
-`pass` varchar(255) CHARACTER SET utf8 NULL COMMENT '登录密码',
+  `pass` varchar(255) CHARACTER SET utf8 NULL COMMENT '登录密码',
 
-`state` int NULL COMMENT '0停用1启用',
+  `state` int NULL COMMENT '0停用1启用',
 
-PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`)
 
 );
 
@@ -40,7 +50,11 @@ CREATE TABLE `person` (
 
 `lid` int(11) NULL COMMENT '中心序号',
 
-`number` varchar(255) CHARACTER SET utf8 NULL COMMENT '身份证号码',
+`cid` int(11) NULL COMMENT '居委会序号',
+
+`jid` int(11) NULL COMMENT '岗位序号',
+
+`number` varchar(255) CHARACTER SET utf8 NULL COMMENT '证件号码',
 
 `name` varchar(255) CHARACTER SET utf8 NULL COMMENT '姓名',
 
@@ -54,7 +68,11 @@ CREATE TABLE `person` (
 
 `bank` varchar(255) CHARACTER SET utf8 NULL COMMENT '银行卡号',
 
-`community` varchar(255) CHARACTER SET utf8 NULL COMMENT '所属村居',
+`company` varchar(255) CHARACTER SET utf8 NULL COMMENT '失业前所在单位',
+
+`time_out` date NULL COMMENT '失业时间',
+
+`time_regist` date NULL COMMENT '城镇登记失业时间',
 
 `marriage` int(11) NULL COMMENT '1未婚2已婚3离异4丧偶',
 
@@ -76,21 +94,30 @@ CREATE TABLE `type` (
 
 `category` int(11) NULL COMMENT '1灵活就业2公益岗位3企业吸纳',
 
-`name` varchar(255) CHARACTER SET utf8 NULL COMMENT '人员类别',
+`name` varchar(255) CHARACTER SET utf8 NULL COMMENT '人员类别名称',
 
 PRIMARY KEY (`id`)
 
 );
 
+CREATE TABLE `job` (
+
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '序号',
+
+  `name` varchar(255) CHARACTER SET utf8 NULL COMMENT '岗位名称',
+
+  PRIMARY KEY (`id`)
+
+);
 
 
 CREATE TABLE `family` (
 
 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
-`pid` int(11) NULL COMMENT '人员',
+`pid` int(11) NULL COMMENT '人员序号',
 
-`number` varchar(255) CHARACTER SET utf8 NULL COMMENT '身份证号码',
+`number` varchar(255) CHARACTER SET utf8 NULL COMMENT '证件号码',
 
 `name` varchar(255) CHARACTER SET utf8 NULL COMMENT '姓名',
 
@@ -103,6 +130,10 @@ CREATE TABLE `family` (
 `marriage` int(11) NULL COMMENT '1未婚2已婚3离异4丧偶',
 
 `birth` date NULL COMMENT '出生日期',
+
+`company` varchar(255) CHARACTER SET utf8 NULL COMMENT '原（现）工作（学习）单位',
+
+`time_regist` date NULL COMMENT '城镇登记失业时间',
 
 `state` int(11) NULL COMMENT '0注销1激活',
 
@@ -118,9 +149,9 @@ CREATE TABLE `changePerson` (
 
 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
-`pid` int(11) NULL COMMENT '人员',
+`pid` int(11) NULL COMMENT '人员序号',
 
-`uid` int(11) NULL COMMENT '用户',
+`uid` int(11) NULL COMMENT '用户序号',
 
 `type` int(11) NULL COMMENT '1新增2信息变更3注销4激活',
 
@@ -142,9 +173,9 @@ CREATE TABLE `changeFamily` (
 
 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
-`fid` int(11) NULL COMMENT '家庭成员',
+`fid` int(11) NULL COMMENT '家庭成员序号',
 
-`uid` int(11) NULL COMMENT '用户',
+`uid` int(11) NULL COMMENT '用户序号',
 
 `type` int(11) NULL COMMENT '1新增2信息变更3注销4激活',
 
@@ -164,7 +195,7 @@ CREATE TABLE `message` (
 
 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
-`uid` int(11) NULL COMMENT '用户',
+`uid` int(11) NULL COMMENT '用户序号',
 
 `time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '发送时间',
 
@@ -184,7 +215,7 @@ CREATE TABLE `security` (
 
 `type` int(11) NULL COMMENT '身份：0本人1家属',
 
-`sfzhm` varchar(255) CHARACTER SET utf8 NULL COMMENT '身份证号码',
+`sfzhm` varchar(255) CHARACTER SET utf8 NULL COMMENT '证件号码',
 
 `xm` varchar(255) CHARACTER SET utf8 NULL COMMENT '姓名',
 
@@ -211,7 +242,11 @@ ALTER TABLE `user` ADD CONSTRAINT `location_user` FOREIGN KEY (`lid`) REFERENCES
 
 ALTER TABLE `person` ADD CONSTRAINT `person_type` FOREIGN KEY (`tid`) REFERENCES `type` (`id`);
 
+ALTER TABLE `person` ADD CONSTRAINT `person_committees` FOREIGN KEY (`cid`) REFERENCES `committees` (`id`);
+
 ALTER TABLE `person` ADD CONSTRAINT `person_location` FOREIGN KEY (`lid`) REFERENCES `location` (`id`);
+
+ALTER TABLE `person` ADD CONSTRAINT `person_job` FOREIGN KEY (`jid`) REFERENCES `job` (`id`);
 
 ALTER TABLE `family` ADD CONSTRAINT `family_person` FOREIGN KEY (`pid`) REFERENCES `person` (`id`);
 

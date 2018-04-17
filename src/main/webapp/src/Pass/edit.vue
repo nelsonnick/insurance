@@ -37,6 +37,7 @@
 </template>
 <script>
   import * as API from './API.js'
+  import * as BASE from '../Common/Base.js'
   import MenuBar from '../Common/menubar.vue'
 
   export default {
@@ -73,7 +74,7 @@
               title: '操作完成!',
               desc: '请重新登录'
             })
-            window.location.href = '/in'
+            window.location.href = BASE.base
           } else {
             this.$Loading.error()
             this.$Notice.error({
@@ -88,7 +89,7 @@
         })
       },
       goBack () {
-        window.location.href = '/in/person'
+        window.location.href = BASE.base + 'person'
       },
       getUser () {
         this.$http.get(

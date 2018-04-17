@@ -33,48 +33,30 @@
   </Menu>
 </template>
 <script>
+  import * as BASE from './Base.js'
   export default {
     name: 'menubar',
     props: ['sys', 'active', 'userName'],
     methods: {
       MenuClick (name) {
         if (name.toString() === 'person') {
-          window.location.href = '/in/person'
+          window.location.href = BASE.base + 'person'
         } else if (name.toString() === 'family') {
-          window.location.href = '/in/family'
+          window.location.href = BASE.base + 'family'
         } else if (name.toString() === 'pass') {
-          window.location.href = '/in/pass'
+          window.location.href = BASE.base + 'pass'
         } else if (name.toString() === 'user') {
-          window.location.href = '/in/user'
+          window.location.href = BASE.base + 'user'
         } else if (name.toString() === 'message') {
-          window.location.href = '/in/message'
+          window.location.href = BASE.base + 'message'
         } else if (name.toString() === 'logout') {
-          window.location.href = '/in/logout'
+          window.location.href = BASE.base + 'logout'
         } else if (name.toString() === 'main') {
 
         } else {
-          window.location.href = '/in'
+          window.location.href = BASE.base
         }
       }
-      // MenuClick (name) {
-      //   if (name.toString() === 'person') {
-      //     window.location.href = '/person'
-      //   } else if (name.toString() === 'family') {
-      //     window.location.href = '/family'
-      //   } else if (name.toString() === 'pass') {
-      //     window.location.href = '/pass'
-      //   } else if (name.toString() === 'user') {
-      //     window.location.href = '/user'
-      //   } else if (name.toString() === 'message') {
-      //     window.location.href = '/message'
-      //   } else if (name.toString() === 'logout') {
-      //     window.location.href = '/logout'
-      //   } else if (name.toString() === 'main') {
-      //
-      //   } else {
-      //     window.location.href = '/'
-      //   }
-      // }
     }
   }
 </script>
