@@ -114,19 +114,19 @@ public abstract class BasePerson<M extends BasePerson<M>> extends Model<M> imple
 	}
 
 	public void setTimeOut(java.util.Date timeOut) {
-		set("time_out", timeOut);
+		set("timeOut", timeOut);
 	}
 	
 	public java.util.Date getTimeOut() {
-		return get("time_out");
+		return get("timeOut");
 	}
 
 	public void setTimeRegist(java.util.Date timeRegist) {
-		set("time_regist", timeRegist);
+		set("timeRegist", timeRegist);
 	}
 	
 	public java.util.Date getTimeRegist() {
-		return get("time_regist");
+		return get("timeRegist");
 	}
 
 	public void setMarriage(java.lang.Integer marriage) {

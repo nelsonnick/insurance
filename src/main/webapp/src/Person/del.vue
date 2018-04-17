@@ -15,163 +15,118 @@
           </div>
         </Col>
       </Row>
-      <Row>
-        <Col span="6">&nbsp;</Col>
-        <Col span="12">
-        <Form :label-width="100" :model="person"  ref="Form">
-          <Form-item size="large" label="申请类别" required>
-            <Cascader size="large" :data="type" v-model="tid" style="width: 600px" clearable="false" disabled></Cascader>
-          </Form-item>
-          <Form-item label="证件号码"  prop="numberValidate" required>
-            <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 600px" maxlength="18" disabled></Input>
-          </Form-item>
-          <Form-item label="人员姓名" prop="nameValidate" required>
-            <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 600px" disabled></Input>
-          </Form-item>
-          <Form-item label="联系电话" prop="phoneValidate" required>
-            <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 600px" maxlength="11" disabled></Input>
-          </Form-item>
-          <Form-item label="联系地址" prop="addressValidate" required>
-            <Input size="large" v-model="address" placeholder="请输入联系地址" style="width: 600px" disabled></Input>
-          </Form-item>
-          <Form-item size="large" label="婚姻状况" prop="marriage" required>
-            <Radio-group v-model="marriage" size="large"  type="button" >
-              <Radio label="2" disabled>已婚</Radio>
-              <Radio label="3" disabled>离异</Radio>
-              <Radio label="1" disabled>未婚</Radio>
-              <Radio label="4" disabled>丧偶</Radio>
-            </Radio-group>
-          </Form-item>
-          <Form-item size="large" label="延期政策" prop="delay" required>
-            <Radio-group v-model="delay" size="large"  type="button" disabled>
-              <Radio label="0" disabled>不符合</Radio>
-              <Radio label="1" disabled>符合</Radio>
-            </Radio-group>
-          </Form-item>
-          <Form-item size="large" label="银行卡号" prop="delay" required>
-            <Input size="large" v-model="bank" placeholder="请输入银行卡号" style="width: 600px" disabled></Input>
-          </Form-item>
-          <Form-item size="large" label="所属社区" prop="delay" required>
-            <Input size="large" v-model="community" placeholder="请输入所属社区" style="width: 600px" disabled></Input>
-          </Form-item>
-          <Form-item label="备注信息" >
-            <Input v-model="remark" type="textarea" :rows="4" placeholder="如有必要，请输入备注信息" style="width: 600px" disabled></Input>
-          </Form-item>
-          <Form-item label="注销原因" required>
-            <Input v-model="reason" type="textarea" :rows="4" placeholder="请输入注销的原因" style="width: 600px"></Input>
-          </Form-item>
-          <Form-item>
-            <Button size="large" type="success" @click="goSave">注销</Button>
-            <Button size="large" type="warning" style="margin-left: 8px" @click="goReset">重置</Button>
-            <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack">返回</Button>
-          </Form-item>
-        </Form>
-        </Col>
-        <Col span="6">&nbsp;</Col>
-      </Row>
+      <Form :label-width="120" :model="person" ref="Form">
+        <Row>
+          <Col span="12">
+            <Form-item size="large" label="申请类别" required>
+              <Cascader size="large" :data="type" v-model="tid" style="width: 400px" clearable="false" disabled></Cascader>
+            </Form-item>
+            <Form-item label="证件号码" required>
+              <Input size="large" v-model="number" placeholder="请输入身份证号码" style="width: 400px" maxlength="18" disabled></Input>
+            </Form-item>
+            <Form-item label="人员姓名" required>
+              <Input size="large" v-model="name" placeholder="请输入姓名" style="width: 400px" disabled></Input>
+            </Form-item>
+            <Form-item label="联系电话" required>
+              <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 400px" maxlength="11" disabled></Input>
+            </Form-item>
+            <Form-item label="联系地址" required>
+              <Input size="large" v-model="address" placeholder="请输入联系地址" style="width: 400px" disabled></Input>
+            </Form-item>
+            <Form-item size="large" label="婚姻状况" prop="marriage" required>
+              <Radio-group v-model="marriage" size="large" type="button">
+                <Radio label="2" disabled>已婚</Radio>
+                <Radio label="3" disabled>离异</Radio>
+                <Radio label="1" disabled>未婚</Radio>
+                <Radio label="4" disabled>丧偶</Radio>
+              </Radio-group>
+            </Form-item>
+            <Form-item size="large" label="银行卡号">
+              <Input size="large" v-model="bank" placeholder="请输入银行卡号" style="width: 400px" disabled></Input>
+            </Form-item>
+            <Form-item label="注销原因" required>
+              <Input v-model="reason" type="textarea" :rows="2" placeholder="请输入注销的原因" style="width: 600px"></Input>
+            </Form-item>
+          </Col>
+          <Col span="12">
+            <Form-item size="large" label="工作岗位" required>
+              <Cascader size="large" :data="job" v-model="jid" style="width: 400px" clearable="false" disabled></Cascader>
+            </Form-item>
+            <Form-item label="失业时间">
+              <DatePicker size="large" v-model="timeOut" type="date" placeholder="请选择失业时间" format="yyyy年MM月dd日" style="width: 400px" disabled></DatePicker>
+            </Form-item>
+            <Form-item label="城镇登记失业时间" required>
+              <DatePicker size="large" v-model="timeRegist" type="date" placeholder="请选择城镇登记失业时间" format="yyyy年MM月dd日" style="width: 400px" disabled></DatePicker>
+            </Form-item>
+            <Form-item label="失业前所在单位">
+              <Input size="large" v-model="company" placeholder="请输入失业前所在单位" style="width: 400px" disabled></Input>
+            </Form-item>
+            <Form-item size="large" label="所属村居">
+              <Cascader size="large" :data="community" v-model="cid" style="width: 400px" clearable="false" disabled></Cascader>
+            </Form-item>
+            <Form-item size="large" label="延期政策" prop="delay" required>
+              <Radio-group v-model="delay" size="large" type="button">
+                <Radio label="0" disabled>不符合</Radio>
+                <Radio label="1" disabled>符合</Radio>
+              </Radio-group>
+            </Form-item>
+            <Form-item label="备注信息">
+              <Input v-model="remark" type="textarea" :rows="4" placeholder="如有必要，请输入备注信息" style="width: 400px" disabled></Input>
+            </Form-item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="8">&nbsp;</Col>
+          <Col span="8">
+            <Form-item>
+              <Button size="large" type="success" @click="goSave">注销</Button>
+              <Button size="large" type="warning" style="margin-left: 8px" @click="goReset">重置</Button>
+              <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack">返回</Button>
+            </Form-item>
+          </Col>
+          <Col span="8">&nbsp;</Col>
+        </Row>
+      </Form>
     </Layout>
   </div>
 </template>
 <script>
   import * as API from './API.js'
   import MenuBar from '../Common/menubar.vue'
+  import axios from 'axios'
 
   export default {
-    name: 'active',
+    name: 'del',
     components: {MenuBar},
     data () {
       return {
         userName: window.userName,
         sys: window.sys,
         active: 'person',
-        type: [
-          {
-            value: '1',
-            label: '灵活就业',
-            children: [{
-              value: '1',
-              label: '城镇零就业家庭成员的“4050”失业人员'
-            }, {
-              value: '2',
-              label: '抚养未成年子女单亲家庭成员的 “4050” 失业人员'
-            }, {
-              value: '3',
-              label: '享受城市居民最低生活保障的“4050”失业人员'
-            }, {
-              value: '4',
-              label: '持有《中华人民共和国残疾人证》的 “4050” 失业人员'
-            }, {
-              value: '5',
-              label: '特困家庭未就业的高校毕业生'
-            }, {
-              value: '6',
-              label: '城镇登记失业的成年后孤儿'
-            }]
-          },
-          {
-            value: '2',
-            label: '公益岗位',
-            children: [{
-              value: '7',
-              label: '城镇零就业家庭成员的“4050”失业人员'
-            }, {
-              value: '8',
-              label: '抚养未成年子女单亲家庭成员的 “4050” 失业人员'
-            }, {
-              value: '9',
-              label: '享受城市居民最低生活保障的“4050”失业人员'
-            }, {
-              value: '10',
-              label: '持有《中华人民共和国残疾人证》的 “4050” 失业人员'
-            }, {
-              value: '11',
-              label: '特困家庭未就业的高校毕业生'
-            }, {
-              value: '12',
-              label: '城镇登记失业的成年后孤儿'
-            }]
-          },
-          {
-            value: '3',
-            label: '企业吸纳',
-            children: [{
-              value: '13',
-              label: '女性年满40周岁、男性年满50周岁以上且连续失业半年以上的失业人员'
-            }, {
-              value: '14',
-              label: '城镇零就业家庭成员的“4050”失业人员'
-            }, {
-              value: '15',
-              label: '抚养未成年子女单亲家庭成员的失业人员'
-            }, {
-              value: '16',
-              label: '享受城市居民最低生活保障的失业人员'
-            }, {
-              value: '17',
-              label: '特困家庭未就业的高校毕业生'
-            }, {
-              value: '18',
-              label: '持有《中华人民共和国残疾人证》的失业人员'
-            }, {
-              value: '19',
-              label: '城镇登记失业的成年后孤儿'
-            }]
-          }
-        ],
+        type: [],
+        job: [],
+        community: [],
         number: '',
         name: '',
         phone: '',
         address: '',
+        timeOut: '',
+        timeRegist: '',
+        company: '',
+        jid: ['1'],
         tid: ['1', '1'],
+        cid: ['1'],
         marriage: '2',
         delay: '0',
         bank: '',
-        community: '',
         remark: '',
         reason: ''
       }
     },
     created: function () {
+      this.getType()
+      this.getJob()
+      this.getCommunity()
       this.fetchData(this.$route.params.id)
     },
     watch: {
@@ -183,41 +138,41 @@
         this.fetchData(this.$route.params.id)
         this.reason = ''
       },
-      goSave () {
+      goSave() {
         this.$Loading.start()
-        this.$http.get(
-          API.Del,
-          { params: {
+        axios.get(API.Del, {
+          params: {
             id: this.$route.params.id,
             reason: this.reason
-          } },
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-        ).then((response) => {
-          if (response.body === 'OK') {
+          }
+        }).then(res => {
+          if (res.data === 'OK') {
             this.$Loading.finish()
             this.$Message.success('注销成功!')
             this.$Notice.success({
               title: '操作完成!',
               desc: '人员：' + this.name + '已注销！其家庭成员同时被全部注销！'
             })
-            setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
+            setTimeout(() => {
+              this.$router.push({path: '/list'})
+            }, 1000)
           } else {
             this.$Loading.error()
             this.$Notice.error({
-              title: response.body
+              title: res.data
             })
           }
-        }, (response) => {
+        }).catch(res => {
           this.$Loading.error()
           this.$Notice.error({
-            title: '服务器内部错误，无法激活该人员!'
+            title: '服务器内部错误，无法注销人员!'
           })
         })
       },
       goBack () {
         this.$router.push({ path: '/list' })
       },
-      getType (number) {
+      getTypeId (number) {
         if (number.toString() === '1') {
           return ['1', '1']
         } else if (number.toString() === '2') {
@@ -258,23 +213,55 @@
           return ['3', '19']
         }
       },
+      getType() {
+        axios.get(API.GetType).then(res => {
+          this.type = eval('(' + res.data + ')')
+        }).catch(res => {
+          this.$Loading.error()
+          this.$Notice.error({
+            title: '服务器内部错误!'
+          })
+        })
+      },
+      getJob() {
+        axios.get(API.GetJob).then(res => {
+          this.job = eval('(' + res.data + ')')
+        }).catch(res => {
+          this.$Loading.error()
+          this.$Notice.error({
+            title: '服务器内部错误!'
+          })
+        })
+      },
+      getCommunity() {
+        axios.get(API.GetCommunity).then(res => {
+          this.community = eval('(' + res.data + ')')
+        }).catch(res => {
+          this.$Loading.error()
+          this.$Notice.error({
+            title: '服务器内部错误!'
+          })
+        })
+      },
       fetchData (id) {
-        this.$http.get(
-          API.Get,
-          { params: { id: id } },
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-        ).then((response) => {
-          this.number = response.body.number
-          this.name = response.body.name
-          this.phone = response.body.phone
-          this.address = response.body.address
-          this.tid = this.getType(response.body.tid)
-          this.delay = response.body.delay + ''
-          this.marriage = response.body.marriage + ''
-          this.bank = response.body.bank + ''
-          this.community = response.body.community + ''
-          this.remark = response.body.remark + ''
-        }, (response) => {
+        axios.get(API.Get,
+          { params: { id: id } }
+        ).then(res => {
+          this.number = res.data.number
+          this.name = res.data.name
+          this.phone = res.data.phone
+          this.address = res.data.address
+          this.tid = this.getTypeId(res.data.tid)
+          this.jid = new Array(res.data.jid)
+          this.cid = new Array(res.data.cid)
+          this.timeOut = res.data.timeOut
+          this.timeRegist = res.data.timeRegist
+          this.delay = res.data.delay + ''
+          this.marriage = res.data.marriage + ''
+          this.bank = res.data.bank + ''
+          this.company = res.data.company + ''
+          this.remark = res.data.remark + ''
+        }).catch(res => {
           this.$Notice.error({
             title: '服务器内部错误!'
           })

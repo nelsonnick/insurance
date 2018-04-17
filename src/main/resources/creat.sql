@@ -8,7 +8,7 @@ CREATE TABLE `location` (
 
 );
 
-CREATE TABLE `committees` (
+CREATE TABLE `community` (
 
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
@@ -70,9 +70,9 @@ CREATE TABLE `person` (
 
 `company` varchar(255) CHARACTER SET utf8 NULL COMMENT '失业前所在单位',
 
-`time_out` date NULL COMMENT '失业时间',
+`timeOut` date NULL COMMENT '失业时间',
 
-`time_regist` date NULL COMMENT '城镇登记失业时间',
+`timeRegist` date NULL COMMENT '城镇登记失业时间',
 
 `marriage` int(11) NULL COMMENT '1未婚2已婚3离异4丧偶',
 
@@ -242,7 +242,7 @@ ALTER TABLE `user` ADD CONSTRAINT `location_user` FOREIGN KEY (`lid`) REFERENCES
 
 ALTER TABLE `person` ADD CONSTRAINT `person_type` FOREIGN KEY (`tid`) REFERENCES `type` (`id`);
 
-ALTER TABLE `person` ADD CONSTRAINT `person_committees` FOREIGN KEY (`cid`) REFERENCES `committees` (`id`);
+ALTER TABLE `person` ADD CONSTRAINT `person_community` FOREIGN KEY (`cid`) REFERENCES `community` (`id`);
 
 ALTER TABLE `person` ADD CONSTRAINT `person_location` FOREIGN KEY (`lid`) REFERENCES `location` (`id`);
 

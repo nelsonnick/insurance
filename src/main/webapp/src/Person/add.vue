@@ -5,8 +5,8 @@
         <MenuBar :sys="sys" :active="active" :userName="userName"></MenuBar>
       </Header>
 
-        <Row>
-          <Col>
+      <Row>
+        <Col>
           <div>
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
@@ -14,8 +14,8 @@
               <BreadcrumbItem>新增</BreadcrumbItem>
             </Breadcrumb>
           </div>
-          </Col>
-        </Row>
+        </Col>
+      </Row>
       <Form :label-width="120" :model="person" ref="Form">
         <Row>
           <Col span="12">
@@ -47,22 +47,20 @@
             </Form-item>
           </Col>
           <Col span="12">
-            <Form-item size="large" label="从事灵活岗位" required>
+            <Form-item size="large" label="工作岗位" required>
               <Cascader size="large" :data="job" v-model="jid" style="width: 400px" clearable="false"></Cascader>
             </Form-item>
             <Form-item label="失业时间">
-              <DatePicker size="large" v-model="timeOut" type="date" placeholder="请选择失业时间" format="yyyy年MM月dd日"
-                          style="width: 400px"></DatePicker>
+              <DatePicker size="large" v-model="timeOut" type="date" placeholder="请选择失业时间" format="yyyy年MM月dd日" style="width: 400px"></DatePicker>
             </Form-item>
             <Form-item label="城镇登记失业时间" required>
-              <DatePicker size="large" v-model="timeRegist" type="date" placeholder="请选择城镇登记失业时间" format="yyyy年MM月dd日"
-                          style="width: 400px"></DatePicker>
+              <DatePicker size="large" v-model="timeRegist" type="date" placeholder="请选择城镇登记失业时间" format="yyyy年MM月dd日" style="width: 400px"></DatePicker>
             </Form-item>
             <Form-item label="失业前所在单位">
               <Input size="large" v-model="company" placeholder="请输入失业前所在单位" style="width: 400px"></Input>
             </Form-item>
-            <Form-item size="large" label="所属社区">
-              <Cascader size="large" :data="committees" v-model="cid" style="width: 400px" clearable="false"></Cascader>
+            <Form-item size="large" label="所属村居">
+              <Cascader size="large" :data="community" v-model="cid" style="width: 400px" clearable="false"></Cascader>
             </Form-item>
             <Form-item size="large" label="延期政策" prop="delay" required>
               <Radio-group v-model="delay" size="large" type="button">
@@ -78,11 +76,11 @@
         <Row>
           <Col span="8">&nbsp;</Col>
           <Col span="8">
-          <Form-item>
-            <Button size="large" type="success" @click="goSave">保存</Button>
-            <Button size="large" type="warning" style="margin-left: 8px" @click="goReset">重置</Button>
-            <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack">返回</Button>
-          </Form-item>
+            <Form-item>
+              <Button size="large" type="success" @click="goSave">保存</Button>
+              <Button size="large" type="warning" style="margin-left: 8px" @click="goReset">重置</Button>
+              <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack">返回</Button>
+            </Form-item>
           </Col>
           <Col span="8">&nbsp;</Col>
         </Row>
@@ -93,18 +91,19 @@
 <script>
   import * as API from './API.js'
   import MenuBar from '../Common/menubar.vue'
+  import axios from 'axios'
 
   export default {
     name: 'add',
     components: {MenuBar},
-    data () {
+    data() {
       return {
         userName: window.userName,
         sys: window.sys,
         active: 'person',
         type: [],
         job: [],
-        committees: [],
+        community: [],
         number: '',
         name: '',
         phone: '',
@@ -112,9 +111,9 @@
         timeOut: new Date(),
         timeRegist: new Date(),
         company: '',
-        jid: '1',
+        jid: ['2'],
         tid: ['1', '1'],
-        cid: '1',
+        cid: ['1'],
         marriage: '2',
         delay: '0',
         bank: '',
@@ -124,13 +123,13 @@
     created: function () {
       this.getType()
       this.getJob()
-      this.getCommittees()
+      this.getCommunity()
     },
     methods: {
-      goReset () {
+      goReset() {
         this.tid = ['1', '1']
-        this.jid = '1'
-        this.cid = ''
+        this.jid = ['1']
+        this.cid = ['1']
         this.number = ''
         this.name = ''
         this.phone = ''
@@ -142,30 +141,27 @@
         this.timeRegist = new Date()
         this.remark = ''
       },
-      goSave () {
+      goSave() {
         this.$Loading.start()
-        this.$http.get(
-          API.Add,
-          {
-            params: {
-              name: this.name,
-              number: this.number,
-              phone: this.phone,
-              address: this.address,
-              tid: this.tid[1],
-              jid: this.jid,
-              cid: this.cid,
-              timeOut: this.timeOut.getTime(),
-              timeRegist: this.timeRegist.getTime(),
-              delay: this.delay,
-              marriage: this.marriage,
-              bank: this.bank,
-              remark: this.remark
-            }
-          },
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          if (response.body === 'OK') {
+        axios.get(API.Add, {
+          params: {
+            name: this.name,
+            number: this.number,
+            phone: this.phone,
+            address: this.address,
+            tid: this.tid[1],
+            timeOut: this.timeOut.getTime(),
+            timeRegist: this.timeRegist.getTime(),
+            delay: this.delay,
+            cid: this.cid[0],
+            marriage: this.marriage,
+            bank: this.bank,
+            company: this.company,
+            jid: this.jid[0],
+            remark: this.remark
+          }
+        }).then(res => {
+          if (res.data === 'OK') {
             this.$Loading.finish()
             this.$Message.success('新增成功!')
             this.$Notice.success({
@@ -178,50 +174,44 @@
           } else {
             this.$Loading.error()
             this.$Notice.error({
-              title: response.body
+              title: res.data
             })
           }
-        }, (response) => {
+        }).catch(res => {
           this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误，无法保存人员信息!'
           })
         })
       },
-      goBack () {
+      goBack() {
         this.$router.push({path: '/list'})
       },
-      getType () {
-        this.$http.get(
-          API.GetType,
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          this.type = eval('(' + response.bodyText + ')')
-        }, (response) => {
+      getType() {
+        axios.get(API.GetType).then(res => {
+          this.type = eval('(' + res.data + ')')
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误!'
           })
         })
       },
-      getJob () {
-        this.$http.get(
-          API.GetJob,
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          this.job = eval('(' + response.bodyText + ')')
-        }, (response) => {
+      getJob() {
+        axios.get(API.GetJob).then(res => {
+          this.job = eval('(' + res.data + ')')
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误!'
           })
         })
       },
-      getCommittees () {
-        this.$http.get(
-          API.GetCommittees,
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          this.committees = eval('(' + response.bodyText + ')')
-        }, (response) => {
+      getCommunity() {
+        axios.get(API.GetCommunity).then(res => {
+          this.community = eval('(' + res.data + ')')
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误!'
           })

@@ -19,6 +19,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -156,7 +158,6 @@ public class PersonController extends Controller {
     }
     @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Add() {
-        System.out.println(getPara("timeOut"));
         List<Person> persons = Person.dao.find("select * from person where number=?", getPara("number"));
         if (!IDNumber.availableIDNumber(getPara("number"))){
             renderText("证件号码" + IDNumber.checkIDNumber(getPara("number")));
@@ -170,13 +171,30 @@ public class PersonController extends Controller {
             renderText("联系电话必须为11位数字!");
         } else if (getPara("address").length()<1) {
             renderText("联系地址未填写！");
+        } else if (getPara("timeOut").length()<1) {
+            renderText("失业时间未填写！");
+        } else if (getPara("timeRegist").length()<1) {
+            renderText("城镇登记失业时间未填写！");
         } else if (getPara("marriage").length()<1) {
             renderText("婚姻状况未选择！");
         } else if (getPara("delay").length()<1) {
             renderText("延期政策未选择！");
         } else if (getPara("tid").length()<1) {
             renderText("申请类别未选择！");
+        } else if (getPara("jid").length()<1) {
+            renderText("工作岗位未选择！");
+        } else if (getPara("cid").length()<1) {
+            renderText("所属村居未选择！");
+        } else if (getParaToInt("tid")>6 && !getPara("jid").equals("1")) {
+            renderText("当前人员类别的工作岗位必须为无！");
+        } else if (getParaToInt("tid")<7 && getPara("jid").equals("1")) {
+            renderText("当前人员类别的工作岗位不能为无！");
         } else {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(getParaToLong("timeOut"));
+            Date timeOut =c.getTime();
+            c.setTimeInMillis(getParaToLong("timeRegist"));
+            Date timeRegist =c.getTime();
             Person person = new Person();
             person.set("name", getPara("name"))
                     .set("number", getPara("number"))
@@ -185,10 +203,14 @@ public class PersonController extends Controller {
                     .set("phone", getPara("phone"))
                     .set("address", getPara("address"))
                     .set("tid", getParaToInt("tid"))
+                    .set("cid", getParaToInt("cid"))
+                    .set("jid", getParaToInt("jid"))
+                    .set("timeOut", timeOut)
+                    .set("timeRegist", timeRegist)
                     .set("marriage", getParaToInt("marriage"))
                     .set("delay", getParaToInt("delay"))
                     .set("bank", getPara("bank"))
-                    .set("community", getPara("community"))
+                    .set("company", getPara("company"))
                     .set("remark", getPara("remark"))
                     .set("state", 1)
                     .set("lid", ((User) getSessionAttr("user")).get("lid"));
@@ -217,9 +239,13 @@ public class PersonController extends Controller {
                 && Util.CheckNull(person.getStr("address")).equals(getPara("address").trim())
                 && Util.CheckNull(person.getStr("marriage")).equals(getPara("marriage").trim())
                 && Util.CheckNull(person.getStr("bank")).equals(getPara("bank").trim())
-                && Util.CheckNull(person.getStr("community")).equals(getPara("community").trim())
                 && Util.CheckNull(person.getStr("remark")).equals(getPara("remark").trim())
                 && Util.CheckNull(person.getStr("delay")).equals(getPara("delay").trim())
+                && Util.CheckNull(person.getStr("cid")).equals(getPara("cid").trim())
+                && Util.CheckNull(person.getStr("jid")).equals(getPara("jid").trim())
+                && Util.CheckNull(person.getStr("company")).equals(getPara("company").trim())
+                && Util.CheckNull(person.getTimeOut().getTime()+"").equals(getPara("timeOut").trim())
+                && Util.CheckNull(person.getTimeRegist().getTime()+"").equals(getPara("timeRegist").trim())
                 && Util.CheckNull(person.getStr("tid")).equals(getPara("tid").trim())
                 ) {
             renderText("未找到修改内容，请核实后再修改！");
@@ -242,7 +268,20 @@ public class PersonController extends Controller {
             renderText("延期政策未选择！");
         } else if (getPara("tid").length()<1) {
             renderText("申请类别未选择！");
+        } else if (getPara("jid").length()<1) {
+            renderText("工作岗位未选择！");
+        } else if (getPara("cid").length()<1) {
+            renderText("所属村居未选择！");
+        } else if (getParaToInt("tid")>6 && !getPara("jid").equals("1")) {
+            renderText("当前人员类别的工作岗位必须为无！");
+        } else if (getParaToInt("tid")<7 && getPara("jid").equals("1")) {
+            renderText("当前人员类别的工作岗位不能为无！");
         } else {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(getParaToLong("timeOut"));
+            Date timeOut =c.getTime();
+            c.setTimeInMillis(getParaToLong("timeRegist"));
+            Date timeRegist =c.getTime();
             String before = JSON.toJSONString(person);
             person.set("name", getPara("name"))
                     .set("number", getPara("number"))
@@ -251,10 +290,14 @@ public class PersonController extends Controller {
                     .set("phone", getPara("phone"))
                     .set("address", getPara("address"))
                     .set("tid", getParaToInt("tid"))
+                    .set("cid", getParaToInt("cid"))
+                    .set("jid", getParaToInt("jid"))
+                    .set("timeOut", timeOut)
+                    .set("timeRegist", timeRegist)
                     .set("marriage", getParaToInt("marriage"))
                     .set("delay", getParaToInt("delay"))
                     .set("bank", getPara("bank"))
-                    .set("community", getPara("community"))
+                    .set("company", getPara("company"))
                     .set("remark", getPara("remark"))
                     .update();
             if (person.update()){
@@ -315,6 +358,7 @@ public class PersonController extends Controller {
                 "CASE person.sex WHEN '1' THEN '男' WHEN '2' THEN '女' ELSE '状态错误' END AS sex, " +
                 "CASE person.delay WHEN '0' THEN '不延期' WHEN '1' THEN '延期' ELSE '状态错误' END AS delay " +
                 "FROM person LEFT JOIN location ON person.lid = location.id " +
+                "LEFT JOIN community ON person.cid = community.id " +
                 "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
                 "OR person.name LIKE '%" + getPara("keyword") + "%' " +
                 "OR person.phone LIKE '%" + getPara("keyword") + "%' ) "

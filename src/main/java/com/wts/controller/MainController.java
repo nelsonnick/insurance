@@ -61,15 +61,17 @@ public class MainController extends Controller {
         for (Job job : jobs) {
             str = str + "{value: '" + job.getId() + "',label:'" + job.getName() + "'},";
         }
+        str = str.substring(0, str.length() - 1);
         renderJson("[" + str + "]");
     }
 
-    public void getCommittees() {
-        List<Committees> committees = Committees.dao.find("SELECT * FROM committees WHERE lid=?",((User) getSessionAttr("user")).getLid());
+    public void getCommunity() {
+        List<Community> communities = Community.dao.find("SELECT * FROM community WHERE lid=1 OR lid=?",((User) getSessionAttr("user")).getLid());
         String str = "";
-        for (Committees com : committees) {
-            str = str + "{value: '" + com.getId() + "',label:'" + com.getName() + "'},";
+        for (Community community: communities) {
+            str = str + "{value: '" + community.getId() + "',label:'" + community.getName() + "'},";
         }
+        str = str.substring(0, str.length() - 1);
         renderJson("[" + str + "]");
     }
 

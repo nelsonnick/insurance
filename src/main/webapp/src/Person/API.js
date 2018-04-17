@@ -9,4 +9,4 @@ export const Active = `${base}/Active`
 export const GetUser = `user/getUser`
 export const GetType = `getType`
 export const GetJob = `getJob`
-export const GetCommittees = `getCommittees`
+export const GetCommunity = `getCommunity`

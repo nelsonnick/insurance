@@ -26,7 +26,7 @@ Table: changeperson
  reason | VARCHAR(999) | YES  |     |         | 变更原因    
 --------+--------------+------+-----+---------+---------
 
-Table: committees
+Table: community
 -------+--------------+------+-----+---------+---------
  Field | Type         | Null | Key | Default | Remarks 
 -------+--------------+------+-----+---------+---------
@@ -82,29 +82,29 @@ Table: message
 ---------+--------------+------+-----+---------+---------
 
 Table: person
--------------+--------------+------+-----+---------+---------
- Field       | Type         | Null | Key | Default | Remarks 
--------------+--------------+------+-----+---------+---------
- id          | INT(10)      | NO   | PRI |         | 序号      
- tid         | INT(10)      | YES  |     |         | 人员类别    
- lid         | INT(10)      | YES  |     |         | 中心序号    
- cid         | INT(10)      | YES  |     |         | 居委会序号   
- jid         | INT(10)      | YES  |     |         | 岗位序号    
- number      | VARCHAR(255) | YES  |     |         | 证件号码    
- name        | VARCHAR(255) | YES  |     |         | 姓名      
- sex         | INT(10)      | YES  |     |         | 1男2女    
- birth       | DATE(10)     | YES  |     |         | 出生日期    
- phone       | VARCHAR(255) | YES  |     |         | 联系电话    
- address     | VARCHAR(255) | YES  |     |         | 联系地址    
- bank        | VARCHAR(255) | YES  |     |         | 银行卡号    
- company     | VARCHAR(255) | YES  |     |         | 失业前所在单位 
- time_out    | DATE(10)     | YES  |     |         | 失业时间    
- time_regist | DATE(10)     | YES  |     |         | 城镇登记失业时间
- marriage    | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
- state       | INT(10)      | YES  |     |         | 0未享受1正在享受
- delay       | INT(10)      | YES  |     |         | 0不延期1延期 
- remark      | VARCHAR(999) | YES  |     |         | 备注      
--------------+--------------+------+-----+---------+---------
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         | 序号      
+ tid        | INT(10)      | YES  |     |         | 人员类别    
+ lid        | INT(10)      | YES  |     |         | 中心序号    
+ cid        | INT(10)      | YES  |     |         | 居委会序号   
+ jid        | INT(10)      | YES  |     |         | 岗位序号    
+ number     | VARCHAR(255) | YES  |     |         | 证件号码    
+ name       | VARCHAR(255) | YES  |     |         | 姓名      
+ sex        | INT(10)      | YES  |     |         | 1男2女    
+ birth      | DATE(10)     | YES  |     |         | 出生日期    
+ phone      | VARCHAR(255) | YES  |     |         | 联系电话    
+ address    | VARCHAR(255) | YES  |     |         | 联系地址    
+ bank       | VARCHAR(255) | YES  |     |         | 银行卡号    
+ company    | VARCHAR(255) | YES  |     |         | 失业前所在单位 
+ timeOut    | DATE(10)     | YES  |     |         | 失业时间    
+ timeRegist | DATE(10)     | YES  |     |         | 城镇登记失业时间
+ marriage   | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
+ state      | INT(10)      | YES  |     |         | 0未享受1正在享受
+ delay      | INT(10)      | YES  |     |         | 0不延期1延期 
+ remark     | VARCHAR(999) | YES  |     |         | 备注      
+------------+--------------+------+-----+---------+---------
 
 Table: security
 --------+--------------+------+-----+---------+---------
