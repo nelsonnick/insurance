@@ -48,6 +48,7 @@
 <script>
   import * as API from './API.js'
   import MenuBar from '../Common/menubar.vue'
+  import axios from 'axios'
 
   export default {
     name: 'edit',
@@ -61,80 +62,12 @@
         lid: '',
         weixin: '',
         login: '',
-        LocationList: [
-          {
-            value: '1',
-            label: '指导科'
-          },
-          {
-            value: '2',
-            label: '西市场'
-          },
-          {
-            value: '3',
-            label: '五里沟'
-          },
-          {
-            value: '4',
-            label: '道德街'
-          },
-          {
-            value: '5',
-            label: '营市街'
-          },
-          {
-            value: '6',
-            label: '青年公园'
-          },
-          {
-            value: '7',
-            label: '中大槐树'
-          },
-          {
-            value: '8',
-            label: '振兴街'
-          },
-          {
-            value: '9',
-            label: '南辛庄'
-          },
-          {
-            value: '10',
-            label: '段店北路'
-          },
-          {
-            value: '11',
-            label: '匡山'
-          },
-          {
-            value: '12',
-            label: '张庄路'
-          },
-          {
-            value: '13',
-            label: '美里湖'
-          },
-          {
-            value: '14',
-            label: '腊山'
-          },
-          {
-            value: '15',
-            label: '吴家堡'
-          },
-          {
-            value: '16',
-            label: '玉清湖'
-          },
-          {
-            value: '17',
-            label: '兴福'
-          }
-        ]
+        location: []
       }
     },
     created: function () {
       this.fetchData(this.$route.params.id)
+      this.getLocation()
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
@@ -143,35 +76,35 @@
     methods: {
       goReset () {
         this.fetchData(this.$route.params.id)
+        this.getLocation()
       },
-      goSave () {
+      goSave() {
         this.$Loading.start()
-        this.$http.get(
-          API.Edit,
-          { params: {
-            id: this.$route.params.id,
+        axios.get(API.Edit, {
+          params: {
+            lid: this.lid,
             name: this.name,
             weixin: this.weixin,
-            login: this.login,
-            lid: this.lid
-          } },
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-        ).then((response) => {
-          if (response.body === 'OK') {
+            login: this.login
+          }
+        }).then(res => {
+          if (res.data === 'OK') {
             this.$Loading.finish()
             this.$Message.success('修改成功!')
             this.$Notice.success({
               title: '操作完成!',
               desc: '用户：' + this.name + '已修改！'
             })
-            setTimeout(() => { this.$router.push({ path: '/list' }) }, 1000)
+            setTimeout(() => {
+              this.$router.push({path: '/list'})
+            }, 1000)
           } else {
             this.$Loading.error()
             this.$Notice.error({
-              title: response.body
+              title: res.data
             })
           }
-        }, (response) => {
+        }).catch(res => {
           this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误，无法修改用户信息!'
@@ -182,18 +115,26 @@
         this.$router.push({ path: '/list' })
       },
       fetchData (id) {
-        this.$http.get(
-          API.Get,
-          { params: { id: id } },
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-        ).then((response) => {
-          this.name = response.body.name
-          this.lid = response.body.lid.toString()
-          this.weixin = response.body.weixin
-          this.login = response.body.login
-        }, (response) => {
+        axios.get(API.Get,
+          { params: { id: id } }
+        ).then(res => {
+          this.name = res.data.name
+          this.lid = res.data.lid.toString()
+          this.weixin = res.data.weixin
+          this.login = res.data.login
+        }).catch(res => {
           this.$Notice.error({
             title: '服务器内部错误，无法获取用户信息!'
+          })
+        })
+      },
+      getLocation() {
+        axios.get(API.GetLocation).then(res => {
+          this.location = eval('(' + res.data + ')')
+        }).catch(res => {
+          this.$Loading.error()
+          this.$Notice.error({
+            title: '服务器内部错误!'
           })
         })
       }

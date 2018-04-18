@@ -1,8 +1,10 @@
 package com.wts.controller;
 
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.wts.entity.model.*;
+import com.wts.interceptor.LoginInterceptor;
 import com.wts.util.IDNumber;
 import com.wts.util.Jnjgfw;
 import com.wts.weixin.WxSend;
@@ -73,6 +75,25 @@ public class MainController extends Controller {
         }
         str = str.substring(0, str.length() - 1);
         renderJson("[" + str + "]");
+    }
+
+    public void getLocation() {
+        List<Location> locations = Location.dao.find("SELECT * FROM location");
+        String str = "";
+        for (Location location: locations) {
+            str = str + "{value: '" + location.getId() + "',label:'" + location.getName() + "'},";
+        }
+        str = str.substring(0, str.length() - 1);
+        renderJson("[" + str + "]");
+    }
+
+    @Before(LoginInterceptor.class)
+    public void getUser() {
+        if (getSessionAttr("user").equals("") || getSessionAttr("user") == null) {
+            renderText("无法识别");
+        } else {
+            renderJson(((User) getSessionAttr("user")));
+        }
     }
 
 }

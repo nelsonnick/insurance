@@ -39,6 +39,7 @@
   import * as API from './API.js'
   import * as BASE from '../Common/Base.js'
   import MenuBar from '../Common/menubar.vue'
+  import axios from 'axios'
 
   export default {
     name: 'edit',
@@ -59,29 +60,29 @@
     methods: {
       goSave () {
         this.$Loading.start()
-        this.$http.get(
-          API.Change,
-          { params: {
+        axios.get(API.Change, {
+          params: {
             pass1: this.pass1,
             pass2: this.pass2
-          } },
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-        ).then((response) => {
-          if (response.body === 'OK') {
+          }
+        }).then(res => {
+          if (res.data === 'OK') {
             this.$Loading.finish()
             this.$Message.success('重置密码成功!')
             this.$Notice.success({
               title: '操作完成!',
               desc: '请重新登录'
             })
-            window.location.href = BASE.base
+            setTimeout(() => {
+              window.location.href = BASE.base
+            }, 1000)
           } else {
             this.$Loading.error()
             this.$Notice.error({
-              title: response.body
+              title: res.data
             })
           }
-        }, (response) => {
+        }).catch(res => {
           this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误，无法设置新密码!'
@@ -92,21 +93,20 @@
         window.location.href = BASE.base + 'person'
       },
       getUser () {
-        this.$http.get(
-          API.GetUser,
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          if (response.body.lid.toString() === '1') {
+        axios.get(API.GetUser).then(res => {
+          if (res.data.lid.toString() === '1') {
+            this.addPerson = false
             this.sys = true
             window.sys = true
           }
-          window.LocationId = response.body.lid
-          window.userName = response.body.name
-          this.LocationId = response.body.lid
-          this.userName = response.body.name
-        }, (response) => {
+          window.LocationId = res.data.lid
+          window.userName = res.data.name
+          this.LocationId = res.data.lid
+          this.userName = res.data.name
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
-            title: '服务器内部错误，无法获取当前用户姓名!'
+            title: '服务器内部错误，无法获取当前用户信息!'
           })
         })
       }

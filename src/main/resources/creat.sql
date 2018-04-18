@@ -145,7 +145,7 @@ PRIMARY KEY (`id`)
 
 
 
-CREATE TABLE `changePerson` (
+CREATE TABLE `personChange` (
 
 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
@@ -169,7 +169,7 @@ PRIMARY KEY (`id`)
 
 
 
-CREATE TABLE `changeFamily` (
+CREATE TABLE `familyChange` (
 
 `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
 
@@ -250,13 +250,13 @@ ALTER TABLE `person` ADD CONSTRAINT `person_job` FOREIGN KEY (`jid`) REFERENCES 
 
 ALTER TABLE `family` ADD CONSTRAINT `family_person` FOREIGN KEY (`pid`) REFERENCES `person` (`id`);
 
-ALTER TABLE `changePerson` ADD CONSTRAINT `changePerson_person` FOREIGN KEY (`pid`) REFERENCES `person` (`id`);
+ALTER TABLE `personChange` ADD CONSTRAINT `personChange_person` FOREIGN KEY (`pid`) REFERENCES `person` (`id`);
 
-ALTER TABLE `changePerson` ADD CONSTRAINT `changePerson_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
+ALTER TABLE `personChange` ADD CONSTRAINT `personChange_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
 
-ALTER TABLE `changeFamily` ADD CONSTRAINT `changeFamily_family` FOREIGN KEY (`fid`) REFERENCES `family` (`id`);
+ALTER TABLE `familyChange` ADD CONSTRAINT `familyChange_family` FOREIGN KEY (`fid`) REFERENCES `family` (`id`);
 
-ALTER TABLE `changeFamily` ADD CONSTRAINT `changeFamily_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
+ALTER TABLE `familyChange` ADD CONSTRAINT `familyChange_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
 
 ALTER TABLE `message` ADD CONSTRAINT `message_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`);
 

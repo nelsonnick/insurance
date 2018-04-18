@@ -85,8 +85,8 @@ public class PersonController extends Controller {
             renderText("请输入注销原因！");
         }else {
             if (person.update()) {
-                Changeperson cp = new Changeperson();
-                cp.set("pid", person.getId())
+                Personchange pc = new Personchange();
+                pc.set("pid", person.getId())
                         .set("uid", ((User) getSessionAttr("user")).get("id"))
                         .set("type", 3)
                         .set("reason", getPara("reason"))
@@ -99,8 +99,8 @@ public class PersonController extends Controller {
                     String before_family = JSON.toJSONString(family);
                     family.set("state", 0);
                     if (family.update()) {
-                        Changefamily cf = new Changefamily();
-                        cf.set("fid", family.getId())
+                        Familychange fc = new Familychange();
+                        fc.set("fid", family.getId())
                                 .set("uid", ((User) getSessionAttr("user")).get("id"))
                                 .set("type", 3)
                                 .set("reason", "由于申请人被注销，其关联的家庭成员被全部注销")
@@ -125,8 +125,8 @@ public class PersonController extends Controller {
             renderText("请输入激活原因！");
         }else {
             if (person.update()) {
-                Changeperson cp = new Changeperson();
-                cp.set("pid", person.getId())
+                Personchange pc = new Personchange();
+                pc.set("pid", person.getId())
                         .set("uid", ((User) getSessionAttr("user")).get("id"))
                         .set("type", 4)
                         .set("reason", getPara("reason"))
@@ -139,8 +139,8 @@ public class PersonController extends Controller {
                     String before_family = JSON.toJSONString(family);
                     family.set("state", 1);
                     if (family.update()) {
-                        Changefamily cf = new Changefamily();
-                        cf.set("fid", family.getId())
+                        Familychange fc = new Familychange();
+                        fc.set("fid", family.getId())
                                 .set("uid", ((User) getSessionAttr("user")).get("id"))
                                 .set("type", 4)
                                 .set("reason", "由于申请人被激活，其关联的家庭成员被全部激活")
@@ -215,8 +215,8 @@ public class PersonController extends Controller {
                     .set("state", 1)
                     .set("lid", ((User) getSessionAttr("user")).get("lid"));
             if (person.save()){
-                Changeperson cp = new Changeperson();
-                cp.set("pid", person.getId())
+                Personchange pc = new Personchange();
+                pc.set("pid", person.getId())
                         .set("uid",((User) getSessionAttr("user")).get("id"))
                         .set("type",1)
                         .set("time",new Date())
@@ -301,8 +301,8 @@ public class PersonController extends Controller {
                     .set("remark", getPara("remark"))
                     .update();
             if (person.update()){
-                Changeperson cp = new Changeperson();
-                cp.set("pid", person.getId())
+                Personchange pc = new Personchange();
+                pc.set("pid", person.getId())
                         .set("uid",((User) getSessionAttr("user")).get("id"))
                         .set("type",2)
                         .set("time",new Date())

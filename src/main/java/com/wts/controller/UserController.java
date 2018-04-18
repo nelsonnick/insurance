@@ -30,15 +30,6 @@ public class UserController extends Controller {
     }
 
     @Before(LoginInterceptor.class)
-    public void getUser() {
-        if (getSessionAttr("user").equals("") || getSessionAttr("user") == null) {
-            renderText("无法识别");
-        } else {
-            renderJson(((User) getSessionAttr("user")));
-        }
-    }
-
-    @Before(LoginInterceptor.class)
     public void Query() {
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),

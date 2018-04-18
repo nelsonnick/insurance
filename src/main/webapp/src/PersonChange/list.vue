@@ -9,12 +9,11 @@
           <div class="left">
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
-              <BreadcrumbItem>困难人员</BreadcrumbItem>
+              <BreadcrumbItem>困难人员变更记录</BreadcrumbItem>
               <BreadcrumbItem>列表</BreadcrumbItem>
             </Breadcrumb>
           </div>
           <div class="right">
-            <Button type="info" @click="goAdd" v-if="addPerson"><Icon type="plus"></Icon>新增</Button>
             <Button type="ghost" @click="goDown"><Icon type="ios-cloud-download"></Icon>下载</Button>
             <Search @goQuery="getQuery"></Search>
           </div>
@@ -122,24 +121,23 @@
             sortable: true
           },
           {
-            title: '类别',
+            title: '操作人员',
+            key: 'user',
+            sortable: true
+          },
+          {
+            title: '变更类别',
             key: 'type',
             sortable: true
           },
           {
-            title: '婚姻',
-            key: 'marriage',
-            width: 80,
+            title: '变更时间',
+            key: 'time',
             sortable: true
           },
           {
-            title: '所属中心',
-            key: 'location',
-            sortable: true
-          },
-          {
-            title: '状态',
-            key: 'state',
+            title: '变更原因',
+            key: 'reason',
             sortable: true
           },
           {
@@ -149,7 +147,7 @@
             width: 300,
             render: (h, params) => {
               const operate = []
-              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') {
+              if (params.row.lid.toString() === this.LocationId.toString() && params.row.tid.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -158,55 +156,10 @@
                     },
                     on: {
                       click: () => {
-                        this.goSave(params.index)
+                        window.location.href = BASE.base + 'personChange/print?id=' + params.row.id.toString()
                       }
                     }
-                  }, '添加家庭成员')
-                )
-              }
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'warning',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goEdit(params.index)
-                      }
-                    }
-                  }, '修改')
-                )
-              }
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'error',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goDel(params.index)
-                      }
-                    }
-                  }, '注销')
-                )
-              }
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '0') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '0')) {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'success',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goActive(params.index)
-                      }
-                    }
-                  }, '激活')
+                  }, '打印新增')
                 )
               }
               return h('div', operate)
@@ -256,23 +209,8 @@
           pageCurrent: pageCurrent
         })
       },
-      goAdd () {
-        this.$router.push({path: '/add'})
-      },
-      goEdit (index) {
-        this.$router.push({path: '/edit/' + this.pageList[index].id})
-      },
-      goSave (index) {
-        this.$router.push({path: '/save/' + this.pageList[index].id})
-      },
-      goDel (index) {
-        this.$router.push({path: '/del/' + this.pageList[index].id})
-      },
-      goActive (index) {
-        this.$router.push({path: '/active/' + this.pageList[index].id})
-      },
       goDown () {
-        window.location.href = BASE.base + 'person/export?keyword=' + this.keyword
+        window.location.href = BASE.base + 'personChange/export?keyword=' + this.keyword
       },
       getUser () {
         axios.get(API.GetUser).then(res => {

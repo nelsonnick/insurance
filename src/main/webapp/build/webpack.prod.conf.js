@@ -61,10 +61,34 @@ var webpackConfig = merge(baseWebpackConfig, {
       chunksSortMode: 'dependency'
     }),
     new HtmlWebpackPlugin({
+      filename: '../dist/static/html/personChange.html',
+      template: 'html/template.html',
+      inject: true,
+      chunks: ['vendor', 'manifest', 'PersonChange'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      },
+      chunksSortMode: 'dependency'
+    }),
+    new HtmlWebpackPlugin({
       filename: '../dist/static/html/family.html',
       template: 'html/template.html',
       inject: true,
       chunks: ['vendor', 'manifest', 'Family'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+      },
+      chunksSortMode: 'dependency'
+    }),
+    new HtmlWebpackPlugin({
+      filename: '../dist/static/html/familyChange.html',
+      template: 'html/template.html',
+      inject: true,
+      chunks: ['vendor', 'manifest', 'FamilyChange'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,

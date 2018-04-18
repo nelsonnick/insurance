@@ -71,6 +71,10 @@ public class FamilyController extends Controller {
     public void Get() {
         renderJson(Family.dao.findById(getPara("id")));
     }
+    @Before(LoginInterceptor.class)
+    public void GetPerson() {
+        renderJson(Person.dao.findById(Family.dao.findById(getPara("id")).getPid()));
+    }
     @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
     public void Del() {
         Family family = Family.dao.findById(getPara("id"));
@@ -80,8 +84,8 @@ public class FamilyController extends Controller {
             renderText("请输入注销原因！");
         }else {
             if (family.update()) {
-                Changefamily cf = new Changefamily();
-                cf.set("fid", family.getId())
+                Familychange fc = new Familychange();
+                fc.set("fid", family.getId())
                         .set("uid", ((User) getSessionAttr("user")).get("id"))
                         .set("type", 3)
                         .set("reason", getPara("reason"))
@@ -103,8 +107,8 @@ public class FamilyController extends Controller {
             renderText("请输入激活原因！");
         }else {
             if (family.update()) {
-                Changefamily cf = new Changefamily();
-                cf.set("fid", family.getId())
+                Familychange fc = new Familychange();
+                fc.set("fid", family.getId())
                         .set("uid", ((User) getSessionAttr("user")).get("id"))
                         .set("type", 4)
                         .set("reason", getPara("reason"))
@@ -152,8 +156,8 @@ public class FamilyController extends Controller {
                     .set("state", 1)
                     .set("pid", getParaToInt("id"));
             if (family.save()){
-                Changefamily cf = new Changefamily();
-                cf.set("fid", family.getId())
+                Familychange fc = new Familychange();
+                fc.set("fid", family.getId())
                         .set("uid",((User) getSessionAttr("user")).get("id"))
                         .set("type",1)
                         .set("time",new Date())
@@ -176,6 +180,8 @@ public class FamilyController extends Controller {
                 && Util.CheckNull(family.getStr("phone")).equals(getPara("phone").trim())
                 && Util.CheckNull(family.getStr("identity")).equals(getPara("identity").trim())
                 && Util.CheckNull(family.getStr("marriage")).equals(getPara("marriage").trim())
+                && Util.CheckNull(family.getStr("company")).equals(getPara("company").trim())
+                && Util.CheckNull(family.getTimeRegist().getTime()+"").equals(getPara("timeRegist").trim())
                 && Util.CheckNull(family.getStr("remark")).equals(getPara("remark").trim())
                 ) {
             renderText("未找到修改内容，请核实后再修改！");
@@ -209,8 +215,8 @@ public class FamilyController extends Controller {
                     .set("identity", getParaToInt("identity"))
                     .set("remark", getPara("remark"));
             if (family.update()){
-                Changefamily cf = new Changefamily();
-                cf.set("fid", family.getId())
+                Familychange fc = new Familychange();
+                fc.set("fid", family.getId())
                         .set("uid",((User) getSessionAttr("user")).get("id"))
                         .set("type",2)
                         .set("time",new Date())

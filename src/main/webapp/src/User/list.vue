@@ -70,6 +70,7 @@
   import Options from '../Common/options.vue'
   import * as API from './API.js'
   import MenuBar from '../Common/menubar.vue'
+  import axios from 'axios'
 
   export default {
     name: 'list',
@@ -243,94 +244,93 @@
       goEdit (index) {
         this.$router.push({ path: '/edit/' + this.pageList[index].id })
       },
-      goReset (index) {
-        this.$http.get(
-          API.Reset,
-          { params: {
+      goReset(index) {
+        this.$Loading.start()
+        axios.get(API.Reset, {
+          params: {
             id: this.pageList[index].id
-          } },
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          if (response.body === 'OK') {
+          }
+        }).then(res => {
+          if (res.data === 'OK') {
             this.$Loading.finish()
             this.$Message.success('重置密码成功!')
             this.getQuery(this.keyword)
           } else {
             this.$Loading.error()
             this.$Notice.error({
-              title: response.body
+              title: res.data
             })
           }
-        }, (response) => {
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误，无法重置密码!'
           })
         })
       },
-      goDel (index) {
-        this.$http.get(
-          API.Del,
-          { params: {
+      goDel(index) {
+        this.$Loading.start()
+        axios.get(API.Del, {
+          params: {
             id: this.pageList[index].id
-          } },
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          if (response.body === 'OK') {
+          }
+        }).then(res => {
+          if (res.data === 'OK') {
             this.$Loading.finish()
             this.$Message.success('注销成功!')
             this.getQuery(this.keyword)
           } else {
             this.$Loading.error()
             this.$Notice.error({
-              title: response.body
+              title: res.data
             })
           }
-        }, (response) => {
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误，无法注销!'
           })
         })
       },
-      goActive (index) {
-        this.$http.get(
-          API.Active,
-          { params: {
+      goActive(index) {
+        this.$Loading.start()
+        axios.get(API.Active, {
+          params: {
             id: this.pageList[index].id
-          } },
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          if (response.body === 'OK') {
+          }
+        }).then(res => {
+          if (res.data === 'OK') {
             this.$Loading.finish()
             this.$Message.success('激活成功!')
             this.getQuery(this.keyword)
           } else {
             this.$Loading.error()
             this.$Notice.error({
-              title: response.body
+              title: res.data
             })
           }
-        }, (response) => {
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
-            title: '服务器内部错误，无法注销!'
+            title: '服务器内部错误，无法激活!'
           })
         })
       },
       getUser () {
-        this.$http.get(
-          API.GetUser,
-          {headers: {'X-Requested-With': 'XMLHttpRequest'}}
-        ).then((response) => {
-          if (response.body.lid.toString() === '1') {
+        axios.get(API.GetUser).then(res => {
+          if (res.data.lid.toString() === '1') {
+            this.addPerson = false
             this.sys = true
             window.sys = true
           }
-          window.LocationId = response.body.lid
-          window.userName = response.body.name
-          this.LocationId = response.body.lid
-          this.userName = response.body.name
-        }, (response) => {
+          window.LocationId = res.data.lid
+          window.userName = res.data.name
+          this.LocationId = res.data.lid
+          this.userName = res.data.name
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
-            title: '服务器内部错误，无法获取当前用户姓名!'
+            title: '服务器内部错误，无法获取当前用户信息!'
           })
         })
       }

@@ -260,9 +260,8 @@
           this.phone = res.data.phone
           this.address = res.data.address
           this.tid = this.getTypeId(res.data.tid)
-          this.jid = new Array(res.data.jid)
-          this.cid = new Array(res.data.cid)
-          console.log(this.jid)
+          this.jid = res.data.jid.toString()
+          this.cid = res.data.cid.toString()
           this.timeOut = res.data.timeOut
           this.timeRegist = res.data.timeRegist
           this.delay = res.data.delay + ''

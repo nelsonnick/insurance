@@ -5,14 +5,22 @@
         <Icon type="user"></Icon>
         当前用户：{{ userName }}
       </MenuItem>
-      <MenuItem name="person" >
-        <Icon type="android-person"></Icon>
-        困难人员
-      </MenuItem>
-      <MenuItem name="family">
-        <Icon type="android-people"></Icon>
-        家庭成员
-      </MenuItem>
+      <Submenu name="person">
+        <template slot="title">
+          <Icon type="android-person"></Icon>
+          困难人员
+        </template>
+        <MenuItem name="personList">人员列表</MenuItem>
+        <MenuItem name="personChange">变更记录</MenuItem>
+      </Submenu>
+      <Submenu name="family">
+        <template slot="title">
+          <Icon type="android-people"></Icon>
+          家庭成员
+        </template>
+        <MenuItem name="familyList">人员列表</MenuItem>
+        <MenuItem name="familyChange">变更记录</MenuItem>
+      </Submenu>
       <MenuItem name="user" v-if="sys">
         <Icon type="ios-people-outline"></Icon>
         用户管理
@@ -39,10 +47,14 @@
     props: ['sys', 'active', 'userName'],
     methods: {
       MenuClick (name) {
-        if (name.toString() === 'person') {
+        if (name.toString() === 'personList') {
           window.location.href = BASE.base + 'person'
-        } else if (name.toString() === 'family') {
+        } else if (name.toString() === 'personChange') {
+          window.location.href = BASE.base + 'personChange'
+        } else if (name.toString() === 'familyList') {
           window.location.href = BASE.base + 'family'
+        } else if (name.toString() === 'familyChange') {
+          window.location.href = BASE.base + 'familyChange'
         } else if (name.toString() === 'pass') {
           window.location.href = BASE.base + 'pass'
         } else if (name.toString() === 'user') {
@@ -52,6 +64,10 @@
         } else if (name.toString() === 'logout') {
           window.location.href = BASE.base + 'logout'
         } else if (name.toString() === 'main') {
+
+        } else if (name.toString() === 'person') {
+
+        } else if (name.toString() === 'family') {
 
         } else {
           window.location.href = BASE.base

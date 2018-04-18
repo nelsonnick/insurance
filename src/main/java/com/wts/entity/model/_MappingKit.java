@@ -16,14 +16,14 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
-		arp.addMapping("changefamily", "id", Changefamily.class);
-		arp.addMapping("changeperson", "id", Changeperson.class);
 		arp.addMapping("community", "id", Community.class);
 		arp.addMapping("family", "id", Family.class);
+		arp.addMapping("familychange", "id", Familychange.class);
 		arp.addMapping("job", "id", Job.class);
 		arp.addMapping("location", "id", Location.class);
 		arp.addMapping("message", "id", Message.class);
 		arp.addMapping("person", "id", Person.class);
+		arp.addMapping("personchange", "id", Personchange.class);
 		arp.addMapping("security", "id", Security.class);
 		arp.addMapping("type", "id", Type.class);
 		arp.addMapping("user", "id", User.class);

@@ -35,7 +35,9 @@ public class Config extends JFinalConfig {
     public void configRoute(Routes me) {
         me.add("/", MainController.class);
         me.add("/person", PersonController.class);
+        me.add("/personChange", PersonChangeController.class);
         me.add("/family", FamilyController.class);
+        me.add("/familyChange", FamilyChangeController.class);
         me.add("/user", UserController.class);
         me.add("/pass", PassController.class);
         me.add("/message", MessageController.class);

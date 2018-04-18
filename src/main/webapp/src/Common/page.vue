@@ -4,6 +4,9 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
+  import * as BASE from './Base.js'
+
   export default {
     props: ['queryURL', 'totalURL', 'keyword'],
     data () {
@@ -19,41 +22,39 @@
     },
     methods: {
       getLists (queryURL, totalURL, keyword, pageCurrent, pageSize) {
-        this.$http.get(
-          queryURL,
-          { params: {
+        axios.get(queryURL, {
+          params: {
             keyword: keyword,
             pageCurrent: pageCurrent,
             pageSize: pageSize
-          } },
-          { headers: { 'X-Requested-With': 'XMLHttpRequest' }, emulateJSON: true }
-        ).then((res) => {
-          if (res.body.toString() === 'illegal' || res.body.toString() === 'overdue') {
+          }
+        }).then(res => {
+          if (res.data.toString() === 'illegal' || res.data.toString() === 'overdue') {
           } else {
-            this.$http.get(
-              totalURL,
-              { params: {
+            axios.get(totalURL, {
+              params: {
                 keyword: keyword
-              } },
-              { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-            ).then((response) => {
-              if (response.body.toString() === 'illegal' || response.body.toString() === 'overdue') {
+              }
+            }).then(response => {
+              if (response.data.toString() === 'illegal' || response.data.toString() === 'overdue') {
                 this.$Notice.error({
                   title: '登录过期或非法操作!'
                 })
-                window.location.href = '/'
+                window.location.href = BASE.base
               } else {
-                this.pageList = res.body
-                this.pageTotal = response.body
+                this.pageList = res.data
+                this.pageTotal = response.data
                 this.$emit('goList', this.pageList, this.pageTotal)
               }
-            }, (response) => {
+            }).catch(response => {
+              this.$Loading.error()
               this.$Notice.error({
                 title: '服务器内部错误!'
               })
             })
           }
-        }, (res) => {
+        }).catch(res => {
+          this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误!'
           })

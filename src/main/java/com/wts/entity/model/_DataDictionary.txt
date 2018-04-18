@@ -1,31 +1,3 @@
-Table: changefamily
---------+--------------+------+-----+---------+---------
- Field  | Type         | Null | Key | Default | Remarks 
---------+--------------+------+-----+---------+---------
- id     | INT(10)      | NO   | PRI |         | 序号      
- fid    | INT(10)      | YES  |     |         | 家庭成员序号  
- uid    | INT(10)      | YES  |     |         | 用户序号    
- type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
- time   | DATETIME(19) | YES  |     |         | 变更时间    
- before | VARCHAR(999) | YES  |     |         | 之前的信息   
- after  | VARCHAR(999) | YES  |     |         | 之后的信息   
- reason | VARCHAR(999) | YES  |     |         | 变更原因    
---------+--------------+------+-----+---------+---------
-
-Table: changeperson
---------+--------------+------+-----+---------+---------
- Field  | Type         | Null | Key | Default | Remarks 
---------+--------------+------+-----+---------+---------
- id     | INT(10)      | NO   | PRI |         | 序号      
- pid    | INT(10)      | YES  |     |         | 人员序号    
- uid    | INT(10)      | YES  |     |         | 用户序号    
- type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
- time   | DATETIME(19) | YES  |     |         | 变更时间    
- before | VARCHAR(999) | YES  |     |         | 之前的信息   
- after  | VARCHAR(999) | YES  |     |         | 之后的信息   
- reason | VARCHAR(999) | YES  |     |         | 变更原因    
---------+--------------+------+-----+---------+---------
-
 Table: community
 -------+--------------+------+-----+---------+---------
  Field | Type         | Null | Key | Default | Remarks 
@@ -53,6 +25,20 @@ Table: family
  state       | INT(10)      | YES  |     |         | 0注销1激活  
  remark      | VARCHAR(999) | YES  |     |         | 备注      
 -------------+--------------+------+-----+---------+---------
+
+Table: familychange
+--------+--------------+------+-----+---------+---------
+ Field  | Type         | Null | Key | Default | Remarks 
+--------+--------------+------+-----+---------+---------
+ id     | INT(10)      | NO   | PRI |         | 序号      
+ fid    | INT(10)      | YES  |     |         | 家庭成员序号  
+ uid    | INT(10)      | YES  |     |         | 用户序号    
+ type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
+ time   | DATETIME(19) | YES  |     |         | 变更时间    
+ before | VARCHAR(999) | YES  |     |         | 之前的信息   
+ after  | VARCHAR(999) | YES  |     |         | 之后的信息   
+ reason | VARCHAR(999) | YES  |     |         | 变更原因    
+--------+--------------+------+-----+---------+---------
 
 Table: job
 -------+--------------+------+-----+---------+---------
@@ -105,6 +91,20 @@ Table: person
  delay      | INT(10)      | YES  |     |         | 0不延期1延期 
  remark     | VARCHAR(999) | YES  |     |         | 备注      
 ------------+--------------+------+-----+---------+---------
+
+Table: personchange
+--------+--------------+------+-----+---------+---------
+ Field  | Type         | Null | Key | Default | Remarks 
+--------+--------------+------+-----+---------+---------
+ id     | INT(10)      | NO   | PRI |         | 序号      
+ pid    | INT(10)      | YES  |     |         | 人员序号    
+ uid    | INT(10)      | YES  |     |         | 用户序号    
+ type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
+ time   | DATETIME(19) | YES  |     |         | 变更时间    
+ before | VARCHAR(999) | YES  |     |         | 之前的信息   
+ after  | VARCHAR(999) | YES  |     |         | 之后的信息   
+ reason | VARCHAR(999) | YES  |     |         | 变更原因    
+--------+--------------+------+-----+---------+---------
 
 Table: security
 --------+--------------+------+-----+---------+---------
