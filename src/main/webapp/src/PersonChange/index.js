@@ -3,6 +3,7 @@ import iView from 'iview'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import List from './list.vue'
+import LingHuo from './linghuo.vue'
 import 'iview/dist/styles/iview.css'   // 使用 CSS
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -10,6 +11,7 @@ Vue.use(iView)
 
 const routes = [
   { path: '/list', component: List },
+  { path: '/linghuo', component: LingHuo },
   { path: '/', redirect: '/list' }
 ]
 

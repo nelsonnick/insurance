@@ -156,7 +156,8 @@
                     },
                     on: {
                       click: () => {
-                        window.location.href = BASE.base + 'personChange/print?id=' + params.row.id.toString()
+                        this.$router.push({ path: '/linghuo' })
+                        // window.location.href = BASE.base + 'personChange/print?id=' + params.row.id.toString()
                       }
                     }
                   }, '打印新增')
