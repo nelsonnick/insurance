@@ -19,10 +19,10 @@
         <Row>
           <Col span="12">
           <Form-item label="困难人员证件号码" required>
-            <Input size="large" v-model="currentNumber" style="width: 600px" disabled></Input>
+            <Input size="large" v-model="currentNumber" style="width: 400px" disabled></Input>
           </Form-item>
           <Form-item label="困难人员姓名" >
-            <Input size="large" v-model="currentName" style="width: 600px" disabled></Input>
+            <Input size="large" v-model="currentName" style="width: 400px" disabled></Input>
           </Form-item>
           <Form-item label="家属证件号码" required>
             <Input size="large" v-model="number" placeholder="请输入证件号码" style="width: 400px" disabled></Input>

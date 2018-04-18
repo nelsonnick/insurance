@@ -90,11 +90,11 @@ public abstract class BaseFamily<M extends BaseFamily<M>> extends Model<M> imple
 	}
 
 	public void setTimeRegist(java.util.Date timeRegist) {
-		set("time_regist", timeRegist);
+		set("timeRegist", timeRegist);
 	}
 	
 	public java.util.Date getTimeRegist() {
-		return get("time_regist");
+		return get("timeRegist");
 	}
 
 	public void setState(java.lang.Integer state) {

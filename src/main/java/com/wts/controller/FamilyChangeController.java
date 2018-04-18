@@ -31,27 +31,42 @@ public class FamilyChangeController extends Controller {
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
-                "SELECT familychange.id,familychange.type AS tid,familychange.reason,familychange.time,user.name AS user,person.name,person.number,person.phone,location.name AS location,location.id AS lid," +
+                "SELECT familychange.id,familychange.type AS tid,familychange.reason,familychange.time,person.name AS pname,person.number AS pnumber,user.name AS user,family.name,family.number,family.phone,location.name AS location,location.id AS lid," +
                         "CASE familychange.type " +
                         "WHEN '1' THEN '新增' " +
                         "WHEN '2' THEN '信息变更' " +
                         "WHEN '3' THEN '注销' " +
                         "WHEN '4' THEN '激活' " +
-                        "ELSE '无法识别' END AS type ",
+                        "ELSE '无法识别' END AS type, "+
+                        "CASE family.identity " +
+                        "WHEN '1' THEN '丈夫' " +
+                        "WHEN '2' THEN '妻子' " +
+                        "WHEN '3' THEN '儿子' " +
+                        "WHEN '4' THEN '女儿' " +
+                        "WHEN '5' THEN '父亲' " +
+                        "WHEN '6' THEN '母亲' " +
+                        "WHEN '7' THEN '兄弟' " +
+                        "WHEN '8' THEN '姐妹' " +
+                        "ELSE '无法识别' END AS identity " ,
                 "FROM familychange " +
-                        "LEFT JOIN person ON familychange.pid = person.id " +
+                        "LEFT JOIN family ON familychange.fid = family.id " +
                         "LEFT JOIN user ON familychange.uid = user.id " +
                         "LEFT JOIN location ON user.lid = location.id " +
+                        "LEFT JOIN person ON family.pid = person.id " +
                         "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
-                        "OR person.phone LIKE '%" + getPara("keyword") + "%' ORDER BY familychange.id DESC").getList());
+                        "OR family.number LIKE '%" + getPara("keyword") + "%' " +
+                        "OR family.name LIKE '%" + getPara("keyword") + "%' " +
+                        "OR family.phone LIKE '%" + getPara("keyword") + "%' ORDER BY familychange.id DESC").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
-        Long count = Db.queryLong("SELECT COUNT(*) FROM familychange LEFT JOIN person ON familychange.pid = person.id " +
+        Long count = Db.queryLong("SELECT COUNT(*) FROM familychange LEFT JOIN family ON familychange.fid = family.id LEFT JOIN person ON family.pid = person.id " +
                 "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
                 "OR person.name LIKE '%" + getPara("keyword") + "%' " +
-                "OR person.phone LIKE '%" + getPara("keyword") + "%' ");
+                "OR family.number LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.name LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.phone LIKE '%" + getPara("keyword") + "%' ");
         renderText(count.toString());
     }
 
@@ -72,20 +87,33 @@ public class FamilyChangeController extends Controller {
         }else{
             st = "AND location.id = " + ((User) getSessionAttr("user")).get("lid");
         }
-        String sql = "familychange.id,familychange.type AS tid,familychange.reason,familychange.time,user.name AS user,person.name,person.number,person.phone,location.name AS location,location.id AS lid," +
+        String sql = "familychange.id,familychange.type AS tid,familychange.reason,familychange.time,person.name AS pname,person.number AS pnumber,user.name AS user,family.name,family.number,family.phone,location.name AS location,location.id AS lid," +
                 "CASE familychange.type " +
                 "WHEN '1' THEN '新增' " +
                 "WHEN '2' THEN '信息变更' " +
                 "WHEN '3' THEN '注销' " +
                 "WHEN '4' THEN '激活' " +
                 "ELSE '无法识别' END AS type, " +
+                "CASE family.identity, " +
+                "WHEN '1' THEN '丈夫' " +
+                "WHEN '2' THEN '妻子' " +
+                "WHEN '3' THEN '儿子' " +
+                "WHEN '4' THEN '女儿' " +
+                "WHEN '5' THEN '父亲' " +
+                "WHEN '6' THEN '母亲' " +
+                "WHEN '7' THEN '兄弟' " +
+                "WHEN '8' THEN '姐妹' " +
+                "ELSE '无法识别' END AS identity " +
                 "FROM familychange " +
-                "LEFT JOIN person ON familychange.pid = person.id " +
+                "LEFT JOIN family ON familychange.fid = family.id " +
                 "LEFT JOIN user ON familychange.uid = user.id " +
                 "LEFT JOIN location ON user.lid = location.id " +
+                "LEFT JOIN person ON family.pid = person.id " +
                 "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
                 "OR person.name LIKE '%" + getPara("keyword") + "%' " +
-                "OR person.phone LIKE '%" + getPara("keyword") + "%' ) "
+                "OR family.number LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.name LIKE '%" + getPara("keyword") + "%' " +
+                "OR family.phone LIKE '%" + getPara("keyword") + "%' ) "
                 + st;
         List<Record> r = Db.find(sql);
         for (int i = 0; i < r.size(); i++) {

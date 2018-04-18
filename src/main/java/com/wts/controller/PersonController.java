@@ -222,6 +222,7 @@ public class PersonController extends Controller {
                         .set("time",new Date())
                         .set("before","")
                         .set("after", JSON.toJSONString(person))
+                        .set("reason","新增")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Add;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
@@ -298,8 +299,7 @@ public class PersonController extends Controller {
                     .set("delay", getParaToInt("delay"))
                     .set("bank", getPara("bank"))
                     .set("company", getPara("company"))
-                    .set("remark", getPara("remark"))
-                    .update();
+                    .set("remark", getPara("remark"));
             if (person.update()){
                 Personchange pc = new Personchange();
                 pc.set("pid", person.getId())
@@ -308,6 +308,7 @@ public class PersonController extends Controller {
                         .set("time",new Date())
                         .set("before",before)
                         .set("after", JSON.toJSONString(person))
+                        .set("reason","修改")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Edit;" + "number:" + getPara("number") + ";time:" + new Date() + ";");

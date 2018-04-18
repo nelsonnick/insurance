@@ -106,6 +106,22 @@
             }
           },
           {
+            title: '困难人员姓名',
+            key: 'pnumber',
+            sortable: true
+          },
+          {
+            title: '困难人员证件号码',
+            key: 'pname',
+            sortable: true
+          },
+          {
+            title: '身份',
+            key: 'identity',
+            width: 80,
+            sortable: true
+          },
+          {
             title: '证件号码',
             key: 'number',
             sortable: true

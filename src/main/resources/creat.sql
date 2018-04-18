@@ -133,7 +133,7 @@ CREATE TABLE `family` (
 
 `company` varchar(255) CHARACTER SET utf8 NULL COMMENT '原（现）工作（学习）单位',
 
-`time_regist` date NULL COMMENT '城镇登记失业时间',
+`timeRegist` date NULL COMMENT '城镇登记失业时间',
 
 `state` int(11) NULL COMMENT '0注销1激活',
 

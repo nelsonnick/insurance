@@ -8,23 +8,23 @@ Table: community
 -------+--------------+------+-----+---------+---------
 
 Table: family
--------------+--------------+------+-----+---------+---------
- Field       | Type         | Null | Key | Default | Remarks 
--------------+--------------+------+-----+---------+---------
- id          | INT(10)      | NO   | PRI |         | 序号      
- pid         | INT(10)      | YES  |     |         | 人员序号    
- number      | VARCHAR(255) | YES  |     |         | 证件号码    
- name        | VARCHAR(255) | YES  |     |         | 姓名      
- sex         | INT(10)      | YES  |     |         | 1男2女    
- phone       | VARCHAR(255) | YES  |     |         | 联系电话    
- identity    | INT(10)      | YES  |     |         | 1夫2妻3子4女5父6母7兄弟8姐妹
- marriage    | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
- birth       | DATE(10)     | YES  |     |         | 出生日期    
- company     | VARCHAR(255) | YES  |     |         | 原（现）工作（学习）单位
- time_regist | DATE(10)     | YES  |     |         | 城镇登记失业时间
- state       | INT(10)      | YES  |     |         | 0注销1激活  
- remark      | VARCHAR(999) | YES  |     |         | 备注      
--------------+--------------+------+-----+---------+---------
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         | 序号      
+ pid        | INT(10)      | YES  |     |         | 人员序号    
+ number     | VARCHAR(255) | YES  |     |         | 证件号码    
+ name       | VARCHAR(255) | YES  |     |         | 姓名      
+ sex        | INT(10)      | YES  |     |         | 1男2女    
+ phone      | VARCHAR(255) | YES  |     |         | 联系电话    
+ identity   | INT(10)      | YES  |     |         | 1夫2妻3子4女5父6母7兄弟8姐妹
+ marriage   | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
+ birth      | DATE(10)     | YES  |     |         | 出生日期    
+ company    | VARCHAR(255) | YES  |     |         | 原（现）工作（学习）单位
+ timeRegist | DATE(10)     | YES  |     |         | 城镇登记失业时间
+ state      | INT(10)      | YES  |     |         | 0注销1激活  
+ remark     | VARCHAR(999) | YES  |     |         | 备注      
+------------+--------------+------+-----+---------+---------
 
 Table: familychange
 --------+--------------+------+-----+---------+---------

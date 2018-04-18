@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -144,6 +145,9 @@ public class FamilyController extends Controller {
         } else if(!IDNumber.checkIdentity(getPara("number"),getPara("identity"))) {
             renderText("人员性别与身份不相符！");
         } else {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(getParaToLong("timeRegist"));
+            Date timeRegist =c.getTime();
             Family family = new Family();
             family.set("name", getPara("name"))
                     .set("number", getPara("number"))
@@ -151,6 +155,8 @@ public class FamilyController extends Controller {
                     .set("birth", IDNumber.getBirthDate(getPara("number")))
                     .set("phone", getPara("phone"))
                     .set("identity", getParaToInt("identity"))
+                    .set("company", getPara("company"))
+                    .set("timeRegist", timeRegist)
                     .set("marriage", getParaToInt("marriage"))
                     .set("remark", getPara("remark"))
                     .set("state", 1)
@@ -163,7 +169,7 @@ public class FamilyController extends Controller {
                         .set("time",new Date())
                         .set("before","")
                         .set("after", JSON.toJSONString(family))
-                        .set("reason", "")
+                        .set("reason", "新增")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Add;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
@@ -205,6 +211,9 @@ public class FamilyController extends Controller {
         } else if(!IDNumber.checkIdentity(getPara("number"),getPara("identity"))) {
             renderText("人员性别与身份不相符！");
         } else {
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(getParaToLong("timeRegist"));
+            Date timeRegist =c.getTime();
             String before = JSON.toJSONString(family);
             family.set("name", getPara("name"))
                     .set("number", getPara("number"))
@@ -213,6 +222,8 @@ public class FamilyController extends Controller {
                     .set("phone", getPara("phone"))
                     .set("marriage", getParaToInt("marriage"))
                     .set("identity", getParaToInt("identity"))
+                    .set("company", getPara("company"))
+                    .set("timeRegist", timeRegist)
                     .set("remark", getPara("remark"));
             if (family.update()){
                 Familychange fc = new Familychange();
@@ -222,7 +233,7 @@ public class FamilyController extends Controller {
                         .set("time",new Date())
                         .set("before",before)
                         .set("after", JSON.toJSONString(family))
-                        .set("reason", "")
+                        .set("reason", "修改")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Edit;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
