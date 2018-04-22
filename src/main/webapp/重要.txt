@@ -9,31 +9,9 @@ login/index.html
     <link rel="stylesheet" href="/login/css/app.css" type="text/css"/>
     <body background="/login/image/bodybg.jpg">
     <form action="/login" method="post">
-src/Pass/edit.vue
-  76行：window.location.href = '/'
-  91行：window.location.href = '/person'
-src/Family/list.vue
-  260行：window.location.href = '/family/export?keyword=' + this.keyword
-src/Person/list.vue
-  273行：window.location.href = '/person/export?keyword=' + this.keyword
-src/Message/list.vue
-  169行：window.location.href = '/message/export?keyword=' + this.keyword
-src/Common/menubar.vue
-    MenuClick (name) {
-      if (name.toString() === 'person') {
-        window.location.href = '/person'
-      } else if (name.toString() === 'family') {
-        window.location.href = '/family'
-      } else if (name.toString() === 'pass') {
-        window.location.href = '/pass'
-      } else if (name.toString() === 'user') {
-        window.location.href = '/user'
-      } else if (name.toString() === 'logout') {
-        window.location.href = '/logout'
-      } else if (name.toString() === 'main') {
-      } else {
-        window.location.href = '/'
-      }
+src/Common/Base.js
+  1行：export const base = '/'
+
 
 上线模式：
 build/webpack.base.conf.js
@@ -46,31 +24,7 @@ login/index.html
     <link rel="stylesheet" href="login/css/app.css" type="text/css"/>
     <body background="login/image/bodybg.jpg">
     <form action="/in/login" method="post">
-src/Pass/edit.vue
-    76行：window.location.href = '/in'
-    91行：window.location.href = '/in/person'
-src/Family/list.vue
-  260行：window.location.href = '/in/family/export?keyword=' + this.keyword
-src/Person/list.vue
-  273行：window.location.href = '/in/person/export?keyword=' + this.keyword
-src/Message/list.vue
-  169行：window.location.href = '/in/message/export?keyword=' + this.keyword
-src/Common/menubar.vue
-    MenuClick (name) {
-      if (name.toString() === 'person') {
-        window.location.href = '/in/person'
-      } else if (name.toString() === 'family') {
-        window.location.href = '/in/family'
-      } else if (name.toString() === 'pass') {
-        window.location.href = '/in/pass'
-      } else if (name.toString() === 'user') {
-        window.location.href = '/in/user'
-      } else if (name.toString() === 'logout') {
-        window.location.href = '/in/logout'
-      } else if (name.toString() === 'main') {
+src/Common/Base.js
+  1行：export const base = '/in/'
 
-      } else {
-        window.location.href = '/in'
-      }
-    }
 打包后，在static/css文件夹中建立文件夹static，将static/fonts文件夹放进去。

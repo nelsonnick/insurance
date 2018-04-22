@@ -139,32 +139,6 @@
             title: '变更原因',
             key: 'reason',
             sortable: true
-          },
-          {
-            title: '操作',
-            key: 'operate',
-            align: 'center',
-            width: 300,
-            render: (h, params) => {
-              const operate = []
-              if (params.row.lid.toString() === this.LocationId.toString() && params.row.tid.toString() === '1') {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'primary',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({ path: '/linghuo' })
-                        // window.location.href = BASE.base + 'personChange/print?id=' + params.row.id.toString()
-                      }
-                    }
-                  }, '打印新增')
-                )
-              }
-              return h('div', operate)
-            }
           }
         ]
       }
