@@ -33,4 +33,12 @@ public abstract class BaseCommunity<M extends BaseCommunity<M>> extends Model<M>
 		return getStr("name");
 	}
 
+	public void setType(java.lang.Integer type) {
+		set("type", type);
+	}
+	
+	public java.lang.Integer getType() {
+		return getInt("type");
+	}
+
 }

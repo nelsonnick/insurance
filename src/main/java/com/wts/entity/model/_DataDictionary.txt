@@ -5,6 +5,7 @@ Table: community
  id    | INT(10)      | NO   | PRI |         | 序号      
  lid   | INT(10)      | YES  |     |         | 中心序号    
  name  | VARCHAR(255) | YES  |     |         | 居委会名称   
+ type  | INT(10)      | YES  |     |         | 1居委会2村委会3家委会
 -------+--------------+------+-----+---------+---------
 
 Table: family

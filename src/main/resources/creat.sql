@@ -16,6 +16,8 @@ CREATE TABLE `community` (
 
   `name` varchar(255) NULL COMMENT '居委会名称',
 
+  `type` int NULL COMMENT '0未知1居委会2村委会3家委会',
+
   PRIMARY KEY (`id`)
 
 );
