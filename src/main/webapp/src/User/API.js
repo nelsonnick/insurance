@@ -7,5 +7,5 @@ export const Get = `${base}/Get`
 export const Del = `${base}/Del`
 export const Active = `${base}/Active`
 export const Reset = `${base}/Reset`
-export const GetUser = `user/getUser`
+export const GetUser = `getUser`
 export const GetLocation = `getLocation`

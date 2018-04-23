@@ -78,7 +78,7 @@
 </script>
 <style scoped>
   .layout-nav {
-    width: 1000px;
+    width: 1200px;
     margin: 0 auto;
     margin-right: 20px;
   }

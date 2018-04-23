@@ -66,8 +66,8 @@
       }
     },
     created: function () {
-      this.fetchData(this.$route.params.id)
       this.getLocation()
+      this.fetchData(this.$route.params.id)
     },
     watch: {
       // 如果路由有变化，会再次执行该方法

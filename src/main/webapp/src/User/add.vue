@@ -112,7 +112,7 @@
         this.$router.push({ path: '/list' })
       },
       getLocation() {
-        axios.get(API.getLocation).then(res => {
+        axios.get(API.GetLocation).then(res => {
           this.location = eval('(' + res.data + ')')
         }).catch(res => {
           this.$Loading.error()
