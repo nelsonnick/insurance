@@ -17,18 +17,18 @@
             <p align="center">姓名</p>
           </td>
           <td width="94" colspan="2">
-            <p align="center">name</p>
+            <p align="center">{{name}}</p>
           </td>
           <td width="95" colspan="2">
             <p align="center">性别</p>
           </td>
           <td width="88" colspan="3">
-            <p align="center">drc</p>
+            <p align="center">{{sex}}</p>
           </td>
           <td width="82"><p align="center">身份证号码</p>
           </td>
           <td width="166" colspan="2">
-            <p align="center">sfzhm</p>
+            <p align="center">{{number}}</p>
           </td>
         </tr>
         <tr>
@@ -36,13 +36,13 @@
             <p align="center">失业时间</p>
           </td>
           <td width="189" colspan="4">
-            <p align="center">time</p>
+            <p align="center">{{timeOut}}</p>
           </td>
           <td width="88" colspan="3">
             <p align="center">城镇登记失业时间</p>
           </td>
           <td width="249" colspan="3">
-            <p align="center">time</p>
+            <p align="center">{{timeRegist}}</p>
           </td>
         </tr>
         <tr >
@@ -50,13 +50,13 @@
             <p align="center">户籍地址</p>
           </td>
           <td width="189" colspan="4">
-            <p align="center">huji</p>
+            <p align="center">{{address}}</p>
           </td>
           <td width="88" colspan="3">
             <p align="center">失业前所在单位</p>
           </td>
           <td width="249" colspan="3">
-            <p align="center">dw</p>
+            <p align="center">{{company}}</p>
           </td>
         </tr>
         <tr>
@@ -98,22 +98,22 @@
         </tr>
         <tr>
           <td width="57" height="50px">
-            <p align="center"></p>
+            <p align="center">{{name1}}</p>
           </td>
           <td width="58" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{identity1}}</p>
           </td>
           <td width="121" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{number1}}</p>
           </td>
           <td width="31" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{sex1}}</p>
           </td>
           <td width="155" colspan="3">
-            <p align="center"></p>
+            <p align="center">{{company1}}</p>
           </td>
           <td width="83">
-            <p align="center"></p>
+            <p align="center">{{timeRegist1}}</p>
           </td>
           <td width="84">
             <p align="center"></p>
@@ -121,22 +121,22 @@
         </tr>
         <tr>
           <td width="57" height="50px">
-            <p align="center"></p>
+            <p align="center">{{name2}}</p>
           </td>
           <td width="58" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{identity2}}</p>
           </td>
           <td width="121" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{number2}}</p>
           </td>
           <td width="31" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{sex2}}</p>
           </td>
           <td width="155" colspan="3">
-            <p align="center"></p>
+            <p align="center">{{company2}}</p>
           </td>
           <td width="83">
-            <p align="center"></p>
+            <p align="center">{{timeRegist2}}</p>
           </td>
           <td width="84">
             <p align="center"></p>
@@ -144,22 +144,22 @@
         </tr>
         <tr>
           <td width="57" height="50px">
-            <p align="center"></p>
+            <p align="center">{{name3}}</p>
           </td>
           <td width="58" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{identity3}}</p>
           </td>
           <td width="121" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{number3}}</p>
           </td>
           <td width="31" colspan="2">
-            <p align="center"></p>
+            <p align="center">{{sex3}}</p>
           </td>
           <td width="155" colspan="3">
-            <p align="center"></p>
+            <p align="center">{{company3}}</p>
           </td>
           <td width="83">
-            <p align="center"></p>
+            <p align="center">{{timeRegist3}}</p>
           </td>
           <td width="84">
             <p align="center"></p>

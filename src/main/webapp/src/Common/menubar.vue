@@ -5,21 +5,21 @@
         <Icon type="user"></Icon>
         当前用户：{{ userName }}
       </MenuItem>
-      <Submenu name="person">
+      <MenuItem name="personList">
+        <Icon type="android-person"></Icon>
+        困难人员
+      </MenuItem>
+      <MenuItem name="familyList">
+        <Icon type="android-people"></Icon>
+        家庭成员
+      </MenuItem>
+      <Submenu name="change">
         <template slot="title">
-          <Icon type="android-person"></Icon>
-          困难人员
+          <Icon type="cube"></Icon>
+          变更记录
         </template>
-        <MenuItem name="personList">人员列表</MenuItem>
-        <MenuItem name="personChange">变更记录</MenuItem>
-      </Submenu>
-      <Submenu name="family">
-        <template slot="title">
-          <Icon type="android-people"></Icon>
-          家庭成员
-        </template>
-        <MenuItem name="familyList">人员列表</MenuItem>
-        <MenuItem name="familyChange">变更记录</MenuItem>
+        <MenuItem name="personChange">困难人员</MenuItem>
+        <MenuItem name="familyChange">家庭成员</MenuItem>
       </Submenu>
       <MenuItem name="user" v-if="sys">
         <Icon type="ios-people-outline"></Icon>
