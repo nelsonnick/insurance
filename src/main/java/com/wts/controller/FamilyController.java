@@ -134,7 +134,7 @@ public class FamilyController extends Controller {
             renderText("人员姓名必须在2个汉字以上!");
         } else if (person.getNumber().equals(getPara("number"))) {
             renderText("家属证件号码与申请人相同，请核实!");
-        } else if (families.size() != 0) {
+        } else if (families.size() != 0 && !getPara("number").equals("000000000000000000")) {
             renderText("该证件号码数据库中已存在，请核实!");
         } else if (!getPara("phone").matches("\\d{11}")) {
             renderText("联系电话必须为11位数字!");
@@ -142,8 +142,10 @@ public class FamilyController extends Controller {
             renderText("婚姻状况未选择！");
         } else if (getPara("identity").length()<1) {
             renderText("人员身份未选择！");
-        } else if(!IDNumber.checkIdentity(getPara("number"),getPara("identity"))) {
+        } else if(!IDNumber.checkIdentity(getPara("number"),getPara("identity")) && !getPara("number").equals("000000000000000000")) {
             renderText("人员性别与身份不相符！");
+        } else if(person.get("marriage").equals("1") && (getPara("identity").equals("1") || getPara("identity").equals("2"))) {
+            renderText("未婚人员不应有配偶信息！");
         } else {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(getParaToLong("timeRegist"));
@@ -192,7 +194,9 @@ public class FamilyController extends Controller {
                 ) {
             renderText("未找到修改内容，请核实后再修改！");
         } else if (!Util.CheckNull(family.getStr("number")).equals(getPara("number"))
-                && Family.dao.find("select * from family where state=1 and number=? ", getPara("number")).size() > 0) {
+                && Family.dao.find("select * from family where state=1 and number=? ", getPara("number")).size() > 0
+                && !getPara("number").equals("000000000000000000")
+                ) {
             renderText("该证件号码数据库中存在正在享受的记录，请核实！");
         } else if (!IDNumber.availableIDNumber(getPara("number"))){
             renderText("证件号码" + IDNumber.checkIDNumber(getPara("number")));
@@ -208,8 +212,10 @@ public class FamilyController extends Controller {
             renderText("婚姻状况未选择！");
         } else if (getPara("identity").length()<1) {
             renderText("人员身份未选择！");
-        } else if(!IDNumber.checkIdentity(getPara("number"),getPara("identity"))) {
+        } else if(!IDNumber.checkIdentity(getPara("number"),getPara("identity")) && !getPara("number").equals("000000000000000000")) {
             renderText("人员性别与身份不相符！");
+        } else if(Person.dao.findById(family.getPid()).get("marriage").equals("1") && (getPara("identity").equals("1") || getPara("identity").equals("2"))) {
+            renderText("未婚人员不应有配偶信息！");
         } else {
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(getParaToLong("timeRegist"));

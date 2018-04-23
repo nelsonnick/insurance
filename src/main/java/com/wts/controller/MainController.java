@@ -9,6 +9,8 @@ import com.wts.util.IDNumber;
 import com.wts.util.Jnjgfw;
 import com.wts.weixin.WxSend;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class MainController extends Controller {
         setSessionAttr("user", null);
         redirect("/");
     }
+
     @Before(LoginInterceptor.class)
     public void getType() {
         List<Type> type1 = Type.dao.find("SELECT * FROM type WHERE category = 1");
@@ -56,6 +59,7 @@ public class MainController extends Controller {
                 "{value:'2',label:'公益岗位',children:[" + str2 + "]}," +
                 "{value:'3',label:'企业吸纳',children:[" + str3 + "]}]");
     }
+
     @Before(LoginInterceptor.class)
     public void getJob() {
         List<Job> jobs = Job.dao.find("SELECT * FROM job");
@@ -66,26 +70,36 @@ public class MainController extends Controller {
         str = str.substring(0, str.length() - 1);
         renderJson("[" + str + "]");
     }
+
     @Before(LoginInterceptor.class)
     public void getCommunity() {
-        List<Community> communities = Community.dao.find("SELECT * FROM community WHERE lid=1 OR lid=?",((User) getSessionAttr("user")).getLid());
         String str = "";
-        for (Community community: communities) {
-            str = str + "{value: '" + community.getId() + "',label:'" + community.getName() + "'},";
+        if (((User) getSessionAttr("user")).getLid() != 1) {
+            List<Community> communities = Community.dao.find("SELECT * FROM community WHERE lid=1 OR lid=?", ((User) getSessionAttr("user")).getLid());
+            for (Community community : communities) {
+                str = str + "{value: '" + community.getId() + "',label:'" + community.getName() + "'},";
+            }
+        } else {
+            List<Community> communities = Community.dao.find("SELECT * FROM community ");
+            for (Community community : communities) {
+                str = str + "{value: '" + community.getId() + "',label:'" + community.getName() + "'},";
+            }
         }
         str = str.substring(0, str.length() - 1);
         renderJson("[" + str + "]");
     }
+
     @Before(LoginInterceptor.class)
     public void getLocation() {
         List<Location> locations = Location.dao.find("SELECT * FROM location");
         String str = "";
-        for (Location location: locations) {
+        for (Location location : locations) {
             str = str + "{value: '" + location.getId() + "',label:'" + location.getName() + "'},";
         }
         str = str.substring(0, str.length() - 1);
         renderJson("[" + str + "]");
     }
+
     @Before(LoginInterceptor.class)
     public void getUser() {
         if (getSessionAttr("user").equals("") || getSessionAttr("user") == null) {

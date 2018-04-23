@@ -87,14 +87,16 @@ public class FamilyChangeController extends Controller {
         }else{
             st = "AND location.id = " + ((User) getSessionAttr("user")).get("lid");
         }
-        String sql = "familychange.id,familychange.type AS tid,familychange.reason,familychange.time,person.name AS pname,person.number AS pnumber,user.name AS user,family.name,family.number,family.phone,location.name AS location,location.id AS lid," +
+        String sql = "SELECT familychange.id,familychange.type AS tid,familychange.reason,familychange.time,familychange.before,familychange.after," +
+                "person.name AS pname,person.number AS pnumber,user.name AS user," +
+                "family.name,family.number,family.phone,location.name AS location,location.id AS lid," +
                 "CASE familychange.type " +
                 "WHEN '1' THEN '新增' " +
                 "WHEN '2' THEN '信息变更' " +
                 "WHEN '3' THEN '注销' " +
                 "WHEN '4' THEN '激活' " +
                 "ELSE '无法识别' END AS type, " +
-                "CASE family.identity, " +
+                "CASE family.identity " +
                 "WHEN '1' THEN '丈夫' " +
                 "WHEN '2' THEN '妻子' " +
                 "WHEN '3' THEN '儿子' " +
@@ -115,6 +117,7 @@ public class FamilyChangeController extends Controller {
                 "OR family.name LIKE '%" + getPara("keyword") + "%' " +
                 "OR family.phone LIKE '%" + getPara("keyword") + "%' ) "
                 + st;
+        System.out.println(sql);
         List<Record> r = Db.find(sql);
         for (int i = 0; i < r.size(); i++) {
             XSSFRow nextRow = sheet.createRow(i+1);

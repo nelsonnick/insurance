@@ -20,7 +20,7 @@
         <Col span="12">
         <Form :label-width="100" :model="user"  ref="Form">
           <Form-item size="large" label="所属中心" required>
-            <Select  size="large" v-model="lid" style="width: 600px" clearable="false">
+            <Select  size="large" v-model="lid" style="width: 600px">
               <Option v-for="item in location" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select >
           </Form-item>

@@ -505,15 +505,19 @@ public class IDNumber {
     }
 
     public static boolean availableIDNumber(String IDNumber) {
-        if (IDNumber.matches("\\d{17}[0-9,X]")) {
-            if (checkBirth(IDNumber)) {
-                if (checkOut(IDNumber)) {
-                    return true;
+        if (IDNumber.equals("000000000000000000")){
+            return true;
+        }else {
+            if (IDNumber.matches("\\d{17}[0-9,X]")) {
+                if (checkBirth(IDNumber)) {
+                    if (checkOut(IDNumber)) {
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
             }
+            return false;
         }
-        return false;
     }
 
     //	public boolean availableIDNumber(String IDNumber) {

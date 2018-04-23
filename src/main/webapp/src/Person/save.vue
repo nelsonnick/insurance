@@ -103,7 +103,7 @@
         marriage: '2',
         identity: '1',
         company: '',
-        timeRegist: '',
+        timeRegist: new Date(),
         remark: ''
       }
     },
@@ -123,7 +123,7 @@
         this.marriage = '2'
         this.identity = '1'
         this.company = ''
-        this.timeRegist = ''
+        this.timeRegist = new Date()
         this.remark = ''
       },
       goSave () {

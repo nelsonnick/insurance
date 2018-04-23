@@ -20,8 +20,8 @@
         <Col span="12">
         <Form :label-width="100" :model="family"  ref="Form">
           <Form-item size="large" label="所属中心" required>
-            <Select  size="large" v-model="lid" style="width: 600px" clearable="false">
-              <Option v-for="item in LocationList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select  size="large" v-model="lid" style="width: 600px">
+              <Option v-for="item in location" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select >
           </Form-item>
           <Form-item label="人员姓名" required>
@@ -75,8 +75,8 @@
     },
     methods: {
       goReset () {
-        this.fetchData(this.$route.params.id)
         this.getLocation()
+        this.fetchData(this.$route.params.id)
       },
       goSave() {
         this.$Loading.start()

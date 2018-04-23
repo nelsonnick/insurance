@@ -71,13 +71,14 @@ public class PersonChangeController extends Controller {
         }else{
             st = "AND location.id = " + ((User) getSessionAttr("user")).get("lid");
         }
-        String sql = "personchange.id,personchange.type AS tid,personchange.reason,personchange.time,user.name AS user,person.name,person.number,person.phone,location.name AS location,location.id AS lid," +
+        String sql = "SELECT personchange.id,personchange.type AS tid,personchange.reason,personchange.time,personchange.before,personchange.after," +
+                "user.name AS user,person.name,person.number,person.phone,location.name AS location,location.id AS lid," +
                 "CASE personchange.type " +
                 "WHEN '1' THEN '新增' " +
                 "WHEN '2' THEN '信息变更' " +
                 "WHEN '3' THEN '注销' " +
                 "WHEN '4' THEN '激活' " +
-                "ELSE '无法识别' END AS type, " +
+                "ELSE '无法识别' END AS type " +
                 "FROM personchange " +
                 "LEFT JOIN person ON personchange.pid = person.id " +
                 "LEFT JOIN user ON personchange.uid = user.id " +

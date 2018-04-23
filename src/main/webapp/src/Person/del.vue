@@ -50,7 +50,9 @@
           </Col>
           <Col span="12">
             <Form-item size="large" label="工作岗位" required>
-              <Cascader size="large" :data="job" v-model="jid" style="width: 400px" clearable="false" disabled></Cascader>
+              <Select  size="large" v-model="jid" style="width: 400px" disabled>
+                <Option v-for="item in job" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select >
             </Form-item>
             <Form-item label="失业时间">
               <DatePicker size="large" v-model="timeOut" type="date" placeholder="请选择失业时间" format="yyyy年MM月dd日" style="width: 400px" disabled></DatePicker>
@@ -62,7 +64,9 @@
               <Input size="large" v-model="company" placeholder="请输入失业前所在单位" style="width: 400px" disabled></Input>
             </Form-item>
             <Form-item size="large" label="所属村居">
-              <Cascader size="large" :data="community" v-model="cid" style="width: 400px" clearable="false" disabled></Cascader>
+              <Select  size="large" v-model="cid" style="width: 400px" disabled>
+                <Option v-for="item in community" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select >
             </Form-item>
             <Form-item size="large" label="延期政策" prop="delay" required>
               <Radio-group v-model="delay" size="large" type="button">
@@ -113,9 +117,9 @@
         timeOut: '',
         timeRegist: '',
         company: '',
-        jid: ['1'],
+        jid: '1',
         tid: ['1', '1'],
-        cid: ['1'],
+        cid: '1',
         marriage: '2',
         delay: '0',
         bank: '',
