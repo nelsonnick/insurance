@@ -145,6 +145,14 @@ public abstract class BasePerson<M extends BasePerson<M>> extends Model<M> imple
 		return getInt("state");
 	}
 
+	public void setCheck(java.lang.Integer check) {
+		set("check", check);
+	}
+
+	public java.lang.Integer getCheck() {
+		return getInt("check");
+	}
+
 	public void setDelay(java.lang.Integer delay) {
 		set("delay", delay);
 	}

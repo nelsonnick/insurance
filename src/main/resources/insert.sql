@@ -58,7 +58,7 @@ INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, 
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('11', '8', '夏倩倩', 'XiaQianQian', 'xiaqianqian', 'xiaqianqian', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('12', '9', '扈文骞', 'HuWenQian', 'huwenqian', 'huwenqian', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('13', '10', '祝天娇', 'ZhuTianJiao', 'zhutianjiao', 'zhutianjiao', '1');
-INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('14', '11', '郭瀚阳', 'GuoHanYang', 'guohanyang', 'guohanyang', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('14', '11', '钟婷婷', 'ZhongTingTing', 'zhongtingting', 'zhongtingting', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('15', '12', '许珞', 'XuLuo', 'xuluo', 'xuluo', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('16', '13', '郑娜', 'ZhengNa', 'zhengna', 'zhengna', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('17', '14', '杨琪', 'YangQi', 'yangqi', 'yangqi', '1');
@@ -66,6 +66,7 @@ INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, 
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('19', '16', '徐雪珂', 'XuXueKe', 'xuxueke', 'xuxueke', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('20', '17', '闫海英', 'YanHaiYing', 'yanhaiying', 'yanhaiying', '1');
 INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('21', '7', '王晓红', 'WangXiaoHong', 'wangxiaohong', 'wangxiaohong', '1');
+INSERT INTO `insurance`.`user` (`id`, `lid`, `name`, `weixin`, `login`, `pass`, `state`) VALUES ('22', '15', '张杰', 'ZhangJie', 'zhangjie', 'zhangjie', '1');
 
 INSERT INTO `insurance`.`community` (`id`, `lid`, `name`, `type`) VALUES ('1', '1', '未知', '0');
 INSERT INTO `insurance`.`community` (`id`, `lid`, `name`, `type`) VALUES ('2', '2', '纬十路社区', '1');

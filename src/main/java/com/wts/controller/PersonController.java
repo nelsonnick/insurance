@@ -80,10 +80,10 @@ public class PersonController extends Controller {
     public void Del() {
         Person person = Person.dao.findById(getPara("id"));
         String before = JSON.toJSONString(person);
-        person.set("state",0);
         if (getPara("reason").trim().equals("")){
             renderText("请输入注销原因！");
         }else {
+            person.set("state",0).set("check",0);
             if (person.update()) {
                 Personchange pc = new Personchange();
                 pc.set("pid", person.getId())
@@ -97,7 +97,7 @@ public class PersonController extends Controller {
                 List<Family> families = Family.dao.find("select * from family where pid=?", person.getId());
                 for (Family family : families) {
                     String before_family = JSON.toJSONString(family);
-                    family.set("state", 0);
+                    family.set("state", 0).set("check",0);
                     if (family.update()) {
                         Familychange fc = new Familychange();
                         fc.set("fid", family.getId())
@@ -120,10 +120,10 @@ public class PersonController extends Controller {
     public void Active() {
         Person person = Person.dao.findById(getPara("id"));
         String before = JSON.toJSONString(person);
-        person.set("state",1);
         if (getPara("reason").trim().equals("")){
             renderText("请输入激活原因！");
         }else {
+            person.set("state",1).set("check",1);
             if (person.update()) {
                 Personchange pc = new Personchange();
                 pc.set("pid", person.getId())
@@ -137,7 +137,7 @@ public class PersonController extends Controller {
                 List<Family> families = Family.dao.find("select * from family where pid=?", person.getId());
                 for (Family family : families) {
                     String before_family = JSON.toJSONString(family);
-                    family.set("state", 1);
+                    family.set("state", 1).set("check",1);
                     if (family.update()) {
                         Familychange fc = new Familychange();
                         fc.set("fid", family.getId())
@@ -153,6 +153,44 @@ public class PersonController extends Controller {
                 }
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Active;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
+            renderText("OK");
+        }
+    }
+    @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
+    public void Open() {
+        Person person = Person.dao.findById(getPara("id"));
+        String before = JSON.toJSONString(person);
+        person.set("check",1);
+        if (person.update()) {
+            Personchange pc = new Personchange();
+            pc.set("pid", person.getId())
+                    .set("uid", ((User) getSessionAttr("user")).get("id"))
+                    .set("type", 6)
+                    .set("reason", "开启提醒")
+                    .set("time", new Date())
+                    .set("before", before)
+                    .set("after", JSON.toJSONString(person))
+                    .save();
+            logger.warn("function:" + this.getClass().getSimpleName() + "/Open;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
+            renderText("OK");
+        }
+    }
+    @Before({Tx.class,LoginInterceptor.class,TimeoutInterceptor.class})
+    public void Close() {
+        Person person = Person.dao.findById(getPara("id"));
+        String before = JSON.toJSONString(person);
+        person.set("check",0);
+        if (person.update()) {
+            Personchange pc = new Personchange();
+            pc.set("pid", person.getId())
+                    .set("uid", ((User) getSessionAttr("user")).get("id"))
+                    .set("type", 5)
+                    .set("reason", "关闭提醒")
+                    .set("time", new Date())
+                    .set("before", before)
+                    .set("after", JSON.toJSONString(person))
+                    .save();
+            logger.warn("function:" + this.getClass().getSimpleName() + "/Close;" + "id:" + getPara("id") + ";time:" + new Date() + ";");
             renderText("OK");
         }
     }

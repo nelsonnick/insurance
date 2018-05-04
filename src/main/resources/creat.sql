@@ -80,6 +80,8 @@ CREATE TABLE `person` (
 
 `state` int(11) NULL COMMENT '0未享受1正在享受',
 
+`check` int(11) NULL COMMENT '0关闭核查1开启核查',
+
 `delay` int(11) NULL COMMENT '0不延期1延期',
 
 `remark` varchar(999) CHARACTER SET utf8 NULL COMMENT '备注',
@@ -139,6 +141,8 @@ CREATE TABLE `family` (
 
 `state` int(11) NULL COMMENT '0注销1激活',
 
+`check` int(11) NULL COMMENT '0关闭核查1开启核查',
+
 `remark` varchar(999) CHARACTER SET utf8 NULL COMMENT '备注',
 
 PRIMARY KEY (`id`)
@@ -155,7 +159,7 @@ CREATE TABLE `personChange` (
 
 `uid` int(11) NULL COMMENT '用户序号',
 
-`type` int(11) NULL COMMENT '1新增2信息变更3注销4激活',
+`type` int(11) NULL COMMENT '1新增2信息变更3注销4激活5关闭提醒6开启提醒',
 
 `time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '变更时间',
 
@@ -179,7 +183,7 @@ CREATE TABLE `familyChange` (
 
 `uid` int(11) NULL COMMENT '用户序号',
 
-`type` int(11) NULL COMMENT '1新增2信息变更3注销4激活',
+`type` int(11) NULL COMMENT '1新增2信息变更3注销4激活5关闭提醒6开启提醒',
 
 `time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '变更时间',
 

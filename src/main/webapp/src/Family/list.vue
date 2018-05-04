@@ -187,6 +187,36 @@
                   }, '注销')
                 )
               }
+              if (((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) && params.row.check.toString() === '1') {
+                operate.push(
+                  h('Button', {
+                    props: {
+                      type: 'error',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.goClose(params.index)
+                      }
+                    }
+                  }, '关闭核查')
+                )
+              }
+              if (((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) && params.row.check.toString() === '0') {
+                operate.push(
+                  h('Button', {
+                    props: {
+                      type: 'success',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.goOpen(params.index)
+                      }
+                    }
+                  }, '开启核查')
+                )
+              }
               if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '0' && params.row.psid.toString() === '1')) {
                 operate.push(
                   h('Button', {
@@ -257,6 +287,50 @@
       },
       goActive (index) {
         this.$router.push({path: '/active/' + this.pageList[index].id})
+      },
+      goOpen (index) {
+        axios.get(API.Open, {
+          params: { id: this.pageList[index].id }
+        }).then(res => {
+          if (res.data === 'OK') {
+            this.$Message.success('开启核查成功!')
+            this.$Notice.success({
+              title: '操作完成!',
+              desc: '家庭成员：' + this.pageList[index].name + '已开启核查！'
+            })
+            this.getQuery(this.keyword)
+          } else {
+            this.$Notice.error({
+              title: res.data
+            })
+          }
+        }).catch(res => {
+          this.$Notice.error({
+            title: '服务器内部错误，无法开启核查!'
+          })
+        })
+      },
+      goClose (index) {
+        axios.get(API.Close, {
+          params: { id: this.pageList[index].id }
+        }).then(res => {
+          if (res.data === 'OK') {
+            this.$Message.success('关闭核查成功!')
+            this.$Notice.success({
+              title: '操作完成!',
+              desc: '家庭成员：' + this.pageList[index].name + '已关闭核查！'
+            })
+            this.getQuery(this.keyword)
+          } else {
+            this.$Notice.error({
+              title: res.data
+            })
+          }
+        }).catch(res => {
+          this.$Notice.error({
+            title: '服务器内部错误，无法关闭核查!'
+          })
+        })
       },
       goDown () {
         window.location.href = BASE.base + 'family/export?keyword=' + this.keyword

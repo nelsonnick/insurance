@@ -21,12 +21,12 @@ public class SecurityDown implements Runnable {
         } catch (Exception e) {
             logger.error("延时错误：" + e);
         }
-        List<Person> persons = Person.dao.find("SELECT * FROM person WHERE state = 1");
+        List<Person> persons = Person.dao.find("SELECT * FROM person WHERE state = 1 AND check = 1");
         for (Person person : persons) {
             Security security = getSecurity(person.getNumber(), person.getName(), person.getLid(), 0);
             security.save();
         }
-        List<Family> families = Family.dao.find("SELECT * FROM family WHERE state = 1");
+        List<Family> families = Family.dao.find("SELECT * FROM family WHERE state = 1 AND check = 1");
         for (Family family : families) {
             Person person = Person.dao.findById(family.getId());
             Security security = getSecurity(family.getNumber(), family.getName(), person.getLid(), 1);

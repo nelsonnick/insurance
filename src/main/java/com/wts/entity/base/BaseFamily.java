@@ -105,6 +105,14 @@ public abstract class BaseFamily<M extends BaseFamily<M>> extends Model<M> imple
 		return getInt("state");
 	}
 
+	public void setCheck(java.lang.Integer check) {
+		set("check", check);
+	}
+
+	public java.lang.Integer getCheck() {
+		return getInt("check");
+	}
+
 	public void setRemark(java.lang.String remark) {
 		set("remark", remark);
 	}

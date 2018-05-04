@@ -109,7 +109,7 @@ public class UserController extends Controller {
 
     @Before({Tx.class, LoginInterceptor.class})
     public void Edit() {
-        User user = User.dao.findById(getPara("id"));
+        User user = User.dao.findById(getPara("lid"));
         if (user == null) {
             renderText("要修改的用户不存在，请刷新页面后再试！");
         } else if (Util.CheckNull(user.getStr("name")).equals(getPara("name").trim())
