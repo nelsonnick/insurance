@@ -37,6 +37,8 @@ public class FamilyChangeController extends Controller {
                         "WHEN '2' THEN '信息变更' " +
                         "WHEN '3' THEN '注销' " +
                         "WHEN '4' THEN '激活' " +
+                        "WHEN '5' THEN '关闭提醒' " +
+                        "WHEN '6' THEN '开启提醒' " +
                         "ELSE '无法识别' END AS type, "+
                         "CASE family.identity " +
                         "WHEN '1' THEN '丈夫' " +
@@ -95,6 +97,8 @@ public class FamilyChangeController extends Controller {
                 "WHEN '2' THEN '信息变更' " +
                 "WHEN '3' THEN '注销' " +
                 "WHEN '4' THEN '激活' " +
+                "WHEN '5' THEN '关闭提醒' " +
+                "WHEN '6' THEN '开启提醒' " +
                 "ELSE '无法识别' END AS type, " +
                 "CASE family.identity " +
                 "WHEN '1' THEN '丈夫' " +

@@ -8,6 +8,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByMethods;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.cron4j.Cron4jPlugin;
+import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 import com.wts.controller.*;
 import com.wts.entity.model._MappingKit;
@@ -48,11 +49,16 @@ public class Config extends JFinalConfig {
      */
     public void configPlugin(Plugins me) {
         // 配置C3p0数据库连接池插件
-        C3p0Plugin c3p0Plugin = new C3p0Plugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
-        me.add(c3p0Plugin);
+//        C3p0Plugin c3p0Plugin = new C3p0Plugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
+//        c3p0Plugin.setDriverClass("com.mysql.cj.jdbc.Driver");
+//        me.add(c3p0Plugin);
+        DruidPlugin dp = new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
+        dp.setDriverClass("com.mysql.cj.jdbc.Driver");
+        me.add(dp);
 
         // 配置ActiveRecord插件
-        ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
+//        ActiveRecordPlugin arp = new ActiveRecordPlugin(c3p0Plugin);
+        ActiveRecordPlugin arp = new ActiveRecordPlugin(dp);
         arp.setShowSql(false);
         me.add(arp);
         _MappingKit.mapping(arp);

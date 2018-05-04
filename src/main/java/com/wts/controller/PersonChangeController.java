@@ -36,6 +36,8 @@ public class PersonChangeController extends Controller {
                         "WHEN '2' THEN '信息变更' " +
                         "WHEN '3' THEN '注销' " +
                         "WHEN '4' THEN '激活' " +
+                        "WHEN '5' THEN '关闭提醒' " +
+                        "WHEN '6' THEN '开启提醒' " +
                         "ELSE '无法识别' END AS type ",
                 "FROM personchange " +
                         "LEFT JOIN person ON personchange.pid = person.id " +
@@ -78,6 +80,8 @@ public class PersonChangeController extends Controller {
                 "WHEN '2' THEN '信息变更' " +
                 "WHEN '3' THEN '注销' " +
                 "WHEN '4' THEN '激活' " +
+                "WHEN '5' THEN '关闭提醒' " +
+                "WHEN '6' THEN '开启提醒' " +
                 "ELSE '无法识别' END AS type " +
                 "FROM personchange " +
                 "LEFT JOIN person ON personchange.pid = person.id " +

@@ -5,7 +5,7 @@ Table: community
  id    | INT(10)      | NO   | PRI |         | 序号      
  lid   | INT(10)      | YES  |     |         | 中心序号    
  name  | VARCHAR(255) | YES  |     |         | 居委会名称   
- type  | INT(10)      | YES  |     |         | 1居委会2村委会3家委会
+ type  | INT(10)      | YES  |     |         | 0未知1居委会2村委会3家委会
 -------+--------------+------+-----+---------+---------
 
 Table: family
@@ -24,6 +24,7 @@ Table: family
  company    | VARCHAR(255) | YES  |     |         | 原（现）工作（学习）单位
  timeRegist | DATE(10)     | YES  |     |         | 城镇登记失业时间
  state      | INT(10)      | YES  |     |         | 0注销1激活  
+ check      | INT(10)      | YES  |     |         | 0关闭核查1开启核查
  remark     | VARCHAR(999) | YES  |     |         | 备注      
 ------------+--------------+------+-----+---------+---------
 
@@ -34,8 +35,8 @@ Table: familychange
  id     | INT(10)      | NO   | PRI |         | 序号      
  fid    | INT(10)      | YES  |     |         | 家庭成员序号  
  uid    | INT(10)      | YES  |     |         | 用户序号    
- type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
- time   | DATETIME(19) | YES  |     |         | 变更时间    
+ type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活5关闭提醒6开启提醒
+ time   | DATETIME(26) | YES  |     |         | 变更时间    
  before | VARCHAR(999) | YES  |     |         | 之前的信息   
  after  | VARCHAR(999) | YES  |     |         | 之后的信息   
  reason | VARCHAR(999) | YES  |     |         | 变更原因    
@@ -63,7 +64,7 @@ Table: message
 ---------+--------------+------+-----+---------+---------
  id      | INT(10)      | NO   | PRI |         | 序号      
  uid     | INT(10)      | YES  |     |         | 用户序号    
- time    | DATETIME(19) | YES  |     |         | 发送时间    
+ time    | DATETIME(26) | YES  |     |         | 发送时间    
  content | VARCHAR(999) | YES  |     |         | 消息内容    
  state   | INT(10)      | YES  |     |         | 0失败1成功  
 ---------+--------------+------+-----+---------+---------
@@ -89,6 +90,7 @@ Table: person
  timeRegist | DATE(10)     | YES  |     |         | 城镇登记失业时间
  marriage   | INT(10)      | YES  |     |         | 1未婚2已婚3离异4丧偶
  state      | INT(10)      | YES  |     |         | 0未享受1正在享受
+ check      | INT(10)      | YES  |     |         | 0关闭核查1开启核查
  delay      | INT(10)      | YES  |     |         | 0不延期1延期 
  remark     | VARCHAR(999) | YES  |     |         | 备注      
 ------------+--------------+------+-----+---------+---------
@@ -100,8 +102,8 @@ Table: personchange
  id     | INT(10)      | NO   | PRI |         | 序号      
  pid    | INT(10)      | YES  |     |         | 人员序号    
  uid    | INT(10)      | YES  |     |         | 用户序号    
- type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活
- time   | DATETIME(19) | YES  |     |         | 变更时间    
+ type   | INT(10)      | YES  |     |         | 1新增2信息变更3注销4激活5关闭提醒6开启提醒
+ time   | DATETIME(26) | YES  |     |         | 变更时间    
  before | VARCHAR(999) | YES  |     |         | 之前的信息   
  after  | VARCHAR(999) | YES  |     |         | 之后的信息   
  reason | VARCHAR(999) | YES  |     |         | 变更原因    

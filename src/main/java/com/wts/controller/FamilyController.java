@@ -35,7 +35,7 @@ public class FamilyController extends Controller {
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
                 "SELECT person.name AS pname,person.number AS pnumber,person.phone AS pphone,person.id AS pid,person.lid AS lid,person.state AS psid,location.name AS location, " +
-                        "family.id,family.name,family.number,family.phone,family.state AS sid, " +
+                        "family.id,family.name,family.number,family.phone,family.state AS sid,family.check, " +
                         "CASE family.identity " +
                         "WHEN '1' THEN '丈夫' " +
                         "WHEN '2' THEN '妻子' " +
@@ -208,6 +208,7 @@ public class FamilyController extends Controller {
                     .set("marriage", getParaToInt("marriage"))
                     .set("remark", getPara("remark"))
                     .set("state", 1)
+                    .set("check", 1)
                     .set("pid", getParaToInt("id"));
             if (family.save()){
                 Familychange fc = new Familychange();

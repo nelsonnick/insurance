@@ -1,4 +1,4 @@
-jdbcUrl = jdbc:mysql://127.0.0.1/insurance?serverTimezone=Shanghai&?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+jdbcUrl = jdbc:mysql://127.0.0.1/insurance?characterEncoding=utf8&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
 user = root
 password =root
 devMode = true

@@ -35,7 +35,7 @@ public class PersonController extends Controller {
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
-                "SELECT person.id, person.name,person.number,person.phone,person.address,location.name AS location,location.id AS lid,person.state AS sid, " +
+                "SELECT person.id, person.name,person.number,person.phone,person.address,location.name AS location,location.id AS lid,person.state AS sid,person.check, " +
                         "CASE person.tid " +
                         "WHEN '1' THEN '灵活就业/零就业' " +
                         "WHEN '2' THEN '灵活就业/单亲' " +
@@ -251,6 +251,7 @@ public class PersonController extends Controller {
                     .set("company", getPara("company"))
                     .set("remark", getPara("remark"))
                     .set("state", 1)
+                    .set("check", 1)
                     .set("lid", ((User) getSessionAttr("user")).get("lid"));
             if (person.save()){
                 Personchange pc = new Personchange();
