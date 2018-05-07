@@ -138,7 +138,7 @@
                 operate.push(
                   h('Button', {
                     props: {
-                      type: 'warning',
+                      type: 'info',
                       size: 'small'
                     },
                     on: {
@@ -151,7 +151,7 @@
                 operate.push(
                   h('Button', {
                     props: {
-                      type: 'info',
+                      type: 'warning',
                       size: 'small'
                     },
                     on: {

@@ -213,7 +213,7 @@ public class FamilyController extends Controller {
                         .set("time",new Date())
                         .set("before","")
                         .set("after", JSON.toJSONString(family))
-                        .set("reason", "新增")
+                        .set("reason", "新增家庭成员")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Add;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
@@ -281,7 +281,7 @@ public class FamilyController extends Controller {
                         .set("time",new Date())
                         .set("before",before)
                         .set("after", JSON.toJSONString(family))
-                        .set("reason", "修改")
+                        .set("reason", "家庭成员变更")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Edit;" + "number:" + getPara("number") + ";time:" + new Date() + ";");

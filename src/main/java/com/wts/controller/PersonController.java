@@ -261,7 +261,7 @@ public class PersonController extends Controller {
                         .set("time",new Date())
                         .set("before","")
                         .set("after", JSON.toJSONString(person))
-                        .set("reason","新增")
+                        .set("reason","新增困难人员")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Add;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
@@ -347,7 +347,7 @@ public class PersonController extends Controller {
                         .set("time",new Date())
                         .set("before",before)
                         .set("after", JSON.toJSONString(person))
-                        .set("reason","修改")
+                        .set("reason","困难人员变更")
                         .save();
             }
             logger.warn("function:" + this.getClass().getSimpleName() + "/Edit;" + "number:" + getPara("number") + ";time:" + new Date() + ";");
