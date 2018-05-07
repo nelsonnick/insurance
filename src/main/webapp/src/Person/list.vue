@@ -101,6 +101,7 @@
             title: '序号',
             key: 'id',
             sortable: true,
+            width: 80,
             render: (h, params) => {
               return h('div', params.index + 1)
             }
@@ -128,6 +129,7 @@
           {
             title: '婚姻',
             key: 'marriage',
+            width: 80,
             sortable: true
           },
           {

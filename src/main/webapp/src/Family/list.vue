@@ -98,23 +98,22 @@
             title: '序号',
             key: 'id',
             sortable: true,
+            width: 80,
             render: (h, params) => {
               return h('div', params.index + 1)
             }
           },
           {
-            title: '困难人员姓名',
-            key: 'pnumber',
-            sortable: true
-          },
-          {
-            title: '困难人员证件号码',
-            key: 'pname',
-            sortable: true
+            title: '困难人员',
+            sortable: true,
+            render: (h, params) => {
+              return h('div', params.row.pnumber + '' + params.row.pname)
+            }
           },
           {
             title: '身份',
             key: 'identity',
+            width: 80,
             sortable: true
           },
           {
@@ -135,6 +134,7 @@
           {
             title: '婚姻',
             key: 'marriage',
+            width: 80,
             sortable: true
           },
           {
@@ -151,6 +151,7 @@
             title: '操作',
             key: 'state',
             align: 'center',
+            width: 300,
             render: (h, params) => {
               const operate = []
               if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || this.LocationId.toString() === '1') {
