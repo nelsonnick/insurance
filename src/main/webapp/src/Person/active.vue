@@ -155,7 +155,7 @@
             this.$Message.success('再次认定成功!')
             this.$Notice.success({
               title: '操作完成!',
-              desc: '人员：' + this.name + '已再次认定！其家庭成员同时被全部激活！'
+              desc: '人员：' + this.name + '已再次认定！其家庭成员全部进入核查范围！'
             })
             setTimeout(() => {
               this.$router.push({path: '/list'})

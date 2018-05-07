@@ -10,7 +10,7 @@
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
               <BreadcrumbItem>困难人员</BreadcrumbItem>
-              <BreadcrumbItem>人员退出</BreadcrumbItem>
+              <BreadcrumbItem>退出</BreadcrumbItem>
             </Breadcrumb>
           </div>
         </Col>
@@ -155,7 +155,7 @@
             this.$Message.success('退出成功!')
             this.$Notice.success({
               title: '操作完成!',
-              desc: '人员：' + this.name + '已退出困难人员！其家庭成员同时被全部注销！'
+              desc: '人员：' + this.name + '已退出困难人员！其家庭成员全部退出核查范围！'
             })
             setTimeout(() => {
               this.$router.push({path: '/list'})

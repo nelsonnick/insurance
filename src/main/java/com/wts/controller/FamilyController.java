@@ -47,7 +47,7 @@ public class FamilyController extends Controller {
                         "WHEN '8' THEN '姐妹' " +
                         "ELSE '无法识别' END AS identity, " +
                         "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
-                        "CASE family.state WHEN '0' THEN '注销' WHEN '1' THEN '激活' ELSE '状态错误' END AS state",
+                        "CASE family.state WHEN '0' THEN '不需要' WHEN '1' THEN '需要' ELSE '状态错误' END AS state",
                 "FROM family LEFT JOIN person ON family.pid = person.id " +
                         "LEFT JOIN location ON person.lid = location.id " +
                         "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
@@ -81,7 +81,7 @@ public class FamilyController extends Controller {
         Family family = Family.dao.findById(getPara("id"));
         String before = JSON.toJSONString(family);
         if (getPara("reason").trim().equals("")){
-            renderText("请输入注销原因！");
+            renderText("请输入关闭核查的原因！");
         }else {
             family.set("state",0).set("check",0);
             if (family.update()) {
@@ -104,7 +104,7 @@ public class FamilyController extends Controller {
         Family family = Family.dao.findById(getPara("id"));
         String before = JSON.toJSONString(family);
         if (getPara("reason").trim().equals("")){
-            renderText("请输入激活原因！");
+            renderText("请输入开启核查的原因！");
         }else {
             family.set("state",1).set("check",1);
             if (family.update()) {
@@ -133,7 +133,7 @@ public class FamilyController extends Controller {
             fc.set("fid", family.getId())
                     .set("uid", ((User) getSessionAttr("user")).get("id"))
                     .set("type", 6)
-                    .set("reason", "开启提醒")
+                    .set("reason", "开启自动核查")
                     .set("time", new Date())
                     .set("before", before)
                     .set("after", JSON.toJSONString(family))
@@ -153,7 +153,7 @@ public class FamilyController extends Controller {
             fc.set("fid", family.getId())
                     .set("uid", ((User) getSessionAttr("user")).get("id"))
                     .set("type", 5)
-                    .set("reason", "关闭提醒")
+                    .set("reason", "关闭自动核查")
                     .set("time", new Date())
                     .set("before", before)
                     .set("after", JSON.toJSONString(family))
@@ -290,7 +290,7 @@ public class FamilyController extends Controller {
     }
     @Before({Tx.class,LoginInterceptor.class})
     public  void export() throws IOException{
-        String[] title={"序号","申请人证件号码","申请人姓名","家属身份","家属证件号码","家属姓名","家属性别","家属出生年月","家属联系电话","婚姻状况","人员状态","备注"};
+        String[] title={"序号","申请人证件号码","申请人姓名","家属身份","家属证件号码","家属姓名","家属性别","家属出生年月","家属联系电话","婚姻状况","核查状态","备注"};
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet();
         XSSFRow row =sheet.createRow(0);
@@ -317,7 +317,7 @@ public class FamilyController extends Controller {
                 "WHEN '8' THEN '姐妹' " +
                 "ELSE '无法识别' END AS identity, " +
                 "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
-                "CASE family.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state, " +
+                "CASE family.state WHEN '0' THEN '不需要' WHEN '1' THEN '需要' ELSE '状态错误' END AS state, " +
                 "CASE family.sex WHEN '1' THEN '男' WHEN '2' THEN '女' ELSE '状态错误' END AS sex " +
                 "FROM family " +
                 "LEFT JOIN person ON family.pid = person.id " +

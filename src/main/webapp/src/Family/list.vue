@@ -146,9 +146,8 @@
             sortable: true
           },
           {
-            title: '状态',
+            title: '核查状态',
             key: 'state',
-            width: 80,
             sortable: true
           },
           {
@@ -161,7 +160,7 @@
                 operate.push(
                   h('Button', {
                     props: {
-                      type: 'warning',
+                      type: 'info',
                       size: 'small'
                     },
                     on: {
@@ -172,7 +171,7 @@
                   }, '修改')
                 )
               }
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) {
+              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -184,40 +183,10 @@
                         this.goDel(params.index)
                       }
                     }
-                  }, '注销')
-                )
-              }
-              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1' && params.row.check.toString() === '1') {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'error',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goClose(params.index)
-                      }
-                    }
                   }, '关闭核查')
                 )
               }
-              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1' && params.row.check.toString() === '0') {
-                operate.push(
-                  h('Button', {
-                    props: {
-                      type: 'success',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.goOpen(params.index)
-                      }
-                    }
-                  }, '开启核查')
-                )
-              }
-              if ((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '0' && params.row.psid.toString() === '1')) {
+              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -229,7 +198,36 @@
                         this.goActive(params.index)
                       }
                     }
-                  }, '激活')
+                  }, '开启核查')
+                )
+              }
+              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1' && params.row.psid.toString() === '1' && params.row.check.toString() === '1') {
+                operate.push(
+                  h('Button', {
+                    props: {
+                      type: 'warning',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.goClose(params.index)
+                      }
+                    }
+                  }, '关闭自动核查')
+                )
+              }
+              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1' && params.row.psid.toString() === '1' && params.row.check.toString() === '0') {
+                operate.push(
+                  h('Button', {
+                    props: {
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.goOpen(params.index)
+                      }
+                    }
+                  }, '开启自动核查')
                 )
               }
               return h('div', operate)
@@ -293,10 +291,10 @@
           params: { id: this.pageList[index].id }
         }).then(res => {
           if (res.data === 'OK') {
-            this.$Message.success('开启核查成功!')
+            this.$Message.success('开启自动核查成功!')
             this.$Notice.success({
               title: '操作完成!',
-              desc: '家庭成员：' + this.pageList[index].name + '已开启核查！'
+              desc: '家庭成员：' + this.pageList[index].name + '已开启自动核查！'
             })
             this.getQuery(this.keyword)
           } else {
@@ -306,7 +304,7 @@
           }
         }).catch(res => {
           this.$Notice.error({
-            title: '服务器内部错误，无法开启核查!'
+            title: '服务器内部错误，无法开启自动核查!'
           })
         })
       },
@@ -315,10 +313,10 @@
           params: { id: this.pageList[index].id }
         }).then(res => {
           if (res.data === 'OK') {
-            this.$Message.success('关闭核查成功!')
+            this.$Message.success('关闭自动核查成功!')
             this.$Notice.success({
               title: '操作完成!',
-              desc: '家庭成员：' + this.pageList[index].name + '已关闭核查！'
+              desc: '家庭成员：' + this.pageList[index].name + '已关闭自动核查！'
             })
             this.getQuery(this.keyword)
           } else {
@@ -328,7 +326,7 @@
           }
         }).catch(res => {
           this.$Notice.error({
-            title: '服务器内部错误，无法关闭核查!'
+            title: '服务器内部错误，无法关闭自动核查!'
           })
         })
       },
