@@ -32,12 +32,12 @@ public class PersonChangeController extends Controller {
                 getParaToInt("pageSize"),
                 "SELECT personchange.id,personchange.type AS tid,personchange.reason,personchange.time,user.name AS user,person.name,person.number,person.phone,location.name AS location,location.id AS lid," +
                         "CASE personchange.type " +
-                        "WHEN '1' THEN '新增' " +
-                        "WHEN '2' THEN '信息变更' " +
-                        "WHEN '3' THEN '注销' " +
-                        "WHEN '4' THEN '激活' " +
-                        "WHEN '5' THEN '关闭提醒' " +
-                        "WHEN '6' THEN '开启提醒' " +
+                        "WHEN '1' THEN '新增困难人员' " +
+                        "WHEN '2' THEN '困难人员变更' " +
+                        "WHEN '3' THEN '退出困难人员' " +
+                        "WHEN '4' THEN '重新认定困难人员' " +
+                        "WHEN '5' THEN '关闭自动核查' " +
+                        "WHEN '6' THEN '开启自动核查' " +
                         "ELSE '无法识别' END AS type ",
                 "FROM personchange " +
                         "LEFT JOIN person ON personchange.pid = person.id " +
@@ -76,12 +76,12 @@ public class PersonChangeController extends Controller {
         String sql = "SELECT personchange.id,personchange.type AS tid,personchange.reason,personchange.time,personchange.before,personchange.after," +
                 "user.name AS user,person.name,person.number,person.phone,location.name AS location,location.id AS lid," +
                 "CASE personchange.type " +
-                "WHEN '1' THEN '新增' " +
-                "WHEN '2' THEN '信息变更' " +
-                "WHEN '3' THEN '注销' " +
-                "WHEN '4' THEN '激活' " +
-                "WHEN '5' THEN '关闭提醒' " +
-                "WHEN '6' THEN '开启提醒' " +
+                "WHEN '1' THEN '新增困难人员' " +
+                "WHEN '2' THEN '困难人员变更' " +
+                "WHEN '3' THEN '退出困难人员' " +
+                "WHEN '4' THEN '重新认定困难人员' " +
+                "WHEN '5' THEN '关闭自动核查' " +
+                "WHEN '6' THEN '开启自动核查' " +
                 "ELSE '无法识别' END AS type " +
                 "FROM personchange " +
                 "LEFT JOIN person ON personchange.pid = person.id " +

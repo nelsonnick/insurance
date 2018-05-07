@@ -47,7 +47,7 @@ public class FamilyController extends Controller {
                         "WHEN '8' THEN '姐妹' " +
                         "ELSE '无法识别' END AS identity, " +
                         "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
-                        "CASE family.state WHEN '0' THEN '不需要' WHEN '1' THEN '需要' ELSE '状态错误' END AS state",
+                        "CASE family.state WHEN '0' THEN '停止' WHEN '1' THEN '开展' ELSE '状态错误' END AS state",
                 "FROM family LEFT JOIN person ON family.pid = person.id " +
                         "LEFT JOIN location ON person.lid = location.id " +
                         "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
@@ -81,7 +81,7 @@ public class FamilyController extends Controller {
         Family family = Family.dao.findById(getPara("id"));
         String before = JSON.toJSONString(family);
         if (getPara("reason").trim().equals("")){
-            renderText("请输入关闭核查的原因！");
+            renderText("请输入停止核查的原因！");
         }else {
             family.set("state",0).set("check",0);
             if (family.update()) {
@@ -104,7 +104,7 @@ public class FamilyController extends Controller {
         Family family = Family.dao.findById(getPara("id"));
         String before = JSON.toJSONString(family);
         if (getPara("reason").trim().equals("")){
-            renderText("请输入开启核查的原因！");
+            renderText("请输入开展核查的原因！");
         }else {
             family.set("state",1).set("check",1);
             if (family.update()) {
@@ -317,7 +317,7 @@ public class FamilyController extends Controller {
                 "WHEN '8' THEN '姐妹' " +
                 "ELSE '无法识别' END AS identity, " +
                 "CASE family.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
-                "CASE family.state WHEN '0' THEN '不需要' WHEN '1' THEN '需要' ELSE '状态错误' END AS state, " +
+                "CASE family.state WHEN '0' THEN '停止' WHEN '1' THEN '开展' ELSE '状态错误' END AS state, " +
                 "CASE family.sex WHEN '1' THEN '男' WHEN '2' THEN '女' ELSE '状态错误' END AS sex " +
                 "FROM family " +
                 "LEFT JOIN person ON family.pid = person.id " +

@@ -159,7 +159,7 @@ CREATE TABLE `personChange` (
 
 `uid` int(11) NULL COMMENT '用户序号',
 
-`type` int(11) NULL COMMENT '1新增2信息变更3注销4激活5关闭提醒6开启提醒',
+`type` int(11) NULL COMMENT '1新增困难人员2困难人员变更3退出困难人员4重新认定困难人员5关闭自动核查6开启自动核查',
 
 `time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '变更时间',
 
@@ -183,7 +183,7 @@ CREATE TABLE `familyChange` (
 
 `uid` int(11) NULL COMMENT '用户序号',
 
-`type` int(11) NULL COMMENT '1新增2信息变更3注销4激活5关闭提醒6开启提醒',
+`type` int(11) NULL COMMENT '1新增家庭成员2家庭成员变更3停止核查家庭成员4开展核查家庭成员5关闭自动核查6开启自动核查',
 
 `time` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '变更时间',
 

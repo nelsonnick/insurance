@@ -10,7 +10,7 @@
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
               <BreadcrumbItem>家庭成员</BreadcrumbItem>
-              <BreadcrumbItem>关闭核查</BreadcrumbItem>
+              <BreadcrumbItem>停止核查</BreadcrumbItem>
             </Breadcrumb>
           </div>
         </Col>
@@ -33,8 +33,8 @@
           <Form-item label="联系电话" required>
             <Input size="large" v-model="phone" placeholder="请输入联系电话" style="width: 400px" maxlength="11" disabled></Input>
           </Form-item>
-          <Form-item label="关闭原因" required>
-            <Input v-model="reason" type="textarea" :rows="2" placeholder="请输入关闭核查的原因" style="width: 600px"></Input>
+          <Form-item label="停止原因" required>
+            <Input v-model="reason" type="textarea" :rows="2" placeholder="请输入停止核查的原因" style="width: 600px"></Input>
           </Form-item>
           </Col>
           <Col span="12">
@@ -132,10 +132,10 @@
         }).then(res => {
           if (res.data === 'OK') {
             this.$Loading.finish()
-            this.$Message.success('关闭核查成功!')
+            this.$Message.success('停止核查成功!')
             this.$Notice.success({
               title: '操作完成!',
-              desc: '家属：' + this.name + '已关闭核查！'
+              desc: '家属：' + this.name + '已停止核查！'
             })
             setTimeout(() => {
               this.$router.push({path: '/list'})
@@ -149,7 +149,7 @@
         }).catch(res => {
           this.$Loading.error()
           this.$Notice.error({
-            title: '服务器内部错误，该家属无法关闭核查!'
+            title: '服务器内部错误，该家属无法停止核查!'
           })
         })
       },

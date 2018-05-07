@@ -33,12 +33,12 @@ public class FamilyChangeController extends Controller {
                 getParaToInt("pageSize"),
                 "SELECT familychange.id,familychange.type AS tid,familychange.reason,familychange.time,person.name AS pname,person.number AS pnumber,user.name AS user,family.name,family.number,family.phone,location.name AS location,location.id AS lid," +
                         "CASE familychange.type " +
-                        "WHEN '1' THEN '新增' " +
-                        "WHEN '2' THEN '信息变更' " +
-                        "WHEN '3' THEN '注销' " +
-                        "WHEN '4' THEN '激活' " +
-                        "WHEN '5' THEN '关闭提醒' " +
-                        "WHEN '6' THEN '开启提醒' " +
+                        "WHEN '1' THEN '新增家庭成员' " +
+                        "WHEN '2' THEN '家庭成员变更' " +
+                        "WHEN '3' THEN '停止核查家庭成员' " +
+                        "WHEN '4' THEN '开展核查家庭成员' " +
+                        "WHEN '5' THEN '关闭自动核查' " +
+                        "WHEN '6' THEN '开启自动核查' " +
                         "ELSE '无法识别' END AS type, "+
                         "CASE family.identity " +
                         "WHEN '1' THEN '丈夫' " +
@@ -93,12 +93,12 @@ public class FamilyChangeController extends Controller {
                 "person.name AS pname,person.number AS pnumber,user.name AS user," +
                 "family.name,family.number,family.phone,location.name AS location,location.id AS lid," +
                 "CASE familychange.type " +
-                "WHEN '1' THEN '新增' " +
-                "WHEN '2' THEN '信息变更' " +
-                "WHEN '3' THEN '注销' " +
-                "WHEN '4' THEN '激活' " +
-                "WHEN '5' THEN '关闭提醒' " +
-                "WHEN '6' THEN '开启提醒' " +
+                "WHEN '1' THEN '新增家庭成员' " +
+                "WHEN '2' THEN '家庭成员变更' " +
+                "WHEN '3' THEN '停止核查家庭成员' " +
+                "WHEN '4' THEN '开展核查家庭成员' " +
+                "WHEN '5' THEN '关闭自动核查' " +
+                "WHEN '6' THEN '开启自动核查' " +
                 "ELSE '无法识别' END AS type, " +
                 "CASE family.identity " +
                 "WHEN '1' THEN '丈夫' " +

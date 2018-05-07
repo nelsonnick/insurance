@@ -97,7 +97,6 @@
           {
             title: '序号',
             key: 'id',
-            width: 80,
             sortable: true,
             render: (h, params) => {
               return h('div', params.index + 1)
@@ -116,7 +115,6 @@
           {
             title: '身份',
             key: 'identity',
-            width: 80,
             sortable: true
           },
           {
@@ -137,7 +135,6 @@
           {
             title: '婚姻',
             key: 'marriage',
-            width: 80,
             sortable: true
           },
           {
@@ -183,7 +180,7 @@
                         this.goDel(params.index)
                       }
                     }
-                  }, '关闭核查')
+                  }, '停止核查')
                 )
               }
               if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '0' && params.row.psid.toString() === '1') {
@@ -198,7 +195,7 @@
                         this.goActive(params.index)
                       }
                     }
-                  }, '开启核查')
+                  }, '开展核查')
                 )
               }
               if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1' && params.row.psid.toString() === '1' && params.row.check.toString() === '1') {
