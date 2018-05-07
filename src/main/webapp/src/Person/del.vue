@@ -10,7 +10,7 @@
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
               <BreadcrumbItem>困难人员</BreadcrumbItem>
-              <BreadcrumbItem>注销</BreadcrumbItem>
+              <BreadcrumbItem>人员退出</BreadcrumbItem>
             </Breadcrumb>
           </div>
         </Col>
@@ -44,8 +44,8 @@
             <Form-item size="large" label="银行卡号">
               <Input size="large" v-model="bank" placeholder="请输入银行卡号" style="width: 400px" disabled></Input>
             </Form-item>
-            <Form-item label="注销原因" required>
-              <Input v-model="reason" type="textarea" :rows="2" placeholder="请输入注销的原因" style="width: 600px"></Input>
+            <Form-item label="退出原因" required>
+              <Input v-model="reason" type="textarea" :rows="2" placeholder="请输入退出困难人员的原因" style="width: 600px"></Input>
             </Form-item>
           </Col>
           <Col span="12">
@@ -83,7 +83,7 @@
           <Col span="8">&nbsp;</Col>
           <Col span="8">
             <Form-item>
-              <Button size="large" type="success" @click="goSave">注销</Button>
+              <Button size="large" type="success" @click="goSave">退出</Button>
               <Button size="large" type="warning" style="margin-left: 8px" @click="goReset">重置</Button>
               <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack">返回</Button>
             </Form-item>
@@ -152,10 +152,10 @@
         }).then(res => {
           if (res.data === 'OK') {
             this.$Loading.finish()
-            this.$Message.success('注销成功!')
+            this.$Message.success('退出成功!')
             this.$Notice.success({
               title: '操作完成!',
-              desc: '人员：' + this.name + '已注销！其家庭成员同时被全部注销！'
+              desc: '人员：' + this.name + '已退出困难人员！其家庭成员同时被全部注销！'
             })
             setTimeout(() => {
               this.$router.push({path: '/list'})
@@ -169,7 +169,7 @@
         }).catch(res => {
           this.$Loading.error()
           this.$Notice.error({
-            title: '服务器内部错误，无法注销人员!'
+            title: '服务器内部错误，无法退出人员!'
           })
         })
       },

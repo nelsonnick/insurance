@@ -10,7 +10,7 @@
             <Breadcrumb :style="{margin: '20px 15px 0px 15px'}">
               <BreadcrumbItem>槐荫区就业困难人员管理</BreadcrumbItem>
               <BreadcrumbItem>困难人员</BreadcrumbItem>
-              <BreadcrumbItem>激活</BreadcrumbItem>
+              <BreadcrumbItem>再次认定</BreadcrumbItem>
             </Breadcrumb>
           </div>
         </Col>
@@ -44,8 +44,8 @@
             <Form-item size="large" label="银行卡号">
               <Input size="large" v-model="bank" placeholder="请输入银行卡号" style="width: 400px" disabled></Input>
             </Form-item>
-            <Form-item label="激活原因" required>
-              <Input v-model="reason" type="textarea" :rows="2" placeholder="请输入激活的原因" style="width: 600px"></Input>
+            <Form-item label="认定原因" required>
+              <Input v-model="reason" type="textarea" :rows="2" placeholder="请输入再次认定困难人员的原因" style="width: 600px"></Input>
             </Form-item>
           </Col>
           <Col span="12">
@@ -83,7 +83,7 @@
           <Col span="8">&nbsp;</Col>
           <Col span="8">
             <Form-item>
-              <Button size="large" type="success" @click="goSave">激活</Button>
+              <Button size="large" type="success" @click="goSave">认定</Button>
               <Button size="large" type="warning" style="margin-left: 8px" @click="goReset">重置</Button>
               <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack">返回</Button>
             </Form-item>
@@ -152,10 +152,10 @@
         }).then(res => {
           if (res.data === 'OK') {
             this.$Loading.finish()
-            this.$Message.success('激活成功!')
+            this.$Message.success('再次认定成功!')
             this.$Notice.success({
               title: '操作完成!',
-              desc: '人员：' + this.name + '已激活！其家庭成员同时被全部激活！'
+              desc: '人员：' + this.name + '已再次认定！其家庭成员同时被全部激活！'
             })
             setTimeout(() => {
               this.$router.push({path: '/list'})
@@ -169,7 +169,7 @@
         }).catch(res => {
           this.$Loading.error()
           this.$Notice.error({
-            title: '服务器内部错误，无法激活人员!'
+            title: '服务器内部错误，无法认定人员!'
           })
         })
       },

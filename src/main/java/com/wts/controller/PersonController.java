@@ -81,7 +81,7 @@ public class PersonController extends Controller {
         Person person = Person.dao.findById(getPara("id"));
         String before = JSON.toJSONString(person);
         if (getPara("reason").trim().equals("")){
-            renderText("请输入注销原因！");
+            renderText("请输入退出困难人员的原因！");
         }else {
             person.set("state",0).set("check",0);
             if (person.update()) {
@@ -103,7 +103,7 @@ public class PersonController extends Controller {
                         fc.set("fid", family.getId())
                                 .set("uid", ((User) getSessionAttr("user")).get("id"))
                                 .set("type", 3)
-                                .set("reason", "由于申请人被注销，其关联的家庭成员被全部注销")
+                                .set("reason", "由于申请人退出困难人员，其关联的家庭成员被全部注销")
                                 .set("time", new Date())
                                 .set("before", before_family)
                                 .set("after", JSON.toJSONString(family))
@@ -121,7 +121,7 @@ public class PersonController extends Controller {
         Person person = Person.dao.findById(getPara("id"));
         String before = JSON.toJSONString(person);
         if (getPara("reason").trim().equals("")){
-            renderText("请输入激活原因！");
+            renderText("请输入再次认定困难人员的原因！");
         }else {
             person.set("state",1).set("check",1);
             if (person.update()) {
@@ -143,7 +143,7 @@ public class PersonController extends Controller {
                         fc.set("fid", family.getId())
                                 .set("uid", ((User) getSessionAttr("user")).get("id"))
                                 .set("type", 4)
-                                .set("reason", "由于申请人被激活，其关联的家庭成员被全部激活")
+                                .set("reason", "由于申请人再次被认定为困难人员，其关联的家庭成员被全部激活")
                                 .set("time", new Date())
                                 .set("before", before_family)
                                 .set("after", JSON.toJSONString(family))

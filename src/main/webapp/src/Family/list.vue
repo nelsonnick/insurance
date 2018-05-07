@@ -187,7 +187,7 @@
                   }, '注销')
                 )
               }
-              if (((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) && params.row.check.toString() === '1') {
+              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1' && params.row.check.toString() === '1') {
                 operate.push(
                   h('Button', {
                     props: {
@@ -202,7 +202,7 @@
                   }, '关闭核查')
                 )
               }
-              if (((params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1') || (this.LocationId.toString() === '1' && params.row.sid.toString() === '1')) && params.row.check.toString() === '0') {
+              if (params.row.lid.toString() === this.LocationId.toString() && params.row.sid.toString() === '1' && params.row.check.toString() === '0') {
                 operate.push(
                   h('Button', {
                     props: {
