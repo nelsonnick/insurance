@@ -24,7 +24,7 @@ public class SecuritySend implements Runnable {
             for (User user : users) {
                 switch (state) {
                     case 1: //无权查询
-                        if (security.getType() == 1) {
+                        if (security.getType() == 0) {
                             content = "申请人：" + security.getSfzhm() + security.getXm() + "-->无权查询其社保信息，请核查确认！";
                         } else {
                             content = "家属：" + security.getSfzhm() + security.getXm() + "-->无权查询其社保信息，请核查确认！";
@@ -34,7 +34,7 @@ public class SecuritySend implements Runnable {
                     case 2: //正常
                         if (security.getYlrylb().equals("0")) {//在职员工
                             if (getSecurityType(security.getDwbh()).equals("单位五险")) {
-                                if (security.getType() == 1) {
+                                if (security.getType() == 0) {
                                     content = "申请人：" + security.getSfzhm() + security.getXm() + "-->该人员正在缴纳五险，请核查确认！";
                                 } else {
                                     content = "家属：" + security.getSfzhm() + security.getXm() + "-->该人员正在缴纳五险，请核查确认！";
@@ -44,7 +44,7 @@ public class SecuritySend implements Runnable {
                         }
                         break;
                     case 4: //查询出错---->由于可能出现大量的查询错误，所以这类人员并不发送消息
-                        if (security.getType() == 1) {
+                        if (security.getType() == 0) {
                             content = "申请人：" + security.getSfzhm() + security.getXm() + "-->该人员查询出错，请核查确认！";
                         } else {
                             content = "家属：" + security.getSfzhm() + security.getXm() + "-->该人员查询出错，请核查确认！";
