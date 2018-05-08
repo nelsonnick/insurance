@@ -372,7 +372,7 @@ public class PersonController extends Controller {
         }else{
             st = "AND location.id = " + ((User) getSessionAttr("user")).get("lid");
         }
-        String sql = "SELECT person.id, person.name,person.number,person.phone,person.address,person.bank,community.cname,person.birth,person.remark,location.name AS location,location.id AS lid, " +
+        String sql = "SELECT person.id, person.name,person.number,person.phone,person.address,person.bank,community.name AS cname,person.birth,person.remark,location.name AS location,location.id AS lid, " +
                 "CASE person.tid " +
                 "WHEN '1' THEN '灵活就业/零就业' " +
                 "WHEN '2' THEN '灵活就业/单亲' " +
@@ -417,7 +417,7 @@ public class PersonController extends Controller {
             nextRow.createCell(7).setCellValue(Util.CheckNull(r.get(i).get("phone").toString()));
             nextRow.createCell(8).setCellValue(Util.CheckNull(r.get(i).get("address").toString()));
             nextRow.createCell(9).setCellValue(Util.CheckNull(r.get(i).get("bank").toString()));
-            nextRow.createCell(10).setCellValue(Util.CheckNull(r.get(i).get("community").toString()));
+            nextRow.createCell(10).setCellValue(Util.CheckNull(r.get(i).get("cname").toString()));
             nextRow.createCell(11).setCellValue(Util.CheckNull(r.get(i).get("marriage").toString()));
             nextRow.createCell(12).setCellValue(Util.CheckNull(r.get(i).get("state").toString()));
             nextRow.createCell(13).setCellValue(Util.CheckNull(r.get(i).get("delay").toString()));
