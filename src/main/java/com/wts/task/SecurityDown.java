@@ -10,6 +10,7 @@ import java.util.List;
 
 import static com.wts.util.Ggywzxt.getSecurity;
 import static com.wts.util.IpKit.setIP;
+import static com.wts.util.IpKit.setIP2;
 
 public class SecurityDown implements Runnable {
     private static Logger logger = Logger.getLogger(SecurityDown.class);
@@ -36,8 +37,9 @@ public class SecurityDown implements Runnable {
         try {
             Thread.sleep(10000); //10秒
         } catch (Exception e) {
-            System.out.println(e);
+            logger.error("延时错误：" + e);
         }
-        setIP();
+//        setIP();
+        setIP2("192.168.2.196");
     }
 }

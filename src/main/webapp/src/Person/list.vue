@@ -138,6 +138,11 @@
             sortable: true
           },
           {
+            title: '所属社区',
+            key: 'cname',
+            sortable: true
+          },
+          {
             title: '状态',
             key: 'state',
             sortable: true

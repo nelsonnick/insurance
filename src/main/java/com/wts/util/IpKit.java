@@ -1,9 +1,11 @@
 package com.wts.util;
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 
 public class IpKit {
-
+    private static Logger logger = Logger.getLogger(IpKit.class);
     public static String getRealIp(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -29,21 +31,29 @@ public class IpKit {
         try {
             Runtime.getRuntime().exec("netsh    interface    ip    set    addr    \"本地连接\"    static    "
                     + ip + "    255.255.255.0     10.153.73.254     1");
-            System.out.println("切换内网成功");
+            logger.info("切换内网成功");
         } catch (Exception e) {
-            System.out.println("切换内网失败");
+            logger.info("切换内网失败");
         }
     }
 
     public static void setIP() {
         try {
             Runtime.getRuntime().exec("netsh interface ip set address name=\"本地连接\" source=dhcp");
-            System.out.println("切换外网成功");
+            logger.info("切换外网成功");
         } catch (Exception e) {
-            System.out.println("切换外网失败");
+            logger.info("切换外网失败");
         }
     }
-
+    public static void setIP2(String ip) {
+        try {
+            Runtime.getRuntime().exec("netsh    interface    ip    set    addr    \"本地连接\"    static    "
+                    + ip + "    255.255.255.0     192.168.2.1     1");
+            logger.info("切换外网成功");
+        } catch (Exception e) {
+            logger.info("切换外网失败");
+        }
+    }
     public static void main(String[] args) throws Exception {
 //        setIP("10.153.73.166");
         setIP();

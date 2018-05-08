@@ -150,11 +150,11 @@
             timeOut: this.timeOut.getTime(),
             timeRegist: this.timeRegist.getTime(),
             delay: this.delay,
-            cid: this.cid[0],
+            cid: this.cid,
             marriage: this.marriage,
             bank: this.bank,
             company: this.company,
-            jid: this.jid[0],
+            jid: this.jid,
             remark: this.remark
           }
         }).then(res => {

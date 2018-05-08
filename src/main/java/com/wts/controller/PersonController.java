@@ -35,7 +35,7 @@ public class PersonController extends Controller {
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
-                "SELECT person.id, person.name,person.number,person.phone,person.address,location.name AS location,location.id AS lid,person.state AS sid,person.check, " +
+                "SELECT person.id, person.name,person.number,person.phone,person.address,community.name AS cname,location.name AS location,location.id AS lid,person.state AS sid,person.check, " +
                         "CASE person.tid " +
                         "WHEN '1' THEN '灵活就业/零就业' " +
                         "WHEN '2' THEN '灵活就业/单亲' " +
@@ -60,6 +60,7 @@ public class PersonController extends Controller {
                         "CASE person.marriage WHEN '1' THEN '未婚' WHEN '2' THEN '已婚' WHEN '3' THEN '离异' WHEN '4' THEN '丧偶' ELSE '状态错误' END AS marriage, " +
                         "CASE person.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state",
                 "FROM person LEFT JOIN location ON person.lid = location.id " +
+                        "LEFT JOIN community ON person.cid = community.id " +
                         "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.phone LIKE '%" + getPara("keyword") + "%' ORDER BY person.id DESC").getList());
@@ -371,7 +372,7 @@ public class PersonController extends Controller {
         }else{
             st = "AND location.id = " + ((User) getSessionAttr("user")).get("lid");
         }
-        String sql = "SELECT person.id, person.name,person.number,person.phone,person.address,person.bank,person.community,person.birth,person.remark,location.name AS location,location.id AS lid, " +
+        String sql = "SELECT person.id, person.name,person.number,person.phone,person.address,person.bank,community.cname,person.birth,person.remark,location.name AS location,location.id AS lid, " +
                 "CASE person.tid " +
                 "WHEN '1' THEN '灵活就业/零就业' " +
                 "WHEN '2' THEN '灵活就业/单亲' " +
