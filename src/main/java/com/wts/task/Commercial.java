@@ -4,8 +4,6 @@ import com.wts.entity.model.*;
 import com.wts.util.IDNumber;
 import com.wts.util.Jnjgfw;
 import com.wts.weixin.WxSend;
-import com.wts.weixin.WxService;
-import me.chanjar.weixin.cp.bean.WxCpMessage;
 import org.apache.log4j.Logger;
 
 import java.util.Date;
@@ -15,7 +13,7 @@ public class Commercial implements Runnable {
     private static Logger logger = Logger.getLogger(Commercial.class);
 
     public void run() {
-        List<Person> persons = Person.dao.find("SELECT * FROM person WHERE state = 1 AND check = 1");
+        List<Person> persons = Person.dao.find("SELECT * FROM person WHERE person.state = 1 AND person.check = 1");
         for (Person person : persons) {
             Integer commercialNum = Jnjgfw.checkByIdz(person.getNumber());
             List<User> users = User.dao.find("SELECT * FROM user WHERE state = 1 AND lid=?", person.getLid());
@@ -39,7 +37,7 @@ public class Commercial implements Runnable {
             }
 
         }
-        List<Family> families = Family.dao.find("SELECT * FROM family WHERE state = 1 AND check = 1");
+        List<Family> families = Family.dao.find("SELECT * FROM family WHERE family.state = 1 AND family.check = 1");
         for (Family family : families) {
             if (IDNumber.isRetire(family.getNumber())) {
                 continue;
