@@ -28,6 +28,12 @@ public class FamilyChangeController extends Controller {
     }
     @Before(LoginInterceptor.class)
     public void Query() {
+        String st = "";
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
+            st = "";
+        }else{
+            st = "AND person.lid = " + ((User) getSessionAttr("user")).get("lid");
+        }
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
@@ -55,20 +61,26 @@ public class FamilyChangeController extends Controller {
                         "LEFT JOIN user ON familychange.uid = user.id " +
                         "LEFT JOIN location ON user.lid = location.id " +
                         "LEFT JOIN person ON family.pid = person.id " +
-                        "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
+                        "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
                         "OR family.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR family.name LIKE '%" + getPara("keyword") + "%' " +
-                        "OR family.phone LIKE '%" + getPara("keyword") + "%' ORDER BY familychange.id DESC").getList());
+                        "OR family.phone LIKE '%" + getPara("keyword") + "%') " + st + " ORDER BY familychange.id DESC").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
+        String st = "";
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
+            st = "";
+        }else{
+            st = "AND person.lid = " + ((User) getSessionAttr("user")).get("lid");
+        }
         Long count = Db.queryLong("SELECT COUNT(*) FROM familychange LEFT JOIN family ON familychange.fid = family.id LEFT JOIN person ON family.pid = person.id " +
-                "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
+                "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
                 "OR person.name LIKE '%" + getPara("keyword") + "%' " +
                 "OR family.number LIKE '%" + getPara("keyword") + "%' " +
                 "OR family.name LIKE '%" + getPara("keyword") + "%' " +
-                "OR family.phone LIKE '%" + getPara("keyword") + "%' ");
+                "OR family.phone LIKE '%" + getPara("keyword") + "%') " + st);
         renderText(count.toString());
     }
 

@@ -27,6 +27,12 @@ public class PersonChangeController extends Controller {
     }
     @Before(LoginInterceptor.class)
     public void Query() {
+        String st = "";
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
+            st = "";
+        }else{
+            st = "AND person.lid = " + ((User) getSessionAttr("user")).get("lid");
+        }
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
@@ -43,16 +49,22 @@ public class PersonChangeController extends Controller {
                         "LEFT JOIN person ON personchange.pid = person.id " +
                         "LEFT JOIN user ON personchange.uid = user.id " +
                         "LEFT JOIN location ON user.lid = location.id " +
-                        "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
+                        "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
-                        "OR person.phone LIKE '%" + getPara("keyword") + "%' ORDER BY personchange.id DESC").getList());
+                        "OR person.phone LIKE '%" + getPara("keyword") + "%') " + st + " ORDER BY personchange.id DESC").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
+        String st = "";
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
+            st = "";
+        }else{
+            st = "AND person.lid = " + ((User) getSessionAttr("user")).get("lid");
+        }
         Long count = Db.queryLong("SELECT COUNT(*) FROM personchange LEFT JOIN person ON personchange.pid = person.id " +
-                "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
+                "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
                 "OR person.name LIKE '%" + getPara("keyword") + "%' " +
-                "OR person.phone LIKE '%" + getPara("keyword") + "%' ");
+                "OR person.phone LIKE '%" + getPara("keyword") + "%') " + st);
         renderText(count.toString());
     }
 

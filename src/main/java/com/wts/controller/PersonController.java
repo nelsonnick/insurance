@@ -32,6 +32,12 @@ public class PersonController extends Controller {
     }
     @Before(LoginInterceptor.class)
     public void Query() {
+        String st = "";
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
+            st = "";
+        }else{
+            st = "AND location.id = " + ((User) getSessionAttr("user")).get("lid");
+        }
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
@@ -61,16 +67,22 @@ public class PersonController extends Controller {
                         "CASE person.state WHEN '0' THEN '未享受' WHEN '1' THEN '正在享受' ELSE '状态错误' END AS state",
                 "FROM person LEFT JOIN location ON person.lid = location.id " +
                         "LEFT JOIN community ON person.cid = community.id " +
-                        "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
+                        "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
-                        "OR person.phone LIKE '%" + getPara("keyword") + "%' ORDER BY person.id DESC").getList());
+                        "OR person.phone LIKE '%" + getPara("keyword") + "%' ) " + st + " ORDER BY person.id DESC").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
-        Long count = Db.queryLong("SELECT COUNT(*) FROM person " +
-                "WHERE number LIKE '%" + getPara("keyword") + "%' " +
-                "OR name LIKE '%" + getPara("keyword") + "%' " +
-                "OR phone LIKE '%" + getPara("keyword") + "%' ");
+        String st = "";
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
+            st = "";
+        }else{
+            st = "AND location.id = " + ((User) getSessionAttr("user")).get("lid");
+        }
+        Long count = Db.queryLong("SELECT COUNT(*) FROM person LEFT JOIN location ON person.lid = location.id " +
+                "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
+                "OR person.name LIKE '%" + getPara("keyword") + "%' " +
+                "OR person.phone LIKE '%" + getPara("keyword") + "%' ) " + st);
         renderText(count.toString());
     }
     @Before(LoginInterceptor.class)

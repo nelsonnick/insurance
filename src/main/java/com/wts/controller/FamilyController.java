@@ -31,6 +31,12 @@ public class FamilyController extends Controller {
 
     @Before(LoginInterceptor.class)
     public void Query() {
+        String st = "";
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
+            st = "";
+        }else{
+            st = "AND person.lid = " + ((User) getSessionAttr("user")).get("lid");
+        }
         renderJson(Db.paginate(
                 getParaToInt("pageCurrent"),
                 getParaToInt("pageSize"),
@@ -50,22 +56,28 @@ public class FamilyController extends Controller {
                         "CASE family.state WHEN '0' THEN '停止' WHEN '1' THEN '开展' ELSE '状态错误' END AS state",
                 "FROM family LEFT JOIN person ON family.pid = person.id " +
                         "LEFT JOIN location ON person.lid = location.id " +
-                        "WHERE person.number LIKE '%" + getPara("keyword") + "%' " +
+                        "WHERE (person.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.name LIKE '%" + getPara("keyword") + "%' " +
                         "OR person.phone LIKE '%" + getPara("keyword") + "%' " +
                         "OR family.number LIKE '%" + getPara("keyword") + "%' " +
                         "OR family.name LIKE '%" + getPara("keyword") + "%' " +
-                        "OR family.phone LIKE '%" + getPara("keyword") + "%' ORDER BY family.id DESC").getList());
+                        "OR family.phone LIKE '%" + getPara("keyword") + "%') " + st + " ORDER BY family.id DESC").getList());
     }
     @Before(LoginInterceptor.class)
     public void Total() {
+        String st = "";
+        if (((User) getSessionAttr("user")).getInt("lid") == 1){
+            st = "";
+        }else{
+            st = "AND person.lid = " + ((User) getSessionAttr("user")).get("lid");
+        }
         Long count = Db.queryLong("SELECT COUNT(*) FROM family LEFT JOIN person ON family.pid = person.id " +
-                "WHERE person.name LIKE '%" + getPara("keyword") + "%' " +
+                "WHERE (person.name LIKE '%" + getPara("keyword") + "%' " +
                 "OR person.number LIKE '%" + getPara("keyword") + "%' " +
                 "OR person.phone LIKE '%" + getPara("keyword") + "%' " +
                 "OR family.number LIKE '%" + getPara("keyword") + "%' " +
                 "OR family.name LIKE '%" + getPara("keyword") + "%' " +
-                "OR family.phone LIKE '%" + getPara("keyword") + "%' ");
+                "OR family.phone LIKE '%" + getPara("keyword") + "%') " + st);
         renderText(count.toString());
     }
     @Before(LoginInterceptor.class)
