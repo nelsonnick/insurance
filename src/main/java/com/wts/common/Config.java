@@ -26,8 +26,6 @@ public class Config extends JFinalConfig {
         // 加载少量必要配置，随后可用PropKit.get(...)获取值
         PropKit.use("a_little_config.txt");
         me.setDevMode(false);
-        me.setError404View("/dist/404.html");
-        me.setError500View("/dist/500.html");
     }
 
     /**
@@ -64,10 +62,20 @@ public class Config extends JFinalConfig {
         _MappingKit.mapping(arp);
         //配置任务调度插件
         Cron4jPlugin cp = new Cron4jPlugin();
-        cp.addTask("0 6 * * *", new SecurityDown());
+        /*
+        0:30----->切换到内网
+        0:40----->下载社保数据
+        6:00----->切换到外网
+        9:00----->核查社保信息并发送
+        9:30----->核查工商信息并发送
+        23:30----->删除社保数据
+        */
+        cp.addTask("30 0 * * *", new GoIntranet());
+        cp.addTask("40 0 * * *", new SecurityDown());
+        cp.addTask("0 6 * * *", new GoNetwork());
         cp.addTask("0 9 * * *", new SecuritySend());
         cp.addTask("30 9 * * *", new Commercial());
-        cp.addTask("0 22 * * *", new SecurityDelete());
+        cp.addTask("30 23 * * *", new SecurityDelete());
         me.add(cp);
     }
 
