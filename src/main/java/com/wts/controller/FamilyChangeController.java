@@ -133,7 +133,6 @@ public class FamilyChangeController extends Controller {
                 "OR family.name LIKE '%" + getPara("keyword") + "%' " +
                 "OR family.phone LIKE '%" + getPara("keyword") + "%' ) "
                 + st;
-        System.out.println(sql);
         List<Record> r = Db.find(sql);
         for (int i = 0; i < r.size(); i++) {
             XSSFRow nextRow = sheet.createRow(i+1);
