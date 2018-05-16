@@ -83,9 +83,9 @@
           <Col span="8">&nbsp;</Col>
           <Col span="8">
             <Form-item>
-              <Button size="large" type="success" @click="goSave">认定</Button>
-              <Button size="large" type="warning" style="margin-left: 8px" @click="goReset">重置</Button>
-              <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack">返回</Button>
+              <Button size="large" type="success" @click="goSave" :disabled="dis">认定</Button>
+              <Button size="large" type="warning" style="margin-left: 8px" @click="goReset" :disabled="dis">重置</Button>
+              <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack" :disabled="dis">返回</Button>
             </Form-item>
           </Col>
           <Col span="8">&nbsp;</Col>
@@ -107,6 +107,7 @@
         userName: window.userName,
         sys: window.sys,
         active: 'person',
+        dis: false,
         type: [],
         job: [],
         community: [],
@@ -143,6 +144,7 @@
         this.reason = ''
       },
       goSave() {
+        this.dis = true
         this.$Loading.start()
         axios.get(API.Active, {
           params: {
@@ -161,12 +163,14 @@
               this.$router.push({path: '/list'})
             }, 1000)
           } else {
+            this.dis = false
             this.$Loading.error()
             this.$Notice.error({
               title: res.data
             })
           }
         }).catch(res => {
+          this.dis = false
           this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误，无法认定人员!'
