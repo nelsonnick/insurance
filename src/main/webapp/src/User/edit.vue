@@ -34,9 +34,9 @@
             <Input size="large" v-model="login" placeholder="请输入登录名" style="width: 600px"></Input>
           </Form-item>
           <Form-item>
-            <Button size="large" type="success" @click="goSave">保存</Button>
-            <Button size="large" type="warning" style="margin-left: 8px" @click="goReset">重置</Button>
-            <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack">返回</Button>
+            <Button size="large" type="success" @click="goSave" :disabled="dis">保存</Button>
+            <Button size="large" type="warning" style="margin-left: 8px" @click="goReset" :disabled="dis">重置</Button>
+            <Button size="large" type="ghost" style="margin-left: 8px" @click="goBack" :disabled="dis">返回</Button>
           </Form-item>
         </Form>
         </Col>
@@ -58,6 +58,7 @@
         userName: window.userName,
         sys: window.sys,
         active: 'user',
+        dis: false,
         name: '',
         lid: '',
         weixin: '',
@@ -79,6 +80,7 @@
         this.fetchData(this.$route.params.id)
       },
       goSave() {
+        this.dis = true
         this.$Loading.start()
         axios.get(API.Edit, {
           params: {
@@ -99,12 +101,14 @@
               this.$router.push({path: '/list'})
             }, 1000)
           } else {
+            this.dis = false
             this.$Loading.error()
             this.$Notice.error({
               title: res.data
             })
           }
         }).catch(res => {
+          this.dis = false
           this.$Loading.error()
           this.$Notice.error({
             title: '服务器内部错误，无法修改用户信息!'
